@@ -32,8 +32,8 @@ namespace AtemKaraoke.Lib
 			{
 				if (string.IsNullOrEmpty (_Name))
 				{
-					if (Text.Length > 40)
-						_Name = Text.Substring(0, 40);
+					if (Text.Length > Config.Default.FileNameLength)
+						_Name = Text.Substring(0, Config.Default.FileNameLength);
 					else
 						_Name = Text;
 				}
@@ -50,7 +50,7 @@ namespace AtemKaraoke.Lib
 		{
 			get
 			{
-				return Regex.Split(Text, "\r\n\r\n");
+				return Regex.Split(Text, Config.Default.Splitter);
 			}
 		}
 	}

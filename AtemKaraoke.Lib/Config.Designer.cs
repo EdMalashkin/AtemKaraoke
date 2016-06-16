@@ -25,7 +25,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Arial")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Times New Roman")]
         public string FontName {
             get {
                 return ((string)(this["FontName"]));
@@ -34,7 +34,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        [global::System.Configuration.DefaultSettingValueAttribute("60")]
         public int FontSize {
             get {
                 return ((int)(this["FontSize"]));
@@ -79,7 +79,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("40")]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
         public int Padding {
             get {
                 return ((int)(this["Padding"]));
@@ -110,6 +110,33 @@ namespace AtemKaraoke.Lib {
         public string DestinationFolder {
             get {
                 return ((string)(this["DestinationFolder"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("White")]
+        public string FontColor {
+            get {
+                return ((string)(this["FontColor"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int FileNameLength {
+            get {
+                return ((int)(this["FileNameLength"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\r\\n")]
+        public string Splitter {
+            get {
+                return ((string)(this["Splitter"]));
             }
         }
     }

@@ -48,6 +48,7 @@ namespace AtemKaraoke.Lib.Tools
 			string regexSearch = new string(Path.GetInvalidFileNameChars()) + new string(Path.GetInvalidPathChars());
 			Regex r = new Regex(string.Format("[{0}]", Regex.Escape(regexSearch)));
 			fileName = r.Replace(fileName, " ");
+			fileName = fileName.Replace("  ", " ").Trim();
 			return fileName;
 		}
 

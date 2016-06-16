@@ -93,11 +93,14 @@ namespace AtemKaraoke.Lib
 
 				int x = Config.Default.Padding;
 				int y = Config.Default.Padding;
-				int width = Config.Default.HorizontalResolution - Config.Default.Padding;
-				int height = Config.Default.VerticalResolution - Config.Default.Padding; ;
+				int width = Config.Default.HorizontalResolution - Config.Default.Padding * 2;
+				int height = Config.Default.VerticalResolution - Config.Default.Padding * 2; ;
 				Rectangle rect = new Rectangle(x, y, width, height);
 
-				g.DrawString(chunk, font, Brushes.White, rect, sf);
+				Type t = typeof(Brushes);
+				Brush b = (Brush)t.GetProperty(Config.Default.FontColor).GetValue(null, null);
+
+				g.DrawString(chunk, font, b, rect, sf);
 				g.Flush();
 				return bmp;
 			}
@@ -105,22 +108,17 @@ namespace AtemKaraoke.Lib
 
 		private string GetImageFilePath(string chunk, int chunkNumber, string songName, string destinationFolder)
 		{
-
+			destinationFolder = Path.Combine(destinationFolder, FileHelper.CleanIlligalFileNameChars(songName));
+			if (chunkNumber == 1) FileHelper.GetCleanFolder(destinationFolder);
+			
 			string imageFileName = "";
-			if (chunk.Length > 40)
-				imageFileName = chunk.Substring(0, 40);
+			if (chunk.Length > Config.Default.FileNameLength)
+				imageFileName = chunk.Substring(0, Config.Default.FileNameLength);
 			else
 				imageFileName = chunk;
 
 			imageFileName = FileHelper.CleanIlligalFileNameChars(imageFileName);
-			imageFileName = imageFileName.Replace("\r\n", " ");
-
-			destinationFolder = Path.Combine(destinationFolder, FileHelper.CleanIlligalFileNameChars(songName));
-			if (chunkNumber == 1) FileHelper.GetCleanFolder(destinationFolder);
-
-			imageFileName = chunkNumber.ToString() + " " + imageFileName;
-			imageFileName += ".png";
-
+			imageFileName = string.Format("{0} {1}{2}", chunkNumber.ToString(), imageFileName, ".png");
 			string imageFilePath = Path.Combine(destinationFolder, imageFileName);
 			return imageFilePath;
 		}
