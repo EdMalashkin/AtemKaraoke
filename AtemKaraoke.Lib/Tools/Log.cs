@@ -9,12 +9,12 @@ namespace AtemKaraoke.Lib.Tools
 	{
 		public static void WriteInEventLog(string message, EventLogEntryType type)
 		{
-			string SourceName = "AtemKaraoke";
-			if (!EventLog.SourceExists(SourceName))
-			{
-				EventLog.CreateEventSource(SourceName, "AtemKaraoke");
-			}
-			// Write an event to the event log.
+			string SourceName = "Application";
+			//if (!EventLog.SourceExists(SourceName))
+			//{
+			//	EventLog.CreateEventSource(SourceName, " ");
+			//}
+
 			EventLog.WriteEntry(
 				SourceName,      // Registered event source
 				message,         // Event entry message

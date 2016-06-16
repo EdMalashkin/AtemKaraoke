@@ -88,7 +88,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Projects\\\\AtemKaraoke\\\\AtemKaraoke\\\\Songs\\\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
         public string SourceFolder {
             get {
                 return ((string)(this["SourceFolder"]));
@@ -106,7 +106,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\\\Projects\\\\AtemKaraoke\\\\AtemKaraoke\\\\Songs\\\\")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
         public string DestinationFolder {
             get {
                 return ((string)(this["DestinationFolder"]));
