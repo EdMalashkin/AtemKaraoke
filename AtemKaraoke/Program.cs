@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using AtemKaraoke.Lib;
+using AtemKaraoke.Lib.Tools;
 
 namespace AtemKaraoke
 {
@@ -10,6 +8,17 @@ namespace AtemKaraoke
 	{
 		static void Main(string[] args)
 		{
+			try
+			{
+				Convertor c = new Convertor();
+				//c.ConvertSongsToImages("C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\", "*.txt", "C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\");
+				c.ConvertSongsToImages();
+			}
+			catch(Exception ex)
+			{
+				Console.Write(ex.Message);
+				ExceptionHelper.HandleException(ex);
+			}
 		}
 	}
 }
