@@ -88,7 +88,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
         public string SourceFolder {
             get {
                 return ((string)(this["SourceFolder"]));
@@ -106,7 +106,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("C:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
         public string DestinationFolder {
             get {
                 return ((string)(this["DestinationFolder"]));
@@ -133,7 +133,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\r\\n")]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\s*\\t*\\r\\n")]
         public string Splitter {
             get {
                 return ((string)(this["Splitter"]));

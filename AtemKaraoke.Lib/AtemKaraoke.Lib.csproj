@@ -51,7 +51,9 @@
     <Compile Include="Tools\Log.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Include="ClassDiagram.cd" />
     <None Include="Config.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

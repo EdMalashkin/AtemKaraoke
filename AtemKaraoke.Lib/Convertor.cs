@@ -13,9 +13,13 @@ namespace AtemKaraoke.Lib
 		{
 			string[] files = FileHelper.GetAllFilesList(SourceFolder, SearchPattern);
 			List<Song> songs = new List<Song>();
+
+			int fileNumber = 0;
 			foreach (string file in files)
 			{
+				fileNumber++;
 				Song s = new Song(file);
+				s.Number = fileNumber;
 				songs.Add(s);
 			}
 
@@ -32,14 +36,14 @@ namespace AtemKaraoke.Lib
 			string imageFilePath = "";
 			try
 			{
-				foreach (Song s in songs)
+				foreach (Song song in songs)
 				{
 					int fileNumber = 0;
-					foreach (string chunk in s.Chunks)
+					foreach (string chunk in song.Chunks)
 					{
 						fileNumber++;
 
-						imageFilePath = GetImageFilePath(chunk, fileNumber, s.Name, destinationFolder);
+						imageFilePath = GetImageFilePath(chunk, fileNumber, song.Name, destinationFolder);
 						Bitmap bmp = GetImage(chunk);
 						bmp.Save(imageFilePath, System.Drawing.Imaging.ImageFormat.Png);
 					}
