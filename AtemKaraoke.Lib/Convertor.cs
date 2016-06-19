@@ -1,9 +1,9 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
-
 using System.Collections.Generic;
 using AtemKaraoke.Lib.Tools;
+using SwitcherLib;
 
 namespace AtemKaraoke.Lib
 {
@@ -17,13 +17,14 @@ namespace AtemKaraoke.Lib
 			int fileNumber = 0;
 			foreach (string file in files)
 			{
-				fileNumber++;
 				Song s = new Song(file);
+				fileNumber++;
 				s.Number = fileNumber;
 				songs.Add(s);
 			}
 
 			ConvertSongsToImages(songs, DestinationFolder);
+			//UploadSongsToSwitcher(songs);
 		}
 
 		public void ConvertSongsToImages()
@@ -38,14 +39,11 @@ namespace AtemKaraoke.Lib
 			{
 				foreach (Song song in songs)
 				{
-					int fileNumber = 0;
-					foreach (string chunk in song.Chunks)
+					foreach (Verse verse in song.Verses)
 					{
-						fileNumber++;
-
-						imageFilePath = GetImageFilePath(chunk, fileNumber, song.Name, destinationFolder);
-						Bitmap bmp = GetImage(chunk);
-						bmp.Save(imageFilePath, System.Drawing.Imaging.ImageFormat.Png);
+						verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, destinationFolder);
+						Bitmap bmp = GetImage(verse.Text);
+						bmp.Save(verse.FilePath, System.Drawing.Imaging.ImageFormat.Png);
 					}
 				}
 			}
@@ -125,6 +123,25 @@ namespace AtemKaraoke.Lib
 			imageFileName = string.Format("{0} {1}{2}", chunkNumber.ToString(), imageFileName, ".png");
 			string imageFilePath = Path.Combine(destinationFolder, imageFileName);
 			return imageFilePath;
+		}
+
+		public void UploadSongsToSwitcher(List<Song> songs)
+		{
+			Switcher switcher = new Switcher("192.168.88.5");
+			foreach (Song song in songs)
+			{
+				foreach (Verse verse in song.Verses)
+				{
+					Upload upload = new Upload(switcher, verse.FilePath, verse.Number);
+					upload.SetName(verse.Name);
+					upload.Start();
+					while (upload.InProgress())
+					{
+						//Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
+						//Thread.Sleep(100);
+					}
+				}
+			}
 		}
 	}
 }

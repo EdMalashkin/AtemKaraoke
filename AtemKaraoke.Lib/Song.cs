@@ -1,45 +1,28 @@
-﻿using System;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using AtemKaraoke.Lib.Tools;
 
 namespace AtemKaraoke.Lib
 {
-	public class Song
+	public class Song : Verse
 	{
-		private string _Text;
-		private string _Name;
-		private int _Number;
-
 		public Song(string FilePath)
 		{
-			_Text = FileHelper.GetTextFromFile(FilePath);
-		}
+			Text = FileHelper.GetTextFromFile(FilePath);
 
-		public string Text
-		{
-			get
+			string[] verses = Regex.Split(Text, Config.Default.Splitter);
+			for (int i = 0; i < verses.Length; i++)
 			{
-				return _Text;
-			}
-			set
-			{
-				_Text = value;
-			}
-		}
+				Verse v = new Verse();
+				v.Text = verses[i].Trim();
+				v.Number = i + 1;
 
-		public int Number
-		{
-			get
-			{
-				return _Number;
-			}
-			set
-			{
-				_Number = value;
+				Verses.Add(v);
 			}
 		}
 
-		public string Name
+		private string _Name;
+		public new string Name
 		{
 			get
 			{
@@ -61,13 +44,78 @@ namespace AtemKaraoke.Lib
 			}
 		}
 
-		public string[] Chunks
+		private List<Verse> _Verses;
+		public List<Verse> Verses
 		{
 			get
 			{
-				string[] chunks = Regex.Split(Text, Config.Default.Splitter);
-				for (int i = 0; i < chunks.Length; i++) chunks[i] = chunks[i].Trim();
-				return chunks;
+				if (_Verses == null) _Verses = new List<Verse>();
+				return _Verses;
+			}
+			set
+			{
+				_Verses = value;
+			}
+		}
+	}
+
+
+
+
+
+
+
+	public class Verse
+	{
+		protected string _Text;
+		public string Text
+		{
+			get
+			{
+				return _Text;
+			}
+			set
+			{
+				_Text = value;
+			}
+		}
+
+		private string _Name;
+		public string Name
+		{
+			get
+			{
+				return _Name;
+			}
+			set
+			{
+				_Name = value;
+			}
+		}
+
+		private int _Number;
+		public int Number
+		{
+			get
+			{
+				return _Number;
+			}
+			set
+			{
+				_Number = value;
+			}
+		}
+
+		private string _FilePath;
+		public string FilePath
+		{
+			get
+			{
+				return _FilePath;
+			}
+			set
+			{
+				_FilePath = value;
 			}
 		}
 	}
