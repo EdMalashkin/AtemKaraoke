@@ -24,7 +24,8 @@ namespace AtemKaraoke.Lib
 			}
 
 			ConvertSongsToImages(songs, DestinationFolder);
-			//UploadSongsToSwitcher(songs);
+            //UploadSongsToSwitcher(songs);
+            //SetSongToPlayer(1);
 		}
 
 		public void ConvertSongsToImages()
@@ -143,5 +144,11 @@ namespace AtemKaraoke.Lib
 				}
 			}
 		}
-	}
+
+        public void SetSongToPlayer(int Number)
+        {
+            SetFirstMediaPlayerSource(Number);
+        }
+
+    }
 }

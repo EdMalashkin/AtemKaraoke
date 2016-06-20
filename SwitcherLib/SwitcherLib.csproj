@@ -46,6 +46,7 @@
     <Compile Include="Log.cs" />
     <Compile Include="MediaStill.cs" />
     <Compile Include="Switcher.cs" />
+    <Compile Include="MediaPlayer.cs" />
     <Compile Include="Upload.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SwitcherLibException.cs" />
