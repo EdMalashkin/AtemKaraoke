@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Collections.Generic;
 using AtemKaraoke.Lib.Tools;
 using SwitcherLib;
+using System.Threading;
 
 namespace AtemKaraoke.Lib
 {
@@ -24,9 +25,9 @@ namespace AtemKaraoke.Lib
 			}
 
 			ConvertSongsToImages(songs, DestinationFolder);
-            //UploadSongsToSwitcher(songs);
-            //SetSongToPlayer(1);
-		}
+            //Switcher switcher = UploadSongsToSwitcher(songs);
+            SetSongToPlayer(5);
+        }
 
 		public void ConvertSongsToImages()
 		{
@@ -126,29 +127,32 @@ namespace AtemKaraoke.Lib
 			return imageFilePath;
 		}
 
-		public void UploadSongsToSwitcher(List<Song> songs)
+		public Switcher UploadSongsToSwitcher(List<Song> songs)
 		{
 			Switcher switcher = new Switcher("192.168.88.5");
 			foreach (Song song in songs)
 			{
 				foreach (Verse verse in song.Verses)
 				{
-					Upload upload = new Upload(switcher, verse.FilePath, verse.Number);
+					Upload upload = new Upload(switcher, verse.FilePath, verse.Number-1);
 					upload.SetName(verse.Name);
 					upload.Start();
 					while (upload.InProgress())
 					{
-						//Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
-						//Thread.Sleep(100);
-					}
+                        SwitcherLib.Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
+                        Thread.Sleep(100);
+                    }
 				}
 			}
-		}
+            return switcher;
 
-        public void SetSongToPlayer(int Number)
-        {
-            SetFirstMediaPlayerSource(Number);
         }
 
+        public void SetSongToPlayer(uint Number)
+        {
+            Switcher switcher = new Switcher("192.168.88.5");
+            MediaPlayer mp = new MediaPlayer(switcher);
+            mp.SetFirstMediaPlayerSource(Number);
+        }
     }
 }

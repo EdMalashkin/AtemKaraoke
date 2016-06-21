@@ -75,7 +75,8 @@ namespace SwitcherLib
             this.currentStatus = Upload.Status.Started;
             this.frame = this.GetFrame();
             this.lockCallback = (IBMDSwitcherLockCallback)new UploadLock(this);
-            this.stills.Lock(this.lockCallback);
+            
+            this.stills.Lock(this.lockCallback); //EDM: commented for test
         }
 
         protected IBMDSwitcherFrame GetFrame()
@@ -149,7 +150,15 @@ namespace SwitcherLib
         public void TransferCompleted()
         {
             Log.Debug("Completed upload");
-            this.stills.Unlock(this.lockCallback);
+            try
+            {
+                this.stills.Unlock(this.lockCallback); //EDM: commented for test
+            }
+            catch
+            {
+
+            }
+            
             this.currentStatus = Upload.Status.Completed;
         }
 

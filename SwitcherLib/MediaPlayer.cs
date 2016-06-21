@@ -19,39 +19,34 @@ namespace SwitcherLib
         public MediaPlayer(Switcher switcher)
         {
             this.switcher = switcher;
+            this.switcher.Connect();
         }
 
-        public void SetFirstMediaPlayerSource(int Index)
+        public void SetFirstMediaPlayerSource(uint Index)
         {
             try
             {
                 IBMDSwitcherMediaPlayer mediaPlayer = GetPlayer();
-                mediaPlayer.SetSource(MDSwitcherMediaPlayerSourceType.bmdSwitcherMediaPlayerSourceTypeStill, Index);
+                //_BMDSwitcherMediaPlayerSourceType t;
+                //mediaPlayer.GetSource(out t, out Index);
+                mediaPlayer.SetSource(_BMDSwitcherMediaPlayerSourceType.bmdSwitcherMediaPlayerSourceTypeStill, Index);
             }
             catch (Exception ex)
             {
                 throw new SwitcherLibException(ex.Message, ex);
             }
-    }
-}
+        }
 
         private IBMDSwitcherMediaPlayer GetPlayer()
         {
             IntPtr mediaPlayerIteratorPtr;
             Guid mediaIteratorIID = typeof(IBMDSwitcherMediaPlayerIterator).GUID;
-            this.switcher.CreateIterator(ref mediaIteratorIID, out mediaPlayerIteratorPtr);
+            switcher.GetSwitcher().CreateIterator(ref mediaIteratorIID, out mediaPlayerIteratorPtr);
             IBMDSwitcherMediaPlayerIterator mediaPlayerIterator = (IBMDSwitcherMediaPlayerIterator)Marshal.GetObjectForIUnknown(mediaPlayerIteratorPtr);
 
             IBMDSwitcherMediaPlayer mediaPlayer;
             mediaPlayerIterator.Next(out mediaPlayer);
-            int num1 = 1;
-            while (mediaPlayer != null)
-            {
-                return mediaPlayer;
 
-                num1++;
-                mediaPlayerIterator.Next(out mediaPlayer);
-            }
             return mediaPlayer;
 
         }
