@@ -26,7 +26,7 @@ namespace AtemKaraoke.Lib
 
 			ConvertSongsToImages(songs, DestinationFolder);
             //Switcher switcher = UploadSongsToSwitcher(songs);
-            SetSongToPlayer(5);
+            //SetSongToPlayer(5);
         }
 
 		public void ConvertSongsToImages()
@@ -34,19 +34,24 @@ namespace AtemKaraoke.Lib
 			ConvertSongsToImages(Config.Default.SourceFolder, Config.Default.SourceFolderPattern, Config.Default.DestinationFolder);
 		}
 
-		public void ConvertSongsToImages(List<Song> songs, string destinationFolder)
+        public void ConvertSongsToImages(Song song)
+        {
+            foreach (Verse verse in song.Verses)
+            {
+                verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, Config.Default.DestinationFolder);
+                Bitmap bmp = GetImage(verse.Text);
+                bmp.Save(verse.FilePath, System.Drawing.Imaging.ImageFormat.Png);
+            }
+        }
+
+        public void ConvertSongsToImages(List<Song> songs, string destinationFolder)
 		{
 			string imageFilePath = "";
 			try
 			{
 				foreach (Song song in songs)
 				{
-					foreach (Verse verse in song.Verses)
-					{
-						verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, destinationFolder);
-						Bitmap bmp = GetImage(verse.Text);
-						bmp.Save(verse.FilePath, System.Drawing.Imaging.ImageFormat.Png);
-					}
+                    ConvertSongsToImages(song);
 				}
 			}
 			catch(Exception ex)

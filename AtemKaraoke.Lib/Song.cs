@@ -6,20 +6,15 @@ namespace AtemKaraoke.Lib
 {
 	public class Song : Verse
 	{
-		public Song(string FilePath)
+        public Song()
+        {
+
+        }
+
+        public Song(string FilePath) 
 		{
 			Text = FileHelper.GetTextFromFile(FilePath);
-
-			string[] verses = Regex.Split(Text, Config.Default.Splitter);
-			for (int i = 0; i < verses.Length; i++)
-			{
-				Verse v = new Verse();
-				v.Text = verses[i].Trim();
-				v.Number = i + 1;
-
-				Verses.Add(v);
-			}
-		}
+        }
 
 		private string _Name;
 		public new string Name
@@ -49,7 +44,19 @@ namespace AtemKaraoke.Lib
 		{
 			get
 			{
-				if (_Verses == null) _Verses = new List<Verse>();
+                if (_Verses == null)
+                {
+                    _Verses = new List<Verse>();
+                    string[] verses = Regex.Split(Text, Config.Default.Splitter);
+                    for (int i = 0; i < verses.Length; i++)
+                    {
+                        Verse v = new Verse();
+                        v.Text = verses[i].Trim();
+                        v.Number = i + 1;
+
+                        _Verses.Add(v);
+                    }
+                }
 				return _Verses;
 			}
 			set
