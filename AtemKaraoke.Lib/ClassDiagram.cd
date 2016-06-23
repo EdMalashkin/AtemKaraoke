@@ -3,14 +3,14 @@
   <Class Name="AtemKaraoke.Lib.Song">
     <Position X="2.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAACEAAAAAAAAAAAAAAIAQAAAAAAAAAAAAACAAAAAA=</HashCode>
+      <HashCode>AAAAAAAACAIQAAAAAAAAIAQAAAAAAAAAAAAACCAAAAA=</HashCode>
       <FileName>Song.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="AtemKaraoke.Lib.Convertor">
     <Position X="0.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAEAAAQEAAABAAAAAAAAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAASEAAABAAAAAAACAAAAAA=</HashCode>
       <FileName>Convertor.cs</FileName>
     </TypeIdentifier>
   </Class>
