@@ -10,7 +10,7 @@ namespace AtemKaraoke
 		{
 			try
 			{
-				Convertor c = new Convertor();
+				Controller c = new Controller();
 				//c.ConvertSongsToImages("C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\", "*.txt", "C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\");
 				c.ConvertSongsToImages();
 			}

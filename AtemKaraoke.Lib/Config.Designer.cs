@@ -139,5 +139,14 @@ namespace AtemKaraoke.Lib {
                 return ((string)(this["Splitter"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("192.168.88.5")]
+        public string ATEM_Address {
+            get {
+                return ((string)(this["ATEM_Address"]));
+            }
+        }
     }
 }

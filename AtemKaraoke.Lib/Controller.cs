@@ -8,7 +8,7 @@ using System.Threading;
 
 namespace AtemKaraoke.Lib
 {
-	public class Convertor
+	public class Controller
 	{
 		public void ConvertSongsToImages(string SourceFolder, string SearchPattern, string DestinationFolder)
 		{
@@ -25,7 +25,7 @@ namespace AtemKaraoke.Lib
 			}
 
 			ConvertSongsToImages(songs, DestinationFolder);
-            //Switcher switcher = UploadSongsToSwitcher(songs);
+            //UploadSongsToSwitcher(songs);
             //SetSongToPlayer(5);
         }
 
@@ -36,6 +36,8 @@ namespace AtemKaraoke.Lib
 
         public void ConvertSongsToImages(Song song)
         {
+            if (song == null) return;
+
             foreach (Verse verse in song.Verses)
             {
                 verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, Config.Default.DestinationFolder);
@@ -132,14 +134,14 @@ namespace AtemKaraoke.Lib
 			return imageFilePath;
 		}
 
-		public Switcher UploadSongsToSwitcher(List<Song> songs)
+		public void UploadSongsToSwitcher(List<Song> songs)
 		{
-			Switcher switcher = new Switcher("192.168.88.5");
+
 			foreach (Song song in songs)
 			{
 				foreach (Verse verse in song.Verses)
 				{
-					Upload upload = new Upload(switcher, verse.FilePath, verse.Number-1);
+					Upload upload = new Upload(Switcher, verse.FilePath, verse.Number-1);
 					upload.SetName(verse.Name);
 					upload.Start();
 					while (upload.InProgress())
@@ -149,15 +151,31 @@ namespace AtemKaraoke.Lib
                     }
 				}
 			}
-            return switcher;
+        }
 
+        Switcher _switcher;
+        private Switcher Switcher
+        {
+            get
+            {
+                if (_switcher == null) _switcher = new Switcher(Config.Default.ATEM_Address);
+                return _switcher;
+            }
+        }
+
+        MediaPlayer _mediaPlayer;
+        private MediaPlayer MediaPlayer
+        {
+            get
+            {
+                if (_mediaPlayer == null) _mediaPlayer = new MediaPlayer(Switcher);
+                return _mediaPlayer;
+            }
         }
 
         public void SetSongToPlayer(uint Number)
         {
-            Switcher switcher = new Switcher("192.168.88.5");
-            MediaPlayer mp = new MediaPlayer(switcher);
-            mp.SetFirstMediaPlayerSource(Number);
+            MediaPlayer.SetFirstMediaPlayerSource(Number);
         }
     }
 }

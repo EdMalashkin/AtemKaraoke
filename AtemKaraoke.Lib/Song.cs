@@ -67,7 +67,21 @@ namespace AtemKaraoke.Lib
 			}
 		}
 
-        
+        private Verse SelectedVerse;
+
+        public void SelectVerse(Verse newVerse)
+        {
+            if (newVerse == null) return;
+            if (SelectedVerse != null && SelectedVerse.Number == newVerse.Number) return;
+
+            SelectedVerse = newVerse;
+
+            VerseSelectedEventArgs e = new VerseSelectedEventArgs();
+            e.SelectionNumber = newVerse.Number;
+            e.SelectionStart = newVerse.StartPosition;
+            e.SelectionLength = newVerse.EndPosition;
+            OnVerseSelected(this, e);
+        }
 
         public int SelectVerse(int curPosition)
         {
@@ -95,12 +109,9 @@ namespace AtemKaraoke.Lib
             {
                 if (v.StartPosition == selectionStart)
                 {
-                    VerseSelectedEventArgs e = new VerseSelectedEventArgs();
-                    e.SelectionNumber = v.Number;
-                    e.SelectionStart = v.StartPosition;
-                    e.SelectionLength = v.EndPosition;
+                    SelectVerse(v);
+
                     resultNumber = v.Number;
-                    OnVerseSelected(this, e);
                     break;
                 }
             }
