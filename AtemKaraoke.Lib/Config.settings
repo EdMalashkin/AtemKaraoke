@@ -41,8 +41,11 @@
     <Setting Name="Splitter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\r\n\s*\t*\r\n</Value>
     </Setting>
-    <Setting Name="ATEM_Address" Type="System.String" Scope="Application">
+    <Setting Name="SwitcherAddress" Type="System.String" Scope="Application">
       <Value Profile="(Default)">192.168.88.5</Value>
+    </Setting>
+    <Setting Name="EmulateSwitcher" Type="System.Boolean" Scope="Application">
+      <Value Profile="(Default)">True</Value>
     </Setting>
   </Settings>
 </SettingsFile>

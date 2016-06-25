@@ -47,13 +47,19 @@ namespace AtemKaraoke.Lib
                     _Verses = new List<Verse>();
                     string[] verses = Regex.Split(Text, Config.Default.Splitter);
                     int accumulatedLength = 0;
-                    for (int i = 0; i < verses.Length; i++)
+                    int versesCount = (verses.Length > 20) ? 20 : verses.Length;
+                    for (int i = 0; i < versesCount; i++)
                     {
                         Verse v = new Verse();
 
                         v.Text = verses[i];
                         v.Number = i + 1;
                         v.StartPosition = Text.IndexOf(v.Text, accumulatedLength);
+
+                        //if (v.Number == 21)
+                        //{
+                        //    throw new Exception("ATEM cannot recieve more than 20 images");
+                        //}
 
                         _Verses.Add(v);
                         accumulatedLength += v.Text.Length;

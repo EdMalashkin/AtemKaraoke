@@ -13,7 +13,7 @@ namespace AtemKaraoke.WinForm
         private Controller Controller
         {
             get
-            { 
+            {
                 if (_controller == null) _controller = new Controller();
                 return _controller;
             }
@@ -55,6 +55,11 @@ namespace AtemKaraoke.WinForm
                     grdSong.Enabled = true;
                     Cursor = Cursors.Default;
                 }
+                chkEditMode.Text = "Back To Edit Mode";
+            }
+            else
+            {
+                chkEditMode.Text = "Go Live";
             }
 
             txtSong.Visible = chkEditMode.Checked;
@@ -63,8 +68,8 @@ namespace AtemKaraoke.WinForm
 
         public void OnVerseSelected(object sender, VerseSelectedEventArgs e)
         {
-            grdSong.Enabled = false;
-            Cursor = Cursors.WaitCursor;
+            //grdSong.Enabled = false; // cannot do that because the grid looses focus
+            grdSong.Cursor = Cursors.WaitCursor;
 
             try
             {
@@ -76,12 +81,12 @@ namespace AtemKaraoke.WinForm
             }
             finally
             {
-                grdSong.Enabled = true;
-                Cursor = Cursors.Default;
+                //grdSong.Enabled = true;
+                grdSong.Cursor = Cursors.Default;
             }
 
             Debug.Print("OnVerseSelected " + e.SelectionNumber.ToString());
-            
+
         }
 
         private void grdSong_SelectionChanged(object sender, EventArgs e)

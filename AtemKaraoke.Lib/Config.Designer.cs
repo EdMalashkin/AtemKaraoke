@@ -143,9 +143,18 @@ namespace AtemKaraoke.Lib {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("192.168.88.5")]
-        public string ATEM_Address {
+        public string SwitcherAddress {
             get {
-                return ((string)(this["ATEM_Address"]));
+                return ((string)(this["SwitcherAddress"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool EmulateSwitcher {
+            get {
+                return ((bool)(this["EmulateSwitcher"]));
             }
         }
     }

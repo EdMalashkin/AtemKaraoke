@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using AtemKaraoke.Lib.Tools;
 using SwitcherLib;
@@ -67,11 +68,11 @@ namespace AtemKaraoke.Lib
 			}
 		}
 
-		private Bitmap GetImage(string chunk)
+		private Bitmap GetImage(string verseText)
 		{
-			using (Font font = new Font(Config.Default.FontName, Config.Default.FontSize, GraphicsUnit.Pixel))
+            using (Font font = new Font( Config.Default.FontName, Config.Default.FontSize, GraphicsUnit.Pixel))
 			{
-				StringFormat sf = new StringFormat();
+				StringFormat stringFormat = new StringFormat();
 				Bitmap bmp = new Bitmap(Config.Default.HorizontalResolution, Config.Default.VerticalResolution);
 				Graphics g = Graphics.FromImage(bmp);
 				g.Clear(Color.Transparent);
@@ -79,45 +80,103 @@ namespace AtemKaraoke.Lib
 				switch (Config.Default.VerticalAlignment)
 				{
 					case "Top":
-						sf.LineAlignment = StringAlignment.Near;
+						stringFormat.LineAlignment = StringAlignment.Near;
 						break;
 					case "Center":
-						sf.LineAlignment = StringAlignment.Center;
+						stringFormat.LineAlignment = StringAlignment.Center;
 						break;
 					default:
-						sf.LineAlignment = StringAlignment.Far;
+						stringFormat.LineAlignment = StringAlignment.Far;
 						break;
 				}
 
 				switch (Config.Default.HorizontalAlignment)
 				{
 					case "Left":
-						sf.Alignment = StringAlignment.Near;
+						stringFormat.Alignment = StringAlignment.Near;
 						break;
 					case "Right":
-						sf.Alignment = StringAlignment.Far;
+						stringFormat.Alignment = StringAlignment.Far;
 						break;
 					default:
-						sf.Alignment = StringAlignment.Center;
+						stringFormat.Alignment = StringAlignment.Center;
 						break;
 				}
-
-				int x = Config.Default.Padding;
+                
+                int x = Config.Default.Padding;
 				int y = Config.Default.Padding;
 				int width = Config.Default.HorizontalResolution - Config.Default.Padding * 2;
 				int height = Config.Default.VerticalResolution - Config.Default.Padding * 2; ;
 				Rectangle rect = new Rectangle(x, y, width, height);
 
 				Type t = typeof(Brushes);
-				Brush b = (Brush)t.GetProperty(Config.Default.FontColor).GetValue(null, null);
+				Brush brush = (Brush)t.GetProperty(Config.Default.FontColor).GetValue(null, null);
 
-				g.DrawString(chunk, font, b, rect, sf);
+				g.DrawString(verseText, font, brush, rect, stringFormat);
 				g.Flush();
 				return bmp;
 			}
 		}
 
-		private string GetImageFilePath(string chunk, int chunkNumber, string songName, string destinationFolder)
+        private Bitmap GetImage2(string verseText)
+        {
+            using (Font font = new Font(Config.Default.FontName, Config.Default.FontSize, GraphicsUnit.Pixel))
+            {
+                StringFormat stringFormat = new StringFormat();
+                Bitmap bmp = new Bitmap(Config.Default.HorizontalResolution, Config.Default.VerticalResolution);
+                Graphics g = Graphics.FromImage(bmp);
+                g.Clear(Color.Transparent);
+
+                //g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
+                //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
+               // g.FillPath(Brushes.White, gp);
+                //g.DrawPath(Pens.Black, gp);
+
+                switch (Config.Default.VerticalAlignment)
+                {
+                    case "Top":
+                        stringFormat.LineAlignment = StringAlignment.Near;
+                        break;
+                    case "Center":
+                        stringFormat.LineAlignment = StringAlignment.Center;
+                        break;
+                    default:
+                        stringFormat.LineAlignment = StringAlignment.Far;
+                        break;
+                }
+
+                switch (Config.Default.HorizontalAlignment)
+                {
+                    case "Left":
+                        stringFormat.Alignment = StringAlignment.Near;
+                        break;
+                    case "Right":
+                        stringFormat.Alignment = StringAlignment.Far;
+                        break;
+                    default:
+                        stringFormat.Alignment = StringAlignment.Center;
+                        break;
+                }
+
+                int x = Config.Default.Padding;
+                int y = Config.Default.Padding;
+                int width = Config.Default.HorizontalResolution - Config.Default.Padding * 2;
+                int height = Config.Default.VerticalResolution - Config.Default.Padding * 2; ;
+                Rectangle rect = new Rectangle(x, y, width, height);
+
+                Type t = typeof(Brushes);
+                Brush brush = (Brush)t.GetProperty(Config.Default.FontColor).GetValue(null, null);
+
+                g.DrawString(verseText, font, brush, rect, stringFormat);
+                g.FillPath(Brushes.White, gp);
+                g.DrawPath(Pens.Black, gp);
+                g.Flush();
+                return bmp;
+            }
+        }
+
+        private string GetImageFilePath(string chunk, int chunkNumber, string songName, string destinationFolder)
 		{
 			destinationFolder = Path.Combine(destinationFolder, FileHelper.CleanIlligalFileNameChars(songName));
 			if (chunkNumber == 1) FileHelper.GetCleanFolder(destinationFolder);
@@ -141,7 +200,13 @@ namespace AtemKaraoke.Lib
 			{
 				foreach (Verse verse in song.Verses)
 				{
-					Upload upload = new Upload(Switcher, verse.FilePath, verse.Number-1);
+                    if (Config.Default.EmulateSwitcher == true)
+                    {
+                        Thread.Sleep(300);
+                        continue;
+                    }
+
+                    Upload upload = new Upload(Switcher, verse.FilePath, verse.Number-1);
 					upload.SetName(verse.Name);
 					upload.Start();
 					while (upload.InProgress())
@@ -158,7 +223,7 @@ namespace AtemKaraoke.Lib
         {
             get
             {
-                if (_switcher == null) _switcher = new Switcher(Config.Default.ATEM_Address);
+                if (_switcher == null) _switcher = new Switcher(Config.Default.SwitcherAddress);
                 return _switcher;
             }
         }
@@ -175,7 +240,14 @@ namespace AtemKaraoke.Lib
 
         public void SetSongToPlayer(uint Number)
         {
+            if (Config.Default.EmulateSwitcher == true) 
+            {
+                Thread.Sleep(300);
+                return;
+            }
+
             MediaPlayer.SetFirstMediaPlayerSource(Number);
         }
     }
 }
+

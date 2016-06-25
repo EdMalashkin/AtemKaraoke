@@ -45,10 +45,10 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.txtSong.BackColor = System.Drawing.SystemColors.Window;
             this.txtSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.txtSong.Location = new System.Drawing.Point(13, 32);
+            this.txtSong.Location = new System.Drawing.Point(13, 38);
             this.txtSong.Multiline = true;
             this.txtSong.Name = "txtSong";
-            this.txtSong.Size = new System.Drawing.Size(471, 749);
+            this.txtSong.Size = new System.Drawing.Size(471, 743);
             this.txtSong.TabIndex = 0;
             this.txtSong.Text = resources.GetString("txtSong.Text");
             this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
@@ -59,14 +59,16 @@
             // 
             // chkEditMode
             // 
+            this.chkEditMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.chkEditMode.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkEditMode.AutoSize = true;
             this.chkEditMode.Checked = true;
             this.chkEditMode.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkEditMode.Location = new System.Drawing.Point(12, 5);
+            this.chkEditMode.Location = new System.Drawing.Point(417, 5);
             this.chkEditMode.Name = "chkEditMode";
-            this.chkEditMode.Size = new System.Drawing.Size(93, 21);
-            this.chkEditMode.TabIndex = 3;
-            this.chkEditMode.Text = "Edit Mode";
+            this.chkEditMode.Size = new System.Drawing.Size(67, 27);
+            this.chkEditMode.TabIndex = 0;
+            this.chkEditMode.Text = "Go Live";
             this.chkEditMode.UseVisualStyleBackColor = true;
             this.chkEditMode.CheckedChanged += new System.EventHandler(this.chkEditMode_CheckedChanged);
             // 
@@ -96,15 +98,15 @@
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
             dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
             this.grdSong.DefaultCellStyle = dataGridViewCellStyle1;
-            this.grdSong.Location = new System.Drawing.Point(225, 12);
+            this.grdSong.Location = new System.Drawing.Point(241, 12);
             this.grdSong.MultiSelect = false;
             this.grdSong.Name = "grdSong";
             this.grdSong.ReadOnly = true;
             this.grdSong.RowHeadersVisible = false;
             this.grdSong.RowTemplate.Height = 24;
             this.grdSong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-            this.grdSong.Size = new System.Drawing.Size(228, 629);
-            this.grdSong.TabIndex = 4;
+            this.grdSong.Size = new System.Drawing.Size(138, 629);
+            this.grdSong.TabIndex = 0;
             this.grdSong.Visible = false;
             this.grdSong.SelectionChanged += new System.EventHandler(this.grdSong_SelectionChanged);
             // 
