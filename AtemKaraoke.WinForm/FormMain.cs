@@ -2,6 +2,7 @@
 using System.Windows.Forms;
 using AtemKaraoke.Lib;
 using System.Diagnostics;
+using System.Collections.Generic;
 
 namespace AtemKaraoke.WinForm
 {
@@ -44,7 +45,11 @@ namespace AtemKaraoke.WinForm
 
                 try
                 {
-                    Controller.ConvertSongsToImages(_song);
+                    string newFolder = Controller.ConvertSongsToImages(_song);
+
+                    Controller.UploadSongsToSwitcher(_song);
+                    //Console.Write(newFolder);
+                    //Process.Start(@"D:\Projects\AtemKaraoke\AtemKaraoke.Console\bin\Debug\AtemKaraoke.Console.exe", newFolder);
                 }
                 catch (Exception ex)
                 {
@@ -73,7 +78,7 @@ namespace AtemKaraoke.WinForm
 
             try
             {
-                Controller.SetSongToPlayer((uint)e.SelectionNumber);
+                Controller.SetSongToPlayer((uint)e.SelectionNumber - 1);
             }
             catch (Exception ex)
             {

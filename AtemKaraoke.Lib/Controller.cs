@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using AtemKaraoke.Lib.Tools;
 using SwitcherLib;
 using System.Threading;
+using System.Text.RegularExpressions;
 
 namespace AtemKaraoke.Lib
 {
@@ -26,7 +27,7 @@ namespace AtemKaraoke.Lib
 			}
 
 			ConvertSongsToImages(songs, DestinationFolder);
-            //UploadSongsToSwitcher(songs);
+            //UploadSongsToSwitcher(songs[0]);
             //SetSongToPlayer(5);
         }
 
@@ -35,16 +36,24 @@ namespace AtemKaraoke.Lib
 			ConvertSongsToImages(Config.Default.SourceFolder, Config.Default.SourceFolderPattern, Config.Default.DestinationFolder);
 		}
 
-        public void ConvertSongsToImages(Song song)
+        public void ConvertSongsToImages(string SourceFolder)
         {
-            if (song == null) return;
+            ConvertSongsToImages(SourceFolder, Config.Default.SourceFolderPattern, Config.Default.DestinationFolder);
+        }
 
+        public string ConvertSongsToImages(Song song)
+        {
+            string newFolder = "";
+            if (song == null) return newFolder;
+            
             foreach (Verse verse in song.Verses)
             {
                 verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, Config.Default.DestinationFolder);
                 Bitmap bmp = GetImage(verse.Text);
                 bmp.Save(verse.FilePath, System.Drawing.Imaging.ImageFormat.Png);
+                newFolder = Path.GetDirectoryName(verse.FilePath);
             }
+            return newFolder;
         }
 
         public void ConvertSongsToImages(List<Song> songs, string destinationFolder)
@@ -195,27 +204,53 @@ namespace AtemKaraoke.Lib
 
 		public void UploadSongsToSwitcher(List<Song> songs)
 		{
-
 			foreach (Song song in songs)
 			{
-				foreach (Verse verse in song.Verses)
-				{
+                foreach (Verse verse in song.Verses)
+                {
+                    UploadSongsToSwitcher(song);
+                }
+            }
+        }
+
+        public void UploadSongsToSwitcher(Song song)
+        {
+                foreach (Verse verse in song.Verses)
+                {
                     if (Config.Default.EmulateSwitcher == true)
                     {
                         Thread.Sleep(300);
                         continue;
                     }
+                    
+                    UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
+                }
+        }
 
-                    Upload upload = new Upload(Switcher, verse.FilePath, verse.Number-1);
-					upload.SetName(verse.Name);
-					upload.Start();
-					while (upload.InProgress())
-					{
-                        SwitcherLib.Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
-                        Thread.Sleep(100);
-                    }
-				}
-			}
+        public void UploadSongsToSwitcher(string FolderPath)
+        {
+            string[] files = FileHelper.GetAllFilesList(FolderPath, "*.png");
+            List<Song> songs = new List<Song>();
+
+            int slotNumber = 0;
+            foreach (string file in files)
+            {
+                string shortFileName = Path.GetFileName(file);
+                slotNumber = int.Parse(Regex.Split(shortFileName, " ")[0].ToString());
+                UploadMediaToSwitcher(file, slotNumber);
+            }
+        }
+
+        private void UploadMediaToSwitcher(string FilePath, int Slot)
+        {
+            Upload upload = new Upload(Switcher, FilePath, Slot);
+            //upload.SetName(verse.Name);
+            upload.Start();
+            while (upload.InProgress())
+            {
+                SwitcherLib.Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
+                Thread.Sleep(100);
+            }
         }
 
         Switcher _switcher;
