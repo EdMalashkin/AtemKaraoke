@@ -12,7 +12,7 @@ namespace AtemKaraoke.Lib
 {
 	public class Controller
 	{
-		public void ConvertSongsToImages(string SourceFolder, string SearchPattern, string DestinationFolder)
+		public List<Song> ConvertSongsToImages(string SourceFolder, string SearchPattern, string DestinationFolder)
 		{
 			string[] files = FileHelper.GetAllFilesList(SourceFolder, SearchPattern);
 			List<Song> songs = new List<Song>();
@@ -29,11 +29,12 @@ namespace AtemKaraoke.Lib
 			ConvertSongsToImages(songs, DestinationFolder);
             //UploadSongsToSwitcher(songs[0]);
             //SetSongToPlayer(5);
+            return songs;
         }
 
-		public void ConvertSongsToImages()
+		public List<Song> ConvertSongsToImages()
 		{
-			ConvertSongsToImages(Config.Default.SourceFolder, Config.Default.SourceFolderPattern, Config.Default.DestinationFolder);
+			return ConvertSongsToImages(Config.Default.SourceFolder, Config.Default.SourceFolderPattern, Config.Default.DestinationFolder);
 		}
 
         public void ConvertSongsToImages(string SourceFolder)
@@ -236,7 +237,8 @@ namespace AtemKaraoke.Lib
             foreach (string file in files)
             {
                 string shortFileName = Path.GetFileName(file);
-                slotNumber = int.Parse(Regex.Split(shortFileName, " ")[0].ToString());
+                Console.WriteLine(shortFileName);
+                slotNumber = int.Parse(Regex.Split(shortFileName, " ")[0]) - 1;
                 UploadMediaToSwitcher(file, slotNumber);
             }
         }

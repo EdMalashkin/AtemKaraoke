@@ -50,7 +50,7 @@ namespace SwitcherLib
             {
                 return;
             }
-            //Console.Out.WriteLine(message);
+            Console.Out.WriteLine(message);
         }
     }
 }

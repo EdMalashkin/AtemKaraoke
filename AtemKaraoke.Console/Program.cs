@@ -1,6 +1,7 @@
 ﻿using System;
 using AtemKaraoke.Lib;
 using AtemKaraoke.Lib.Tools;
+using System.Collections.Generic;
 
 namespace AtemKaraoke
 {
@@ -14,10 +15,16 @@ namespace AtemKaraoke
 				//c.ConvertSongsToImages("C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\", "*.txt", "C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\");
 
                 if (args.Length == 0)
-                    c.ConvertSongsToImages();
+                {
+                    List<Song> songs = c.ConvertSongsToImages();
+                    c.UploadSongsToSwitcher(songs);
+
+                    //c.UploadMediaToSwitcher("D:\\1.png", 0);
+                }                   
                 else if (args.Length == 1)
                 {
                     string SourseFolder = args[0];
+                    Console.WriteLine(SourseFolder);
                     c.UploadSongsToSwitcher(SourseFolder);
                 }
 
@@ -29,6 +36,7 @@ namespace AtemKaraoke
 			}
             finally
             {
+                Console.WriteLine("Finished");
                 Console.ReadLine();
             }
 		}
