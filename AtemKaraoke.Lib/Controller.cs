@@ -223,8 +223,10 @@ namespace AtemKaraoke.Lib
                         Thread.Sleep(300);
                         continue;
                     }
-                    
-                    UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
+                    else
+                    {
+                        UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
+                    }
                 }
         }
 
@@ -243,10 +245,13 @@ namespace AtemKaraoke.Lib
             }
         }
 
+        public Upload.TransferCompletedDelegate transferCompleted;
+
         private void UploadMediaToSwitcher(string FilePath, int Slot)
         {
             Upload upload = new Upload(Switcher, FilePath, Slot);
             //upload.SetName(verse.Name);
+            upload.transferCompleted = transferCompleted;
             upload.Start();
             while (upload.InProgress())
             {

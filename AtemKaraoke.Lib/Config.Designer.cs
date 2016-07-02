@@ -25,7 +25,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Times New Roman")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Arial")]
         public string FontName {
             get {
                 return ((string)(this["FontName"]));
@@ -160,7 +160,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool UseConsoleToUploadFromWinForm {
             get {
                 return ((bool)(this["UseConsoleToUploadFromWinForm"]));

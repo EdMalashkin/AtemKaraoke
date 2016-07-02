@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using AtemKaraoke.Lib;
 using System.Diagnostics;
 using System.Collections.Generic;
+using SwitcherLib;
 
 namespace AtemKaraoke.WinForm
 {
@@ -33,7 +34,7 @@ namespace AtemKaraoke.WinForm
                 _song = new Song();
                 _song.Text = txtSong.Text;
                 _song.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected);
-                //txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
+                txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
 
                 ResizeSongControls();
 
@@ -49,6 +50,7 @@ namespace AtemKaraoke.WinForm
 
                     if (!Controller.UseConsoleToUploadFromWinForm)
                     {
+                        Controller.transferCompleted = new Upload.TransferCompletedDelegate(TestDelegate);
                         Controller.UploadSongsToSwitcher(_song);
                     }
                     else
@@ -59,7 +61,7 @@ namespace AtemKaraoke.WinForm
                         var process = new Process
                         {
                             StartInfo = {
-                                        Arguments = string.Format("\"{0}\"",  newFolder)
+                                            Arguments = string.Format("\"{0}\"",  newFolder)
                                         }
                         };
                         process.StartInfo.FileName = MyBatchFile;
@@ -84,6 +86,11 @@ namespace AtemKaraoke.WinForm
 
             txtSong.Visible = chkEditMode.Checked;
             grdSong.Visible = !chkEditMode.Checked;
+        }
+
+        private void TestDelegate()
+        {
+
         }
 
         public void OnVerseSelected(object sender, VerseSelectedEventArgs e)

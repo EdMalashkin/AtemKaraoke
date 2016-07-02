@@ -90,6 +90,10 @@
       <Project>{ad856e10-c779-42f7-8149-686e5b473c81}</Project>
       <Name>AtemKaraoke.Lib</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SwitcherLib\SwitcherLib.csproj">
+      <Project>{5F9F52A6-9EF4-4C71-9A91-F5B864A57ABB}</Project>
+      <Name>SwitcherLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

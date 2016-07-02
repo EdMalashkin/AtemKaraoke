@@ -147,6 +147,9 @@ namespace SwitcherLib
             this.stills.Upload((uint)this.uploadSlot, this.GetName(), this.frame);
         }
 
+        public delegate void TransferCompletedDelegate();
+        public TransferCompletedDelegate transferCompleted;
+
         public void TransferCompleted()
         {
             Log.Debug("Completed upload");
@@ -160,6 +163,7 @@ namespace SwitcherLib
             //}
             
             this.currentStatus = Upload.Status.Completed;
+            transferCompleted();
         }
 
         public String GetName()
