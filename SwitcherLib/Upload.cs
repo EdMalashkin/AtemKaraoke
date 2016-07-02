@@ -150,14 +150,14 @@ namespace SwitcherLib
         public void TransferCompleted()
         {
             Log.Debug("Completed upload");
-            try
-            {
+            //try
+            //{
                 this.stills.Unlock(this.lockCallback); //EDM: commented for test
-            }
-            catch
-            {
-
-            }
+            //}
+            //catch
+            //{
+                
+            //}
             
             this.currentStatus = Upload.Status.Completed;
         }

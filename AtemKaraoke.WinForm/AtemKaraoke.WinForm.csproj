@@ -82,6 +82,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\AtemKaraoke.Console\AtemKaraoke.Console.csproj">
+      <Project>{a7dcd4c2-4e5e-4814-b76c-18fe1f48fce1}</Project>
+      <Name>AtemKaraoke.Console</Name>
+    </ProjectReference>
     <ProjectReference Include="..\AtemKaraoke.Lib\AtemKaraoke.Lib.csproj">
       <Project>{ad856e10-c779-42f7-8149-686e5b473c81}</Project>
       <Name>AtemKaraoke.Lib</Name>

@@ -285,6 +285,14 @@ namespace AtemKaraoke.Lib
 
             MediaPlayer.SetFirstMediaPlayerSource(Number);
         }
+
+        public bool UseConsoleToUploadFromWinForm
+        {
+            get
+            {
+                return Config.Default.UseConsoleToUploadFromWinForm;
+            }
+        }
     }
 }
 

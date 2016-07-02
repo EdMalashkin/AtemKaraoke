@@ -12,14 +12,11 @@ namespace AtemKaraoke
 			try
 			{
 				Controller c = new Controller();
-				//c.ConvertSongsToImages("C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\", "*.txt", "C:\\Projects\\AtemKaraoke\\AtemKaraoke\\Songs\\");
 
                 if (args.Length == 0)
                 {
                     List<Song> songs = c.ConvertSongsToImages();
                     c.UploadSongsToSwitcher(songs);
-
-                    //c.UploadMediaToSwitcher("D:\\1.png", 0);
                 }                   
                 else if (args.Length == 1)
                 {
@@ -37,7 +34,7 @@ namespace AtemKaraoke
             finally
             {
                 Console.WriteLine("Finished");
-                Console.ReadLine();
+                //Console.ReadLine();
             }
 		}
 	}

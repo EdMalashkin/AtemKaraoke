@@ -47,22 +47,24 @@ namespace AtemKaraoke.WinForm
                 {
                     string newFolder = Controller.ConvertSongsToImages(_song);
 
-                    //Controller.UploadSongsToSwitcher(_song);
-
-                    Console.Write(newFolder);
-                    //string MyBatchFile = @"D:\Projects\AtemKaraoke\AtemKaraoke.Console\!Start.cmd";
-                    string MyBatchFile = @"D:\Projects\AtemKaraoke\AtemKaraoke.Console\bin\Debug\AtemKaraoke.Console.exe";
-
-                    var process = new Process
+                    if (!Controller.UseConsoleToUploadFromWinForm)
                     {
-                        StartInfo = {
-                                        Arguments = string.Format("\"{0}\"",  newFolder)
-                                    }
-                    };
-                    process.StartInfo.FileName = MyBatchFile;
-                    bool b = process.Start();
+                        Controller.UploadSongsToSwitcher(_song);
+                    }
+                    else
+                    {
+                        Console.Write(newFolder);
+                        string MyBatchFile = @"AtemKaraoke.Console.exe";
 
-                    //Process.Start(@"D:\Projects\AtemKaraoke\AtemKaraoke.Console\!Start.cmd", "");
+                        var process = new Process
+                        {
+                            StartInfo = {
+                                        Arguments = string.Format("\"{0}\"",  newFolder)
+                                        }
+                        };
+                        process.StartInfo.FileName = MyBatchFile;
+                        bool b = process.Start();
+                    }
                 }
                 catch (Exception ex)
                 {

@@ -157,5 +157,14 @@ namespace AtemKaraoke.Lib {
                 return ((bool)(this["EmulateSwitcher"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool UseConsoleToUploadFromWinForm {
+            get {
+                return ((bool)(this["UseConsoleToUploadFromWinForm"]));
+            }
+        }
     }
 }
