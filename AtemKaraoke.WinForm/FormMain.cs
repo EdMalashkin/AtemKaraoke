@@ -50,7 +50,7 @@ namespace AtemKaraoke.WinForm
 
                     if (!Controller.UseConsoleToUploadFromWinForm)
                     {
-                        Controller.transferCompleted = new Upload.TransferCompletedDelegate(TestDelegate);
+                        //Controller.transferCompleted = new Upload.TransferCompletedDelegate(TestDelegate);
                         Controller.UploadSongsToSwitcher(_song);
                     }
                     else
@@ -88,10 +88,10 @@ namespace AtemKaraoke.WinForm
             grdSong.Visible = !chkEditMode.Checked;
         }
 
-        private void TestDelegate()
-        {
+        //private void TestDelegate()
+        //{
 
-        }
+        //}
 
         public void OnVerseSelected(object sender, VerseSelectedEventArgs e)
         {

@@ -245,13 +245,13 @@ namespace AtemKaraoke.Lib
             }
         }
 
-        public Upload.TransferCompletedDelegate transferCompleted;
+        //public Upload.TransferCompletedDelegate transferCompleted;
 
         private void UploadMediaToSwitcher(string FilePath, int Slot)
         {
             Upload upload = new Upload(Switcher, FilePath, Slot);
             //upload.SetName(verse.Name);
-            upload.transferCompleted = transferCompleted;
+            //upload.transferCompleted = transferCompleted;
             upload.Start();
             while (upload.InProgress())
             {
