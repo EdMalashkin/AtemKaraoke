@@ -239,6 +239,7 @@ namespace AtemKaraoke.Lib
             foreach (string file in files)
             {
                 string shortFileName = Path.GetFileName(file);
+                Console.WriteLine("");
                 Console.WriteLine(shortFileName);
                 slotNumber = int.Parse(Regex.Split(shortFileName, " ")[0]) - 1;
                 UploadMediaToSwitcher(file, slotNumber);
@@ -268,6 +269,13 @@ namespace AtemKaraoke.Lib
                 if (_switcher == null) _switcher = new Switcher(Config.Default.SwitcherAddress);
                 return _switcher;
             }
+        }
+
+        public void ReconnectToSwitcher()
+        {
+            _switcher = null;
+            _mediaPlayer = null;
+            Switcher.Connect();
         }
 
         MediaPlayer _mediaPlayer;

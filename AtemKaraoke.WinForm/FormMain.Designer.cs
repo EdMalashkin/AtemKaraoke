@@ -29,12 +29,13 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
-            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
             this.txtSong = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.chkEditMode = new System.Windows.Forms.CheckBox();
             this.grdSong = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.btnReconnect = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
             this.SuspendLayout();
             // 
@@ -89,16 +90,16 @@
             this.grdSong.ColumnHeadersVisible = false;
             this.grdSong.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Column1});
-            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
-            dataGridViewCellStyle1.BackColor = System.Drawing.SystemColors.Control;
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.ControlText;
-            dataGridViewCellStyle1.Padding = new System.Windows.Forms.Padding(10);
-            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Highlight;
-            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
-            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
-            this.grdSong.DefaultCellStyle = dataGridViewCellStyle1;
-            this.grdSong.Location = new System.Drawing.Point(241, 12);
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Control;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.Padding = new System.Windows.Forms.Padding(10);
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Highlight;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.grdSong.DefaultCellStyle = dataGridViewCellStyle2;
+            this.grdSong.Location = new System.Drawing.Point(254, 5);
             this.grdSong.MultiSelect = false;
             this.grdSong.Name = "grdSong";
             this.grdSong.ReadOnly = true;
@@ -118,11 +119,23 @@
             this.Column1.ReadOnly = true;
             this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
             // 
+            // btnReconnect
+            // 
+            this.btnReconnect.Location = new System.Drawing.Point(13, 5);
+            this.btnReconnect.Name = "btnReconnect";
+            this.btnReconnect.Size = new System.Drawing.Size(90, 27);
+            this.btnReconnect.TabIndex = 1;
+            this.btnReconnect.Text = "Reconnect";
+            this.btnReconnect.UseVisualStyleBackColor = true;
+            this.btnReconnect.Visible = false;
+            this.btnReconnect.Click += new System.EventHandler(this.btnReconnect_Click);
+            // 
             // FormMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(496, 793);
+            this.Controls.Add(this.btnReconnect);
             this.Controls.Add(this.grdSong);
             this.Controls.Add(this.chkEditMode);
             this.Controls.Add(this.txtSong);
@@ -141,6 +154,7 @@
         private System.Windows.Forms.CheckBox chkEditMode;
         private System.Windows.Forms.DataGridView grdSong;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;
+        private System.Windows.Forms.Button btnReconnect;
     }
 }
 

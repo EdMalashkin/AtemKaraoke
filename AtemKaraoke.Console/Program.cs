@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using AtemKaraoke.Lib;
 using AtemKaraoke.Lib.Tools;
 using System.Collections.Generic;
@@ -11,7 +12,8 @@ namespace AtemKaraoke
 		{
 			try
 			{
-				Controller c = new Controller();
+                Console.OutputEncoding = Encoding.UTF8;
+                Controller c = new Controller();
 
                 if (args.Length == 0)
                 {

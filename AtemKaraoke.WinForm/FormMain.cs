@@ -78,10 +78,12 @@ namespace AtemKaraoke.WinForm
                     Cursor = Cursors.Default;
                 }
                 chkEditMode.Text = "Back To Edit Mode";
+                btnReconnect.Visible = true;
             }
             else
             {
                 chkEditMode.Text = "Go Live";
+                btnReconnect.Visible = false;
             }
 
             txtSong.Visible = chkEditMode.Checked;
@@ -134,6 +136,26 @@ namespace AtemKaraoke.WinForm
             grdSong.Height = txtSong.Height;
             grdSong.Columns[0].Width = grdSong.Width - 3;
 
+        }
+
+        private void btnReconnect_Click(object sender, EventArgs e)
+        {
+            grdSong.Cursor = Cursors.WaitCursor;
+
+            try
+            {
+                _controller = null;
+                Controller.ReconnectToSwitcher();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ATEM Error");
+            }
+            finally
+            {
+                grdSong.Cursor = Cursors.Default;
+            }
+            
         }
     }
 }
