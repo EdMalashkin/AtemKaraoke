@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Drawing;
+using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 using System.Collections.Generic;
 using AtemKaraoke.Lib.Tools;
@@ -50,9 +51,10 @@ namespace AtemKaraoke.Lib
             foreach (Verse verse in song.Verses)
             {
                 verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, Config.Default.DestinationFolder);
-                Bitmap bmp = GetImage(verse.Text);
+                Bitmap bmp = GetImage2(verse.Text);
                 bmp.Save(verse.FilePath, System.Drawing.Imaging.ImageFormat.Png);
                 newFolder = Path.GetDirectoryName(verse.FilePath);
+                Console.WriteLine("Generated: " + verse.FilePath);
             }
             return newFolder;
         }
@@ -131,18 +133,10 @@ namespace AtemKaraoke.Lib
         private Bitmap GetImage2(string verseText)
         {
             using (Font font = new Font(Config.Default.FontName, Config.Default.FontSize, GraphicsUnit.Pixel))
+            using (StringFormat stringFormat = new StringFormat())
+            using (GraphicsPath graphicsPath = new GraphicsPath())
+            using (Pen pen = new Pen(Config.Default.FontBorderColor, Config.Default.PenSize))
             {
-                StringFormat stringFormat = new StringFormat();
-                Bitmap bmp = new Bitmap(Config.Default.HorizontalResolution, Config.Default.VerticalResolution);
-                Graphics g = Graphics.FromImage(bmp);
-                g.Clear(Color.Transparent);
-
-                //g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAlias;
-                //g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                System.Drawing.Drawing2D.GraphicsPath gp = new System.Drawing.Drawing2D.GraphicsPath();
-               // g.FillPath(Brushes.White, gp);
-                //g.DrawPath(Pens.Black, gp);
-
                 switch (Config.Default.VerticalAlignment)
                 {
                     case "Top":
@@ -175,13 +169,28 @@ namespace AtemKaraoke.Lib
                 int height = Config.Default.VerticalResolution - Config.Default.Padding * 2; ;
                 Rectangle rect = new Rectangle(x, y, width, height);
 
+                graphicsPath.AddString(
+                    verseText,                  // text to draw
+                    font.FontFamily,            // or any other font family
+                    (int)font.Style,            // font style (bold, italic, etc.)
+                    font.Size,                  // em size
+                    rect,                       // a rectangle where the text is drawn in
+                    stringFormat);              // set options here (e.g. center alignment)
+
                 Type t = typeof(Brushes);
                 Brush brush = (Brush)t.GetProperty(Config.Default.FontColor).GetValue(null, null);
 
-                g.DrawString(verseText, font, brush, rect, stringFormat);
-                g.FillPath(Brushes.White, gp);
-                g.DrawPath(Pens.Black, gp);
+                Bitmap bmp = new Bitmap(Config.Default.HorizontalResolution, Config.Default.VerticalResolution);
+
+                Graphics g = Graphics.FromImage(bmp);
+                g.Clear(Color.Transparent);
+                g.SmoothingMode = SmoothingMode.HighQuality;
+                g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                g.DrawPath(pen, graphicsPath);
+                g.FillPath(brush, graphicsPath);
                 g.Flush();
+                g.Dispose();
+               
                 return bmp;
             }
         }

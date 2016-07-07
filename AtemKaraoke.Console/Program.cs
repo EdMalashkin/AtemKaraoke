@@ -30,7 +30,7 @@ namespace AtemKaraoke
             }
 			catch(Exception ex)
 			{
-				Console.Write(ex.Message);
+				Console.WriteLine(ex.Message);
 				ExceptionHelper.HandleException(ex);
 			}
             finally
