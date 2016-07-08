@@ -141,7 +141,7 @@ namespace AtemKaraoke.WinForm
         private void btnReconnect_Click(object sender, EventArgs e)
         {
             grdSong.Cursor = Cursors.WaitCursor;
-
+            btnReconnect.Enabled = false;
             try
             {
                 _controller = null;
@@ -154,8 +154,8 @@ namespace AtemKaraoke.WinForm
             finally
             {
                 grdSong.Cursor = Cursors.Default;
+                btnReconnect.Enabled = true;
             }
-            
         }
     }
 }

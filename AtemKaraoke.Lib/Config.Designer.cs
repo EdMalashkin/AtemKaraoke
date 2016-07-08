@@ -25,7 +25,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Times New Roman")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Verdana")]
         public string FontName {
             get {
                 return ((string)(this["FontName"]));
@@ -178,10 +178,10 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("4")]
-        public float PenSize {
+        [global::System.Configuration.DefaultSettingValueAttribute("5")]
+        public float FontBorderSize {
             get {
-                return ((float)(this["PenSize"]));
+                return ((float)(this["FontBorderSize"]));
             }
         }
     }

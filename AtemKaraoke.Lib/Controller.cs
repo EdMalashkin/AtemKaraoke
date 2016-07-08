@@ -89,32 +89,8 @@ namespace AtemKaraoke.Lib
 				Graphics g = Graphics.FromImage(bmp);
 				g.Clear(Color.Transparent);
 
-				switch (Config.Default.VerticalAlignment)
-				{
-					case "Top":
-						stringFormat.LineAlignment = StringAlignment.Near;
-						break;
-					case "Center":
-						stringFormat.LineAlignment = StringAlignment.Center;
-						break;
-					default:
-						stringFormat.LineAlignment = StringAlignment.Far;
-						break;
-				}
+                SetStringFormat(stringFormat);
 
-				switch (Config.Default.HorizontalAlignment)
-				{
-					case "Left":
-						stringFormat.Alignment = StringAlignment.Near;
-						break;
-					case "Right":
-						stringFormat.Alignment = StringAlignment.Far;
-						break;
-					default:
-						stringFormat.Alignment = StringAlignment.Center;
-						break;
-				}
-                
                 int x = Config.Default.Padding;
 				int y = Config.Default.Padding;
 				int width = Config.Default.HorizontalResolution - Config.Default.Padding * 2;
@@ -135,33 +111,9 @@ namespace AtemKaraoke.Lib
             using (Font font = new Font(Config.Default.FontName, Config.Default.FontSize, GraphicsUnit.Pixel))
             using (StringFormat stringFormat = new StringFormat())
             using (GraphicsPath graphicsPath = new GraphicsPath())
-            using (Pen pen = new Pen(Config.Default.FontBorderColor, Config.Default.PenSize))
+            using (Pen pen = new Pen(Config.Default.FontBorderColor, Config.Default.FontBorderSize))
             {
-                switch (Config.Default.VerticalAlignment)
-                {
-                    case "Top":
-                        stringFormat.LineAlignment = StringAlignment.Near;
-                        break;
-                    case "Center":
-                        stringFormat.LineAlignment = StringAlignment.Center;
-                        break;
-                    default:
-                        stringFormat.LineAlignment = StringAlignment.Far;
-                        break;
-                }
-
-                switch (Config.Default.HorizontalAlignment)
-                {
-                    case "Left":
-                        stringFormat.Alignment = StringAlignment.Near;
-                        break;
-                    case "Right":
-                        stringFormat.Alignment = StringAlignment.Far;
-                        break;
-                    default:
-                        stringFormat.Alignment = StringAlignment.Center;
-                        break;
-                }
+                SetStringFormat(stringFormat);
 
                 int x = Config.Default.Padding;
                 int y = Config.Default.Padding;
@@ -182,10 +134,13 @@ namespace AtemKaraoke.Lib
 
                 Bitmap bmp = new Bitmap(Config.Default.HorizontalResolution, Config.Default.VerticalResolution);
 
+                //http://stackoverflow.com/questions/4200843/outline-text-with-system-drawing
                 Graphics g = Graphics.FromImage(bmp);
                 g.Clear(Color.Transparent);
                 g.SmoothingMode = SmoothingMode.HighQuality;
-                g.TextRenderingHint = TextRenderingHint.AntiAlias;
+                g.InterpolationMode = InterpolationMode.High;
+                g.TextRenderingHint = TextRenderingHint.AntiAliasGridFit;
+                g.CompositingQuality = CompositingQuality.HighQuality;
                 g.DrawPath(pen, graphicsPath);
                 g.FillPath(brush, graphicsPath);
                 g.Flush();
@@ -194,6 +149,37 @@ namespace AtemKaraoke.Lib
                 return bmp;
             }
         }
+
+        private StringFormat SetStringFormat(StringFormat stringFormat)
+        {
+            switch (Config.Default.VerticalAlignment)
+            {
+                case "Top":
+                    stringFormat.LineAlignment = StringAlignment.Near;
+                    break;
+                case "Center":
+                    stringFormat.LineAlignment = StringAlignment.Center;
+                    break;
+                default:
+                    stringFormat.LineAlignment = StringAlignment.Far;
+                    break;
+            }
+
+            switch (Config.Default.HorizontalAlignment)
+            {
+                case "Left":
+                    stringFormat.Alignment = StringAlignment.Near;
+                    break;
+                case "Right":
+                    stringFormat.Alignment = StringAlignment.Far;
+                    break;
+                default:
+                    stringFormat.Alignment = StringAlignment.Center;
+                    break;
+            }
+            return stringFormat;
+        }
+
 
         private string GetImageFilePath(string chunk, int chunkNumber, string songName, string destinationFolder)
 		{
@@ -227,15 +213,7 @@ namespace AtemKaraoke.Lib
         {
                 foreach (Verse verse in song.Verses)
                 {
-                    if (Config.Default.EmulateSwitcher == true)
-                    {
-                        Thread.Sleep(300);
-                        continue;
-                    }
-                    else
-                    {
-                        UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
-                    }
+                   UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
                 }
         }
 
@@ -259,14 +237,21 @@ namespace AtemKaraoke.Lib
 
         private void UploadMediaToSwitcher(string FilePath, int Slot)
         {
-            Upload upload = new Upload(Switcher, FilePath, Slot);
-            //upload.SetName(verse.Name);
-            //upload.transferCompleted = transferCompleted;
-            upload.Start();
-            while (upload.InProgress())
+            if (Config.Default.EmulateSwitcher == true)
             {
-                SwitcherLib.Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
-                Thread.Sleep(100);
+                Thread.Sleep(300);
+            }
+            else
+            {
+                Upload upload = new Upload(Switcher, FilePath, Slot);
+                //upload.SetName(verse.Name);
+                //upload.transferCompleted = transferCompleted;
+                upload.Start();
+                while (upload.InProgress())
+                {
+                    SwitcherLib.Log.Info(String.Format("Progress: {0}%", upload.GetProgress().ToString()));
+                    Thread.Sleep(100);
+                }
             }
         }
 
@@ -282,9 +267,30 @@ namespace AtemKaraoke.Lib
 
         public void ReconnectToSwitcher()
         {
-            _switcher = null;
-            _mediaPlayer = null;
-            Switcher.Connect();
+            // if it works move it to a new Switcher.Dispose method
+            // disposing added because when a switcher fails to answer, reconnecting doesn't help. So I had to restart the form.
+            if (_mediaPlayer != null)
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(_mediaPlayer);
+                _mediaPlayer = null;
+            }
+            if (_switcher != null)
+            {
+                System.Runtime.InteropServices.Marshal.FinalReleaseComObject(_switcher);
+                _switcher = null;
+            }
+
+            // After all of the COM objects have been released and set to null, do the following:
+            GC.Collect(); // Start .NET CLR Garbage Collection
+            GC.WaitForPendingFinalizers(); // Wait for Garbage Collection to finish
+            // twice - https://www.add-in-express.com/creating-addins-blog/2013/11/05/release-excel-com-objects/
+            GC.Collect(); // Start .NET CLR Garbage Collection
+            GC.WaitForPendingFinalizers(); // Wait for Garbage Collection to finish
+
+            if (Config.Default.EmulateSwitcher == false)
+                Switcher.Connect();
+            else
+                Thread.Sleep(1000);
         }
 
         MediaPlayer _mediaPlayer;
