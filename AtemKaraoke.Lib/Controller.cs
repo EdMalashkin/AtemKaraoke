@@ -108,7 +108,7 @@ namespace AtemKaraoke.Lib
 
         private Bitmap GetImage2(string verseText)
         {
-            using (Font font = new Font(Config.Default.FontName, Config.Default.FontSize, GraphicsUnit.Pixel))
+            using (Font font = new Font(Config.Default.FontName, Config.Default.FontSize, Config.Default.FontStyle, GraphicsUnit.Pixel))
             using (StringFormat stringFormat = new StringFormat())
             using (GraphicsPath graphicsPath = new GraphicsPath())
             using (Pen pen = new Pen(Config.Default.FontBorderColor, Config.Default.FontBorderSize))

@@ -184,5 +184,14 @@ namespace AtemKaraoke.Lib {
                 return ((float)(this["FontBorderSize"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Bold")]
+        public global::System.Drawing.FontStyle FontStyle {
+            get {
+                return ((global::System.Drawing.FontStyle)(this["FontStyle"]));
+            }
+        }
     }
 }
