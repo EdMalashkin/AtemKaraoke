@@ -151,7 +151,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool EmulateSwitcher {
             get {
                 return ((bool)(this["EmulateSwitcher"]));
@@ -187,7 +187,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("Bold")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Regular")]
         public global::System.Drawing.FontStyle FontStyle {
             get {
                 return ((global::System.Drawing.FontStyle)(this["FontStyle"]));

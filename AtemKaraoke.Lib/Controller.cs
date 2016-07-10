@@ -119,19 +119,19 @@ namespace AtemKaraoke.Lib
                 int y = Config.Default.Padding;
                 int width = Config.Default.HorizontalResolution - Config.Default.Padding * 2;
                 int height = Config.Default.VerticalResolution - Config.Default.Padding * 2; ;
-                Rectangle rect = new Rectangle(x, y, width, height);
+                Rectangle rectangle = new Rectangle(x, y, width, height);
 
                 graphicsPath.AddString(
                     verseText,                  // text to draw
                     font.FontFamily,            // or any other font family
                     (int)font.Style,            // font style (bold, italic, etc.)
                     font.Size,                  // em size
-                    rect,                       // a rectangle where the text is drawn in
+                    rectangle,                  // a rectangle where the text is drawn in
                     stringFormat);              // set options here (e.g. center alignment)
-
+                
                 Type t = typeof(Brushes);
                 Brush brush = (Brush)t.GetProperty(Config.Default.FontColor).GetValue(null, null);
-
+             
                 Bitmap bmp = new Bitmap(Config.Default.HorizontalResolution, Config.Default.VerticalResolution);
 
                 //http://stackoverflow.com/questions/4200843/outline-text-with-system-drawing
@@ -177,6 +177,7 @@ namespace AtemKaraoke.Lib
                     stringFormat.Alignment = StringAlignment.Center;
                     break;
             }
+
             return stringFormat;
         }
 
@@ -283,7 +284,7 @@ namespace AtemKaraoke.Lib
             // After all of the COM objects have been released and set to null, do the following:
             GC.Collect(); // Start .NET CLR Garbage Collection
             GC.WaitForPendingFinalizers(); // Wait for Garbage Collection to finish
-            // twice - https://www.add-in-express.com/creating-addins-blog/2013/11/05/release-excel-com-objects/
+            //// twice - https://www.add-in-express.com/creating-addins-blog/2013/11/05/release-excel-com-objects/
             GC.Collect(); // Start .NET CLR Garbage Collection
             GC.WaitForPendingFinalizers(); // Wait for Garbage Collection to finish
 

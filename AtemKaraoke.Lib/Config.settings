@@ -45,7 +45,7 @@
       <Value Profile="(Default)">192.168.88.5</Value>
     </Setting>
     <Setting Name="EmulateSwitcher" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">True</Value>
+      <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="UseConsoleToUploadFromWinForm" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
@@ -57,7 +57,7 @@
       <Value Profile="(Default)">5</Value>
     </Setting>
     <Setting Name="FontStyle" Type="System.Drawing.FontStyle" Scope="Application">
-      <Value Profile="(Default)">Bold</Value>
+      <Value Profile="(Default)">Regular</Value>
     </Setting>
   </Settings>
 </SettingsFile>
