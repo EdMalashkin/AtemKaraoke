@@ -13,6 +13,14 @@ namespace AtemKaraoke.Lib
 {
 	public class Controller
 	{
+        public Config Configuration
+        {
+            get
+            {
+                return Config.Default;
+            }
+        }
+
 		public List<Song> ConvertSongsToImages(string SourceFolder, string SearchPattern, string DestinationFolder)
 		{
 			string[] files = FileHelper.GetAllFilesList(SourceFolder, SearchPattern);

@@ -59,5 +59,14 @@
     <Setting Name="FontStyle" Type="System.Drawing.FontStyle" Scope="Application">
       <Value Profile="(Default)">Regular</Value>
     </Setting>
+    <Setting Name="curSong" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="curWindowLocation" Type="System.Drawing.Point" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="curWindowSize" Type="System.Drawing.Size" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
   </Settings>
 </SettingsFile>

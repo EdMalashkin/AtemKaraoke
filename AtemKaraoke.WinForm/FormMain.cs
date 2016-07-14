@@ -24,7 +24,29 @@ namespace AtemKaraoke.WinForm
         public FormMain()
         {
             InitializeComponent();
-            chkEditMode_CheckedChanged(null, null);
+            chkEditMode.Checked = true;
+        }
+
+        public FormMain(bool isRestart)
+        {
+            InitializeComponent();
+            txtSong.Text = Controller.Configuration.curSong ;
+            chkEditMode.Checked = false;
+        }
+
+        private void FormMain_Load(object sender, EventArgs e)
+        {
+            try
+            {
+                if (txtSong.Text.Length == 0)
+                    txtSong.Text = Controller.Configuration.curSong;
+                this.Location = Controller.Configuration.curWindowLocation;
+                this.Size = Controller.Configuration.curWindowSize;
+            }
+            catch
+            {
+                //suppress errors for the first time when there are no settings saved 
+            }
         }
 
         private void chkEditMode_CheckedChanged(object sender, EventArgs e)
@@ -34,7 +56,7 @@ namespace AtemKaraoke.WinForm
                 _song = new Song();
                 _song.Text = txtSong.Text;
                 _song.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected);
-                txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
+                //txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
 
                 ResizeSongControls();
 
@@ -90,11 +112,6 @@ namespace AtemKaraoke.WinForm
             grdSong.Visible = !chkEditMode.Checked;
         }
 
-        //private void TestDelegate()
-        //{
-
-        //}
-
         public void OnVerseSelected(object sender, VerseSelectedEventArgs e)
         {
             //grdSong.Enabled = false; // cannot do that because the grid looses focus
@@ -138,24 +155,49 @@ namespace AtemKaraoke.WinForm
 
         }
 
+
+        private void FormMain_Closing(object sender, FormClosingEventArgs e)
+        {
+            RememberSettings();
+        }
+
+        private void RememberSettings()
+        {
+            Controller.Configuration.curSong = txtSong.Text;
+            Controller.Configuration.curWindowLocation = this.Location;
+            Controller.Configuration.curWindowSize = this.Size;
+            Controller.Configuration.Save();
+        }
+
         private void btnReconnect_Click(object sender, EventArgs e)
         {
-            grdSong.Cursor = Cursors.WaitCursor;
-            btnReconnect.Enabled = false;
-            try
-            {
-                _controller = null;
-                Controller.ReconnectToSwitcher();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, "ATEM Error");
-            }
-            finally
-            {
-                grdSong.Cursor = Cursors.Default;
-                btnReconnect.Enabled = true;
-            }
+            RememberSettings();
+            Process.Start(Application.ExecutablePath, "Restart");
+            this.Close();
+
+            //grdSong.Cursor = Cursors.WaitCursor;
+            //btnReconnect.Enabled = false;
+            //try
+            //{
+            //    _controller = null;
+            //    Controller.ReconnectToSwitcher();
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show(ex.Message + "\r\nThe application will be restarted", "ATEM Error");
+            //}
+            //finally
+            //{
+            //    grdSong.Cursor = Cursors.Default;
+            //    btnReconnect.Enabled = true;
+            //}
         }
+
+        private void txtSong_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+ 
     }
 }

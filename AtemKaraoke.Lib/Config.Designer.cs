@@ -13,7 +13,7 @@ namespace AtemKaraoke.Lib {
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
-    internal sealed partial class Config : global::System.Configuration.ApplicationSettingsBase {
+    public sealed partial class Config : global::System.Configuration.ApplicationSettingsBase {
         
         private static Config defaultInstance = ((Config)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Config())));
         
@@ -191,6 +191,40 @@ namespace AtemKaraoke.Lib {
         public global::System.Drawing.FontStyle FontStyle {
             get {
                 return ((global::System.Drawing.FontStyle)(this["FontStyle"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string curSong {
+            get {
+                return ((string)(this["curSong"]));
+            }
+            set {
+                this["curSong"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Point curWindowLocation {
+            get {
+                return ((global::System.Drawing.Point)(this["curWindowLocation"]));
+            }
+            set {
+                this["curWindowLocation"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        public global::System.Drawing.Size curWindowSize {
+            get {
+                return ((global::System.Drawing.Size)(this["curWindowSize"]));
+            }
+            set {
+                this["curWindowSize"] = value;
             }
         }
     }

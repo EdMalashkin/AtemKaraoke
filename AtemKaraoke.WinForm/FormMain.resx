@@ -117,28 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="txtSong.Text" xml:space="preserve">
-    <value>Ти є скала мого спасіння, 
-Ти - сила мого життя,
-Моя надія, моє натхнення...
-Боже, Тебе кличу я!
-
-	В Тебе вірю я, так, вірю я,
-	Бо в Тобі є вічне життя,
-	Ти - любов моя, мета моя. 
-	На Тебе надіюся я...
-
-Коли журба моє серце тисне,
-Ти є потіха моя.
-Ти - моя радість, моє Ти щастя,
-В Тобі втішаюся я.
-
-Тобі, Господь, я хвалу складаю, 
-Тобі подяка моя.
-Тобі молюся, Тобі співаю,
-Слава Тобі і хвала!	
-</value>
-  </data>
   <metadata name="openFileDialog1.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>
