@@ -36,17 +36,7 @@ namespace AtemKaraoke.WinForm
 
         private void FormMain_Load(object sender, EventArgs e)
         {
-            try
-            {
-                if (txtSong.Text.Length == 0)
-                    txtSong.Text = Controller.Configuration.curSong;
-                this.Location = Controller.Configuration.curWindowLocation;
-                this.Size = Controller.Configuration.curWindowSize;
-            }
-            catch
-            {
-                //suppress errors for the first time when there are no settings saved 
-            }
+            LoadLastSettings();
         }
 
         private void chkEditMode_CheckedChanged(object sender, EventArgs e)
@@ -72,7 +62,6 @@ namespace AtemKaraoke.WinForm
 
                     if (!Controller.UseConsoleToUploadFromWinForm)
                     {
-                        //Controller.transferCompleted = new Upload.TransferCompletedDelegate(TestDelegate);
                         Controller.UploadSongsToSwitcher(_song);
                     }
                     else
@@ -155,7 +144,6 @@ namespace AtemKaraoke.WinForm
 
         }
 
-
         private void FormMain_Closing(object sender, FormClosingEventArgs e)
         {
             RememberSettings();
@@ -169,35 +157,23 @@ namespace AtemKaraoke.WinForm
             Controller.Configuration.Save();
         }
 
+        private void LoadLastSettings()
+        {
+            try
+            {
+                if (txtSong.Text.Length == 0)
+                    txtSong.Text = Controller.Configuration.curSong;
+                this.Location = Controller.Configuration.curWindowLocation;
+                this.Size = Controller.Configuration.curWindowSize;
+            }
+            catch { } //suppress errors for the first time when there are no settings saved yets
+        }
+
         private void btnReconnect_Click(object sender, EventArgs e)
         {
             RememberSettings();
             Process.Start(Application.ExecutablePath, "Restart");
             this.Close();
-
-            //grdSong.Cursor = Cursors.WaitCursor;
-            //btnReconnect.Enabled = false;
-            //try
-            //{
-            //    _controller = null;
-            //    Controller.ReconnectToSwitcher();
-            //}
-            //catch (Exception ex)
-            //{
-            //    MessageBox.Show(ex.Message + "\r\nThe application will be restarted", "ATEM Error");
-            //}
-            //finally
-            //{
-            //    grdSong.Cursor = Cursors.Default;
-            //    btnReconnect.Enabled = true;
-            //}
-        }
-
-        private void txtSong_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
- 
+        } 
     }
 }

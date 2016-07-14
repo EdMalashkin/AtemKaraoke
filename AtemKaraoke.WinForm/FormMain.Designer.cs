@@ -51,7 +51,6 @@
             this.txtSong.Name = "txtSong";
             this.txtSong.Size = new System.Drawing.Size(471, 743);
             this.txtSong.TabIndex = 0;
-            this.txtSong.TextChanged += new System.EventHandler(this.txtSong_TextChanged);
             this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
             // 
             // openFileDialog1
