@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.txtSong = new System.Windows.Forms.TextBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.chkEditMode = new System.Windows.Forms.CheckBox();
@@ -138,6 +139,8 @@
             this.Controls.Add(this.grdSong);
             this.Controls.Add(this.chkEditMode);
             this.Controls.Add(this.txtSong);
+            this.ForeColor = System.Drawing.SystemColors.ControlText;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormMain";
             this.Text = "AtemKaraoke";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Closing);
