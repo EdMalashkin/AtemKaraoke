@@ -11,6 +11,7 @@ namespace AtemKaraoke.WinForm
     {
         Song _song;
         Controller _controller;
+        bool _isRestart;
 
         private Controller Controller
         {
@@ -29,6 +30,7 @@ namespace AtemKaraoke.WinForm
 
         public FormMain(bool isRestart)
         {
+            _isRestart = isRestart;
             InitializeComponent();
             txtSong.Text = Controller.Configuration.curSong ;
             chkEditMode.Checked = false;
@@ -58,25 +60,28 @@ namespace AtemKaraoke.WinForm
 
                 try
                 {
-                    string newFolder = Controller.ConvertSongsToImages(_song);
-
-                    if (!Controller.UseConsoleToUploadFromWinForm)
+                    if (_isRestart != true)
                     {
-                        Controller.UploadSongsToSwitcher(_song);
-                    }
-                    else
-                    {
-                        Console.Write(newFolder);
-                        string MyBatchFile = @"AtemKaraoke.Console.exe";
+                        string newFolder = Controller.ConvertSongsToImages(_song);
 
-                        var process = new Process
+                        if (!Controller.UseConsoleToUploadFromWinForm)
                         {
-                            StartInfo = {
+                            Controller.UploadSongsToSwitcher(_song);
+                        }
+                        else
+                        {
+                            Console.Write(newFolder);
+                            string MyBatchFile = @"AtemKaraoke.Console.exe";
+
+                            var process = new Process
+                            {
+                                StartInfo = {
                                             Arguments = string.Format("\"{0}\"",  newFolder)
                                         }
-                        };
-                        process.StartInfo.FileName = MyBatchFile;
-                        bool b = process.Start();
+                            };
+                            process.StartInfo.FileName = MyBatchFile;
+                            bool b = process.Start();
+                        }
                     }
                 }
                 catch (Exception ex)
