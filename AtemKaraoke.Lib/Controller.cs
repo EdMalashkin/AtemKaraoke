@@ -317,10 +317,25 @@ namespace AtemKaraoke.Lib
             if (Config.Default.EmulateSwitcher == true) 
             {
                 Thread.Sleep(300);
-                return;
             }
+            else
+            {
+                MediaPlayer.SetFirstMediaPlayerSource(Number);
+            }
+        }
 
-            MediaPlayer.SetFirstMediaPlayerSource(Number);
+        public uint GetSongFromPlayer()
+        {
+            uint result = 999;
+            if (Config.Default.EmulateSwitcher == true)
+            {
+                Thread.Sleep(300);
+            }
+            else
+            {
+                result = MediaPlayer.GetFirstMediaPlayerSource();
+            }
+            return result;
         }
 
         public bool UseConsoleToUploadFromWinForm

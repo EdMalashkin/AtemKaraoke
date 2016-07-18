@@ -1,13 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
 using BMDSwitcherAPI;
-using System.IO;
 using System.Runtime.InteropServices;
-using SwitcherLib.Callbacks;
 
 namespace SwitcherLib
 {
@@ -22,14 +15,31 @@ namespace SwitcherLib
             this.switcher.Connect();
         }
 
-        public void SetFirstMediaPlayerSource(uint Index)
+        public uint GetFirstMediaPlayerSource() 
         {
             try
             {
                 IBMDSwitcherMediaPlayer mediaPlayer = GetPlayer();
-                //_BMDSwitcherMediaPlayerSourceType t;
-                //mediaPlayer.GetSource(out t, out Index);
-                mediaPlayer.SetSource(_BMDSwitcherMediaPlayerSourceType.bmdSwitcherMediaPlayerSourceTypeStill, Index);
+
+                uint index;
+                _BMDSwitcherMediaPlayerSourceType t;
+                mediaPlayer.GetSource(out t, out index);
+                return index;
+                //Debug.Print(string.Format("KeepConectionAlive: {0}", index));
+                //mediaPlayer.SetSource(_BMDSwitcherMediaPlayerSourceType.bmdSwitcherMediaPlayerSourceTypeStill, Index);
+            }
+            catch (Exception ex)
+            {
+                throw new SwitcherLibException(ex.Message, ex);
+            }
+        }
+
+        public void SetFirstMediaPlayerSource(uint index)
+        {
+            try
+            {
+                IBMDSwitcherMediaPlayer mediaPlayer = GetPlayer();
+                mediaPlayer.SetSource(_BMDSwitcherMediaPlayerSourceType.bmdSwitcherMediaPlayerSourceTypeStill, index);
             }
             catch (Exception ex)
             {

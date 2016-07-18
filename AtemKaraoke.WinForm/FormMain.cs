@@ -179,6 +179,13 @@ namespace AtemKaraoke.WinForm
             RememberSettings();
             Process.Start(Application.ExecutablePath, "Restart");
             this.Close();
-        } 
+        }
+
+        private void timerKeepConnectionAlive_Tick(object sender, EventArgs e)
+        {
+            // just to do sth with the switcher
+            uint result = Controller.GetSongFromPlayer();
+            Debug.Print(string.Format("KeepConectionAlive: {0}", result));
+        }
     }
 }
