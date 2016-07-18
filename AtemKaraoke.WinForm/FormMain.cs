@@ -186,9 +186,17 @@ namespace AtemKaraoke.WinForm
 
         private void timerKeepConnectionAlive_Tick(object sender, EventArgs e)
         {
-            // just to do sth with the switcher
-            uint result = Controller.GetSongFromPlayer();
-            Debug.Print(string.Format("KeepConectionAlive: {0}", result));
+            try
+            {
+                // just to do sth with the switcher
+                uint result = Controller.GetSongFromPlayer();
+                Debug.Print(string.Format("KeepConectionAlive: {0}", result));
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ATEM Error");
+            }
+
         }
     }
 }
