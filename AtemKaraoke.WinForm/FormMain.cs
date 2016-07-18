@@ -157,7 +157,10 @@ namespace AtemKaraoke.WinForm
         private void RememberSettings()
         {
             Controller.Configuration.curSong = txtSong.Text;
-            Controller.Configuration.curWindowLocation = this.Location;
+            if (this.Location.X > 0 && this.Location.Y > 0)
+            {
+                Controller.Configuration.curWindowLocation = this.Location; // sometimes it saves negative values
+            }
             Controller.Configuration.curWindowSize = this.Size;
             Controller.Configuration.Save();
         }
