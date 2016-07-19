@@ -32,7 +32,6 @@
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormMain));
             this.txtSong = new System.Windows.Forms.TextBox();
-            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.chkEditMode = new System.Windows.Forms.CheckBox();
             this.grdSong = new System.Windows.Forms.DataGridView();
             this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -51,13 +50,10 @@
             this.txtSong.Location = new System.Drawing.Point(13, 38);
             this.txtSong.Multiline = true;
             this.txtSong.Name = "txtSong";
+            this.txtSong.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.txtSong.Size = new System.Drawing.Size(471, 743);
             this.txtSong.TabIndex = 0;
             this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
-            // 
-            // openFileDialog1
-            // 
-            this.openFileDialog1.FileName = "openFileDialog1";
             // 
             // chkEditMode
             // 
@@ -151,7 +147,6 @@
             this.Name = "FormMain";
             this.Text = "AtemKaraoke";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Closing);
-            this.Load += new System.EventHandler(this.FormMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdSong)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -161,7 +156,6 @@
         #endregion
 
         private System.Windows.Forms.TextBox txtSong;
-        private System.Windows.Forms.OpenFileDialog openFileDialog1;
         private System.Windows.Forms.CheckBox chkEditMode;
         private System.Windows.Forms.DataGridView grdSong;
         private System.Windows.Forms.DataGridViewTextBoxColumn Column1;

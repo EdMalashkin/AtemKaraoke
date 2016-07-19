@@ -197,12 +197,12 @@ namespace AtemKaraoke.Lib {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
-        public string curSong {
+        public string curSongs {
             get {
-                return ((string)(this["curSong"]));
+                return ((string)(this["curSongs"]));
             }
             set {
-                this["curSong"] = value;
+                this["curSongs"] = value;
             }
         }
         
@@ -225,6 +225,30 @@ namespace AtemKaraoke.Lib {
             }
             set {
                 this["curWindowSize"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int curSelectedStart {
+            get {
+                return ((int)(this["curSelectedStart"]));
+            }
+            set {
+                this["curSelectedStart"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int curSelectedLength {
+            get {
+                return ((int)(this["curSelectedLength"]));
+            }
+            set {
+                this["curSelectedLength"] = value;
             }
         }
     }

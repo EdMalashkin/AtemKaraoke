@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
@@ -56,10 +57,10 @@ namespace AtemKaraoke.Lib.Tools
 			return new StreamReader(srcFile, enc);
 		}
 
-		public static string[] GetAllFilesList(string FolderPath, string SearchPattern)
+		public static IOrderedEnumerable<string> GetAllFilesList(string FolderPath, string SearchPattern)
 		{
-			return Directory.GetFiles(FolderPath, SearchPattern, SearchOption.AllDirectories);
-		}
+			return Directory.GetFiles(FolderPath, SearchPattern, SearchOption.AllDirectories).OrderBy(f => new FileInfo(f).CreationTime);
+        }
 
 		public static void GetCleanFolder(string FolderPath)
 		{

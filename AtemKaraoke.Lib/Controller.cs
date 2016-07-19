@@ -8,6 +8,7 @@ using AtemKaraoke.Lib.Tools;
 using SwitcherLib;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace AtemKaraoke.Lib
 {
@@ -23,7 +24,7 @@ namespace AtemKaraoke.Lib
 
 		public List<Song> ConvertSongsToImages(string SourceFolder, string SearchPattern, string DestinationFolder)
 		{
-			string[] files = FileHelper.GetAllFilesList(SourceFolder, SearchPattern);
+            IOrderedEnumerable<string> files = FileHelper.GetAllFilesList(SourceFolder, SearchPattern);
 			List<Song> songs = new List<Song>();
 
 			int fileNumber = 0;
@@ -228,7 +229,7 @@ namespace AtemKaraoke.Lib
 
         public void UploadSongsToSwitcher(string FolderPath)
         {
-            string[] files = FileHelper.GetAllFilesList(FolderPath, "*.png");
+            IOrderedEnumerable<string> files = FileHelper.GetAllFilesList(FolderPath, "*.png");
             List<Song> songs = new List<Song>();
 
             int slotNumber = 0;

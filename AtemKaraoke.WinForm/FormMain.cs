@@ -25,6 +25,7 @@ namespace AtemKaraoke.WinForm
         public FormMain()
         {
             InitializeComponent();
+            LoadLastSettings();
             chkEditMode.Checked = true;
         }
 
@@ -32,13 +33,19 @@ namespace AtemKaraoke.WinForm
         {
             _isRestart = isRestart;
             InitializeComponent();
-            txtSong.Text = Controller.Configuration.curSong ;
+            LoadLastSettings();
             chkEditMode.Checked = false;
         }
 
-        private void FormMain_Load(object sender, EventArgs e)
+        private string GetSelectedSongText
         {
-            LoadLastSettings();
+            get
+            {
+                if (txtSong.SelectionLength > 0)
+                    return txtSong.SelectedText;
+                else
+                    return txtSong.Text;
+            }
         }
 
         private void chkEditMode_CheckedChanged(object sender, EventArgs e)
@@ -46,7 +53,7 @@ namespace AtemKaraoke.WinForm
             if (!chkEditMode.Checked)
             {
                 _song = new Song();
-                _song.Text = txtSong.Text;
+                _song.Text = GetSelectedSongText;
                 _song.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected);
                 //txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
 
@@ -94,7 +101,7 @@ namespace AtemKaraoke.WinForm
                     Cursor = Cursors.Default;
                 }
                 chkEditMode.Text = "Back To Edit Mode";
-                btnReconnect.Visible = true;
+                //btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
             }
             else
             {
@@ -146,7 +153,6 @@ namespace AtemKaraoke.WinForm
             grdSong.Width = txtSong.Width;
             grdSong.Height = txtSong.Height;
             grdSong.Columns[0].Width = grdSong.Width - 3;
-
         }
 
         private void FormMain_Closing(object sender, FormClosingEventArgs e)
@@ -156,7 +162,9 @@ namespace AtemKaraoke.WinForm
 
         private void RememberSettings()
         {
-            Controller.Configuration.curSong = txtSong.Text;
+            Controller.Configuration.curSongs = txtSong.Text;
+            Controller.Configuration.curSelectedStart = txtSong.SelectionStart;
+            Controller.Configuration.curSelectedLength = txtSong.SelectionLength;
             if (this.Location.X > 0 && this.Location.Y > 0)
             {
                 Controller.Configuration.curWindowLocation = this.Location; // sometimes it saves negative values
@@ -170,7 +178,12 @@ namespace AtemKaraoke.WinForm
             try
             {
                 if (txtSong.Text.Length == 0)
-                    txtSong.Text = Controller.Configuration.curSong;
+                {
+                    txtSong.Text = Controller.Configuration.curSongs;
+                    txtSong.SelectionStart = Controller.Configuration.curSelectedStart;
+                    txtSong.SelectionLength = Controller.Configuration.curSelectedLength;
+                }
+                    
                 this.Location = Controller.Configuration.curWindowLocation;
                 this.Size = Controller.Configuration.curWindowSize;
             }
