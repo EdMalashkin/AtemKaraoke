@@ -27,6 +27,7 @@ namespace AtemKaraoke.WinForm
             InitializeComponent();
             LoadLastSettings();
             chkEditMode.Checked = true;
+            toolTip.SetToolTip(chkEditMode, "Press F5");
         }
 
         public FormMain(bool isRestart)
@@ -35,6 +36,7 @@ namespace AtemKaraoke.WinForm
             InitializeComponent();
             LoadLastSettings();
             chkEditMode.Checked = false;
+            toolTip.SetToolTip(chkEditMode, "Press Esc");
         }
 
         private string GetSelectedSongText
@@ -101,11 +103,13 @@ namespace AtemKaraoke.WinForm
                     Cursor = Cursors.Default;
                 }
                 chkEditMode.Text = "Back To Edit Mode";
+                toolTip.SetToolTip(chkEditMode, "Press Esc");
                 //btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
             }
             else
             {
                 chkEditMode.Text = "Go Live";
+                toolTip.SetToolTip(chkEditMode, "Press F5");
                 btnReconnect.Visible = false;
             }
 
@@ -210,6 +214,26 @@ namespace AtemKaraoke.WinForm
                 MessageBox.Show(ex.Message, "ATEM Error");
             }
 
+        }
+
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            bool result = false;
+            switch (keyData)
+            {
+                case Keys.F5:
+                    chkEditMode.Checked = false;
+                    result = true;
+                    break;
+                case Keys.Escape:
+                    chkEditMode.Checked = true;
+                    result = true;
+                    break;
+                default:
+                    result = base.ProcessCmdKey(ref msg, keyData);
+                    break;
+            }
+            return result;
         }
     }
 }
