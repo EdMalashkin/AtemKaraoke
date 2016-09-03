@@ -28,7 +28,10 @@ namespace AtemKaraoke.WinForm
             LoadLastSettings();
             chkEditMode.Checked = true;
             toolTip.SetToolTip(chkEditMode, "Press F5");
-        }
+
+			toolStripStatusLabel.Text = "";
+			statusStrip1.Refresh();
+		}
 
         public FormMain(bool isRestart)
         {
@@ -37,7 +40,10 @@ namespace AtemKaraoke.WinForm
             LoadLastSettings();
             chkEditMode.Checked = false;
             toolTip.SetToolTip(chkEditMode, "Press Esc");
-        }
+
+			toolStripStatusLabel.Text =  "";
+			statusStrip1.Refresh();
+		}
 
         private string GetSelectedSongText
         {
@@ -208,11 +214,15 @@ namespace AtemKaraoke.WinForm
                 // just to do sth with the switcher
                 uint result = Controller.GetSongFromPlayer();
                 Debug.Print(string.Format("KeepConectionAlive: {0}", result));
-            }
+
+				RememberSettings();
+			}
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "ATEM Error");
-            }
+				//MessageBox.Show(ex.Message, "ATEM Error");
+				toolStripStatusLabel.Text = ex.Message;
+				statusStrip1.Refresh();
+			}
 
         }
 
@@ -221,7 +231,11 @@ namespace AtemKaraoke.WinForm
             bool result = false;
             switch (keyData)
             {
-                case Keys.F5:
+				case Keys.Control | Keys.S:
+					RememberSettings();
+					result = true;
+					break;
+				case Keys.F5:
                     chkEditMode.Checked = false;
                     result = true;
                     break;
@@ -235,5 +249,10 @@ namespace AtemKaraoke.WinForm
             }
             return result;
         }
-    }
+
+		private void btnSave_Click(object sender, EventArgs e)
+		{
+			RememberSettings();
+		}
+	}
 }

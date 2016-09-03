@@ -225,7 +225,7 @@ namespace AtemKaraoke.Lib
             {
                 newText += r.Trim() + Environment.NewLine;
             }
-            return newText.Trim();
+            return newText.Trim().Replace("  ", " ");
         }
     }
 }
