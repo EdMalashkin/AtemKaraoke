@@ -40,6 +40,9 @@
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+			this.btnOnAir = new System.Windows.Forms.Button();
+			this.pnlSong = new System.Windows.Forms.Panel();
+			this.btnCancelPreview = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -61,16 +64,16 @@
 			// 
 			// chkEditMode
 			// 
-			this.chkEditMode.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.chkEditMode.Appearance = System.Windows.Forms.Appearance.Button;
 			this.chkEditMode.AutoSize = true;
 			this.chkEditMode.Checked = true;
 			this.chkEditMode.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkEditMode.Location = new System.Drawing.Point(417, 5);
+			this.chkEditMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.chkEditMode.Location = new System.Drawing.Point(12, 5);
 			this.chkEditMode.Name = "chkEditMode";
-			this.chkEditMode.Size = new System.Drawing.Size(67, 27);
+			this.chkEditMode.Size = new System.Drawing.Size(122, 27);
 			this.chkEditMode.TabIndex = 3;
-			this.chkEditMode.Text = "Go Live";
+			this.chkEditMode.Text = "Go to Live Mode";
 			this.toolTip.SetToolTip(this.chkEditMode, "F5");
 			this.chkEditMode.UseVisualStyleBackColor = true;
 			this.chkEditMode.CheckedChanged += new System.EventHandler(this.chkEditMode_CheckedChanged);
@@ -101,14 +104,14 @@
 			dataGridViewCellStyle1.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
 			dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
 			this.grdSong.DefaultCellStyle = dataGridViewCellStyle1;
-			this.grdSong.Location = new System.Drawing.Point(254, 5);
+			this.grdSong.Location = new System.Drawing.Point(287, 73);
 			this.grdSong.MultiSelect = false;
 			this.grdSong.Name = "grdSong";
 			this.grdSong.ReadOnly = true;
 			this.grdSong.RowHeadersVisible = false;
 			this.grdSong.RowTemplate.Height = 24;
 			this.grdSong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
-			this.grdSong.Size = new System.Drawing.Size(138, 629);
+			this.grdSong.Size = new System.Drawing.Size(138, 549);
 			this.grdSong.TabIndex = 0;
 			this.grdSong.Visible = false;
 			this.grdSong.SelectionChanged += new System.EventHandler(this.grdSong_SelectionChanged);
@@ -155,15 +158,55 @@
 			this.toolStripStatusLabel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
 			this.toolStripStatusLabel.Size = new System.Drawing.Size(10, 17);
 			// 
+			// btnOnAir
+			// 
+			this.btnOnAir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnOnAir.BackColor = System.Drawing.SystemColors.Control;
+			this.btnOnAir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+			this.btnOnAir.Location = new System.Drawing.Point(307, 5);
+			this.btnOnAir.Name = "btnOnAir";
+			this.btnOnAir.Size = new System.Drawing.Size(177, 27);
+			this.btnOnAir.TabIndex = 5;
+			this.btnOnAir.Text = "Preview";
+			this.btnOnAir.UseVisualStyleBackColor = true;
+			this.btnOnAir.Visible = false;
+			this.btnOnAir.Click += new System.EventHandler(this.btnOnAir_Click);
+			// 
+			// pnlSong
+			// 
+			this.pnlSong.BackColor = System.Drawing.SystemColors.Control;
+			this.pnlSong.ForeColor = System.Drawing.SystemColors.Control;
+			this.pnlSong.Location = new System.Drawing.Point(81, 82);
+			this.pnlSong.Name = "pnlSong";
+			this.pnlSong.Padding = new System.Windows.Forms.Padding(1);
+			this.pnlSong.Size = new System.Drawing.Size(200, 100);
+			this.pnlSong.TabIndex = 6;
+			this.pnlSong.Visible = false;
+			// 
+			// btnGoOffAir
+			// 
+			this.btnCancelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+			this.btnCancelPreview.Location = new System.Drawing.Point(175, 5);
+			this.btnCancelPreview.Name = "btnGoOffAir";
+			this.btnCancelPreview.Size = new System.Drawing.Size(126, 27);
+			this.btnCancelPreview.TabIndex = 7;
+			this.btnCancelPreview.Text = "Cancel Preview";
+			this.btnCancelPreview.UseVisualStyleBackColor = true;
+			this.btnCancelPreview.Visible = false;
+			this.btnCancelPreview.Click += new System.EventHandler(this.btnOffAir_Click);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(496, 793);
+			this.Controls.Add(this.btnCancelPreview);
+			this.Controls.Add(this.grdSong);
+			this.Controls.Add(this.pnlSong);
+			this.Controls.Add(this.chkEditMode);
+			this.Controls.Add(this.btnOnAir);
 			this.Controls.Add(this.statusStrip1);
 			this.Controls.Add(this.btnReconnect);
-			this.Controls.Add(this.grdSong);
-			this.Controls.Add(this.chkEditMode);
 			this.Controls.Add(this.txtSong);
 			this.ForeColor = System.Drawing.SystemColors.ControlText;
 			this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -171,6 +214,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "AtemKaraoke";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Closing);
+			this.Load += new System.EventHandler(this.FormMain_Load);
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
@@ -190,6 +234,9 @@
         private System.Windows.Forms.ToolTip toolTip;
 		private System.Windows.Forms.StatusStrip statusStrip1;
 		private System.Windows.Forms.ToolStripStatusLabel toolStripStatusLabel;
+		private System.Windows.Forms.Button btnOnAir;
+		private System.Windows.Forms.Panel pnlSong;
+		private System.Windows.Forms.Button btnCancelPreview;
 	}
 }
 

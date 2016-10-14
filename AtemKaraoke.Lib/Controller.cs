@@ -325,7 +325,44 @@ namespace AtemKaraoke.Lib
             }
         }
 
-        public uint GetSongFromPlayer()
+		public void SetSongOnAir()
+		{
+			if (Config.Default.EmulateSwitcher == true)
+			{
+				Thread.Sleep(300);
+			}
+			else
+			{
+				MediaPlayer.SetSongOnAir();
+				//MediaPlayer.SetDownstreamKeyOnAir();
+			}
+		}
+
+		public void SetSongOffAir()
+		{
+			if (Config.Default.EmulateSwitcher == true)
+			{
+				Thread.Sleep(300);
+			}
+			else
+			{
+				MediaPlayer.SetSongOffAir();
+			}
+		}
+
+		public void SetSongToPreview()
+		{
+			if (Config.Default.EmulateSwitcher == true)
+			{
+				Thread.Sleep(300);
+			}
+			else
+			{
+				MediaPlayer.SetSongToPreview();
+			}
+		}
+
+		public uint GetSongFromPlayer()
         {
             uint result = 999;
             if (Config.Default.EmulateSwitcher == true)
