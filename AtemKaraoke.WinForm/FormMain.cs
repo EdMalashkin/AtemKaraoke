@@ -30,7 +30,7 @@ namespace AtemKaraoke.WinForm
 			toolTip.SetToolTip(chkEditMode, "Press F5");
 			toolTip.SetToolTip(btnOnAir, "Press F6");
 			toolTip.SetToolTip(btnCancelPreview, "Press F7");
-			toolStripStatusLabel.Text = "";
+			toolStripStatusLabel.Text = "Edit Mode";
 			statusStrip1.Refresh();
 		}
 
@@ -43,7 +43,7 @@ namespace AtemKaraoke.WinForm
 			toolTip.SetToolTip(chkEditMode, "Press Esc");
 			toolTip.SetToolTip(btnOnAir, "Press F6");
 			toolTip.SetToolTip(btnCancelPreview, "Press F7");
-			toolStripStatusLabel.Text = "";
+			toolStripStatusLabel.Text = "Edit Mode";
 			statusStrip1.Refresh();
 		}
 
@@ -69,13 +69,14 @@ namespace AtemKaraoke.WinForm
 
 				grdSong.AutoGenerateColumns = false;
 				grdSong.DataSource = _song.Verses;
-				grdSong.Enabled = false;
+				
 				ResizeSongControls();
+				grdSong.Enabled = false;
 				Cursor = Cursors.WaitCursor;
 
 				try
 				{
-					if (_isRestart != true)
+					if (_isRestart != true && chkExport.Checked == true)
 					{
 						string newFolder = Controller.ConvertSongsToImages(_song);
 
@@ -112,6 +113,9 @@ namespace AtemKaraoke.WinForm
 					toolTip.SetToolTip(chkEditMode, "Press Esc");
 					btnOnAir.Text = "Preview";
 					btnOnAir.Visible = true;
+					chkExport.Checked = true; // keep it true for the next time
+					toolStripStatusLabel.Text = "Off Air";
+					statusStrip1.Refresh();
 					//btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
 				}
 			}
@@ -125,35 +129,60 @@ namespace AtemKaraoke.WinForm
 				btnOnAir.Visible = false;
 				btnCancelPreview.Visible = false;
 				Controller.SetSongOffAir();
+				toolStripStatusLabel.Text = "Edit Mode";
+				statusStrip1.Refresh();
 			}
 
 			txtSong.Visible = chkEditMode.Checked;
+			chkExport.Visible = chkEditMode.Checked;
 			grdSong.Visible = !chkEditMode.Checked;
 			pnlSong.Visible = !chkEditMode.Checked;
+			
 		}
 
 		private void btnOnAir_Click(object sender, EventArgs e)
 		{
-			if (btnOnAir.Text == "Preview")
+			try
 			{
-				Controller.SetSongToPreview();
-				pnlSong.BackColor = System.Drawing.Color.LightGreen;
-				btnOnAir.Text = "On Air"; // declare the next action
-				btnCancelPreview.Visible = true;
+				grdSong.Enabled = false;
+				Cursor = Cursors.WaitCursor;
+
+				if (btnOnAir.Text == "Preview")
+				{
+					Controller.SetSongToPreview();
+					pnlSong.BackColor = System.Drawing.Color.LightGreen;
+					btnOnAir.Text = "On Air"; // declare the next action
+					btnCancelPreview.Visible = true;
+					toolStripStatusLabel.Text = "Preview";
+					statusStrip1.Refresh();
+				}
+				else if (btnOnAir.Text == "On Air")
+				{
+					Controller.SetSongOnAir();
+					pnlSong.BackColor = System.Drawing.Color.Red;
+					btnOnAir.Text = "Off Air"; // declare the next action
+					btnCancelPreview.Visible = false;
+					toolStripStatusLabel.Text = "On Air!";
+					statusStrip1.Refresh();
+				}
+				else
+				{
+					Controller.SetSongOffAir();
+					pnlSong.BackColor = System.Drawing.SystemColors.Control;
+					btnOnAir.Text = "Preview";
+					btnCancelPreview.Visible = false;
+					toolStripStatusLabel.Text = "Off Air";
+					statusStrip1.Refresh();
+				}
 			}
-			else if (btnOnAir.Text == "On Air")
+			catch (Exception ex)
 			{
-				Controller.SetSongOnAir();
-				pnlSong.BackColor = System.Drawing.Color.Red;
-				btnOnAir.Text = "Off Air"; // declare the next action
-				btnCancelPreview.Visible = false;
+				MessageBox.Show(ex.Message, "ATEM Error");
 			}
-			else
+			finally
 			{
-				Controller.SetSongOffAir();
-				pnlSong.BackColor = System.Drawing.SystemColors.Control;
-				btnOnAir.Text = "Preview";
-				btnCancelPreview.Visible = false;
+				grdSong.Enabled = true;
+				Cursor = Cursors.Default;
 			}
 		}
 
@@ -206,10 +235,10 @@ namespace AtemKaraoke.WinForm
 			pnlSong.Height = txtSong.Height;
 
 			// red border 3px
-			grdSong.Left = txtSong.Left + 3;
-			grdSong.Top = txtSong.Top + 3;
-			grdSong.Width = txtSong.Width - 6;
-			grdSong.Height = txtSong.Height - 6;
+			grdSong.Left = pnlSong.Left + 3;
+			grdSong.Top = pnlSong.Top + 3;
+			grdSong.Width = pnlSong.Width - 6;
+			grdSong.Height = pnlSong.Height - 6;
 
 			grdSong.Columns[0].Width = grdSong.Width;
 		}
@@ -310,11 +339,6 @@ namespace AtemKaraoke.WinForm
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			RememberSettings();
-		}
-
-		private void FormMain_Load(object sender, EventArgs e)
-		{
-
 		}
 	}
 }

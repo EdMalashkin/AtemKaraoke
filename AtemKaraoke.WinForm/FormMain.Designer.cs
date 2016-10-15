@@ -43,6 +43,7 @@
 			this.btnOnAir = new System.Windows.Forms.Button();
 			this.pnlSong = new System.Windows.Forms.Panel();
 			this.btnCancelPreview = new System.Windows.Forms.Button();
+			this.chkExport = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -58,7 +59,7 @@
 			this.txtSong.Multiline = true;
 			this.txtSong.Name = "txtSong";
 			this.txtSong.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtSong.Size = new System.Drawing.Size(471, 743);
+			this.txtSong.Size = new System.Drawing.Size(471, 726);
 			this.txtSong.TabIndex = 0;
 			this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
 			// 
@@ -69,10 +70,10 @@
 			this.chkEditMode.Checked = true;
 			this.chkEditMode.CheckState = System.Windows.Forms.CheckState.Checked;
 			this.chkEditMode.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.chkEditMode.Location = new System.Drawing.Point(12, 5);
+			this.chkEditMode.Location = new System.Drawing.Point(13, 5);
 			this.chkEditMode.Name = "chkEditMode";
 			this.chkEditMode.Size = new System.Drawing.Size(122, 27);
-			this.chkEditMode.TabIndex = 3;
+			this.chkEditMode.TabIndex = 1;
 			this.chkEditMode.Text = "Go to Live Mode";
 			this.toolTip.SetToolTip(this.chkEditMode, "F5");
 			this.chkEditMode.UseVisualStyleBackColor = true;
@@ -163,10 +164,10 @@
 			this.btnOnAir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
 			this.btnOnAir.BackColor = System.Drawing.SystemColors.Control;
 			this.btnOnAir.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-			this.btnOnAir.Location = new System.Drawing.Point(307, 5);
+			this.btnOnAir.Location = new System.Drawing.Point(386, 5);
 			this.btnOnAir.Name = "btnOnAir";
-			this.btnOnAir.Size = new System.Drawing.Size(177, 27);
-			this.btnOnAir.TabIndex = 5;
+			this.btnOnAir.Size = new System.Drawing.Size(98, 27);
+			this.btnOnAir.TabIndex = 4;
 			this.btnOnAir.Text = "Preview";
 			this.btnOnAir.UseVisualStyleBackColor = true;
 			this.btnOnAir.Visible = false;
@@ -183,23 +184,37 @@
 			this.pnlSong.TabIndex = 6;
 			this.pnlSong.Visible = false;
 			// 
-			// btnGoOffAir
+			// btnCancelPreview
 			// 
 			this.btnCancelPreview.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-			this.btnCancelPreview.Location = new System.Drawing.Point(175, 5);
-			this.btnCancelPreview.Name = "btnGoOffAir";
-			this.btnCancelPreview.Size = new System.Drawing.Size(126, 27);
-			this.btnCancelPreview.TabIndex = 7;
+			this.btnCancelPreview.Location = new System.Drawing.Point(264, 5);
+			this.btnCancelPreview.Name = "btnCancelPreview";
+			this.btnCancelPreview.Size = new System.Drawing.Size(116, 27);
+			this.btnCancelPreview.TabIndex = 3;
 			this.btnCancelPreview.Text = "Cancel Preview";
 			this.btnCancelPreview.UseVisualStyleBackColor = true;
 			this.btnCancelPreview.Visible = false;
 			this.btnCancelPreview.Click += new System.EventHandler(this.btnOffAir_Click);
+			// 
+			// chkExport
+			// 
+			this.chkExport.AutoSize = true;
+			this.chkExport.Checked = true;
+			this.chkExport.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkExport.Location = new System.Drawing.Point(154, 9);
+			this.chkExport.Name = "chkExport";
+			this.chkExport.Size = new System.Drawing.Size(70, 21);
+			this.chkExport.TabIndex = 2;
+			this.chkExport.Text = "Export";
+			this.toolTip.SetToolTip(this.chkExport, "If it is not checked then the previous export of images is used");
+			this.chkExport.UseVisualStyleBackColor = true;
 			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(496, 793);
+			this.Controls.Add(this.chkExport);
 			this.Controls.Add(this.btnCancelPreview);
 			this.Controls.Add(this.grdSong);
 			this.Controls.Add(this.pnlSong);
@@ -214,7 +229,6 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "AtemKaraoke";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Closing);
-			this.Load += new System.EventHandler(this.FormMain_Load);
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();
@@ -237,6 +251,7 @@
 		private System.Windows.Forms.Button btnOnAir;
 		private System.Windows.Forms.Panel pnlSong;
 		private System.Windows.Forms.Button btnCancelPreview;
+		private System.Windows.Forms.CheckBox chkExport;
 	}
 }
 
