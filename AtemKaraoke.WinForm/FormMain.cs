@@ -116,6 +116,7 @@ namespace AtemKaraoke.WinForm
 					chkExport.Checked = true; // keep it true for the next time
 					toolStripStatusLabel.Text = "Off Air";
 					statusStrip1.Refresh();
+					grdSong.Focus();
 					//btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
 				}
 			}
@@ -183,6 +184,7 @@ namespace AtemKaraoke.WinForm
 			{
 				grdSong.Enabled = true;
 				Cursor = Cursors.Default;
+				grdSong.Focus();
 			}
 		}
 
@@ -218,7 +220,8 @@ namespace AtemKaraoke.WinForm
 
 		private void grdSong_SelectionChanged(object sender, EventArgs e)
 		{
-			_song.SelectVerse((Verse)grdSong.CurrentRow.DataBoundItem);
+			//_song.SelectVerse((Verse)grdSong.CurrentRow.DataBoundItem);
+			_song.SelectVerse(_song.Verses[grdSong.CurrentRow.Index]);
 		}
 
 		private void txtSong_Resized(object sender, EventArgs e)
