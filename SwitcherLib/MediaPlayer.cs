@@ -2,12 +2,24 @@
 using BMDSwitcherAPI;
 using System.Runtime.InteropServices;
 
+//namespace BMDSwitcherAPI
+//{
+//	public enum _BMDSwitcherTransitionSelection
+//	{
+//		bmdSwitcherTransitionSelectionBackground = 1,
+//		bmdSwitcherTransitionSelectionKey1 = 2,
+//		bmdSwitcherTransitionSelectionKey2 = 4,
+//		bmdSwitcherTransitionSelectionKey3 = 8,
+//		bmdSwitcherTransitionSelectionKey4 = 16
+//	}
+//}
+
 namespace SwitcherLib
 {
     public class MediaPlayer
     {
 
-        private Switcher switcher;
+		private Switcher switcher;
 
         public MediaPlayer(Switcher switcher)
         {
@@ -81,6 +93,7 @@ namespace SwitcherLib
 				key.SetOnAir(0);
 				key.SetInputFill(3010); //http://skaarhoj.com/fileadmin/BMDPROTOCOL.html
 				GetTransition1Parameters().SetNextTransitionSelection(_BMDSwitcherTransitionSelection.bmdSwitcherTransitionSelectionKey1);
+				//GetTransition1Parameters().SetNextTransitionSelection(_BMDSwitcherTransitionSelection.bmdSwitcherTransitionSelectionBackground);
 			}
 			catch (Exception ex)
 			{
