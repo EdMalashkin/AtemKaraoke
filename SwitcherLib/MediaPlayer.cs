@@ -1,6 +1,7 @@
 ﻿using System;
 using BMDSwitcherAPI;
 using System.Runtime.InteropServices;
+using System.Threading;
 
 //namespace BMDSwitcherAPI
 //{
@@ -16,7 +17,17 @@ using System.Runtime.InteropServices;
 
 namespace SwitcherLib
 {
-    public class MediaPlayer
+    public interface IMediaPlayer
+    {
+        uint GetFirstMediaPlayerSource();
+        void SetDownstreamKeyOnAir();
+        void SetFirstMediaPlayerSource(uint index);
+        void SetSongOffAir();
+        void SetSongOnAir();
+        void SetSongToPreview();
+    }
+
+    public class MediaPlayer : IMediaPlayer
     {
 
 		private Switcher switcher;
@@ -27,7 +38,7 @@ namespace SwitcherLib
             this.switcher.Connect();
         }
 
-		private IBMDSwitcherMediaPlayer GetPlayer()
+		private IBMDSwitcherMediaPlayer GetPlayer() 
         {
             IntPtr mediaPlayerIteratorPtr;
             Guid mediaIteratorIID = typeof(IBMDSwitcherMediaPlayerIterator).GUID;
@@ -167,4 +178,39 @@ namespace SwitcherLib
 			return key;
 		}
 	}
+
+
+    public class FakeMediaPlayer : IMediaPlayer
+    {
+        public uint GetFirstMediaPlayerSource()
+        {
+           return 1;
+        }
+
+        public void SetDownstreamKeyOnAir()
+        {
+            Thread.Sleep(300);
+        }
+
+        public void SetFirstMediaPlayerSource(uint index)
+        {
+            Thread.Sleep(300);
+        }
+
+        public void SetSongOffAir()
+        {
+            Thread.Sleep(300);
+        }
+
+        public void SetSongOnAir()
+        {
+            Thread.Sleep(300);
+        }
+
+        public void SetSongToPreview()
+        {
+            Thread.Sleep(300);
+        }
+    }
+
 }

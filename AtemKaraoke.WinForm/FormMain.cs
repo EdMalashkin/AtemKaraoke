@@ -9,16 +9,16 @@ namespace AtemKaraoke.WinForm
 {
 	public partial class FormMain : Form
 	{
-		Song _song;
-		Controller _controller;
+		Songs _songs;
+		App _app;
 		bool _isRestart;
 
-		private Controller Controller
+		private App App
 		{
 			get
 			{
-				if (_controller == null) _controller = new Controller();
-				return _controller;
+				if (_app == null) _app = new App();
+				return _app;
 			}
 		}
 
@@ -62,14 +62,13 @@ namespace AtemKaraoke.WinForm
 		{
 			if (!chkEditMode.Checked)
 			{
-				_song = new Song();
-				_song.Text = GetSelectedSongText;
-				_song.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected);
+				_songs = new Songs(GetSelectedSongText);
+				//_songs.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected); is it necessary to have????
 				//txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
-
-				grdSong.AutoGenerateColumns = false;
-				grdSong.DataSource = _song.Verses;
 				
+				grdSong.AutoGenerateColumns = false;
+				grdSong.DataSource = _songs.Current.Verses;
+
 				ResizeSongControls();
 				grdSong.Enabled = false;
 				Cursor = Cursors.WaitCursor;
@@ -78,11 +77,11 @@ namespace AtemKaraoke.WinForm
 				{
 					if (_isRestart != true && chkExport.Checked == true)
 					{
-						string newFolder = Controller.ConvertSongsToImages(_song);
+						string newFolder = App.ConvertSongsToImages(_songs.Current);
 
-						if (!Controller.UseConsoleToUploadFromWinForm)
+						if (!App.UseConsoleToUploadFromWinForm)
 						{
-							Controller.UploadSongsToSwitcher(_song);
+							App.UploadSongsToSwitcher(_songs.Current);
 						}
 						else
 						{
@@ -92,8 +91,8 @@ namespace AtemKaraoke.WinForm
 							var process = new Process
 							{
 								StartInfo = {
-											Arguments = string.Format("\"{0}\"",  newFolder)
-										}
+										Arguments = string.Format("\"{0}\"",  newFolder)
+									}
 							};
 							process.StartInfo.FileName = MyBatchFile;
 							bool b = process.Start();
@@ -129,7 +128,7 @@ namespace AtemKaraoke.WinForm
 				pnlSong.BackColor = System.Drawing.SystemColors.Control;
 				btnOnAir.Visible = false;
 				btnCancelPreview.Visible = false;
-				Controller.SetSongOffAir();
+				App.SetSongOffAir();
 				toolStripStatusLabel.Text = "Edit Mode";
 				statusStrip1.Refresh();
 			}
@@ -141,6 +140,11 @@ namespace AtemKaraoke.WinForm
 			
 		}
 
+		private void DoWork(Song s)
+		{
+			throw new NotImplementedException();
+		}
+
 		private void btnOnAir_Click(object sender, EventArgs e)
 		{
 			try
@@ -150,7 +154,7 @@ namespace AtemKaraoke.WinForm
 
 				if (btnOnAir.Text == "Preview")
 				{
-					Controller.SetSongToPreview();
+					App.SetSongToPreview();
 					pnlSong.BackColor = System.Drawing.Color.LightGreen;
 					btnOnAir.Text = "On Air"; // declare the next action
 					btnCancelPreview.Visible = true;
@@ -159,7 +163,7 @@ namespace AtemKaraoke.WinForm
 				}
 				else if (btnOnAir.Text == "On Air")
 				{
-					Controller.SetSongOnAir();
+					App.SetSongOnAir();
 					pnlSong.BackColor = System.Drawing.Color.Red;
 					btnOnAir.Text = "Off Air"; // declare the next action
 					btnCancelPreview.Visible = false;
@@ -168,7 +172,7 @@ namespace AtemKaraoke.WinForm
 				}
 				else
 				{
-					Controller.SetSongOffAir();
+					App.SetSongOffAir();
 					pnlSong.BackColor = System.Drawing.SystemColors.Control;
 					btnOnAir.Text = "Preview";
 					btnCancelPreview.Visible = false;
@@ -202,7 +206,7 @@ namespace AtemKaraoke.WinForm
 
 			try
 			{
-				Controller.SetSongToPlayer((uint)e.SelectionNumber - 1);
+				App.SetSongToPlayer((uint)e.SelectionNumber - 1);
 			}
 			catch (Exception ex)
 			{
@@ -220,8 +224,8 @@ namespace AtemKaraoke.WinForm
 
 		private void grdSong_SelectionChanged(object sender, EventArgs e)
 		{
-			//_song.SelectVerse((Verse)grdSong.CurrentRow.DataBoundItem);
-			_song.SelectVerse(_song.Verses[grdSong.CurrentRow.Index]);
+
+			_songs.Current.SelectVerse(_songs.Current.Verses[grdSong.CurrentRow.Index]); 
 		}
 
 		private void txtSong_Resized(object sender, EventArgs e)
@@ -253,15 +257,15 @@ namespace AtemKaraoke.WinForm
 
 		private void RememberSettings()
 		{
-			Controller.Configuration.curSongs = txtSong.Text;
-			Controller.Configuration.curSelectedStart = txtSong.SelectionStart;
-			Controller.Configuration.curSelectedLength = txtSong.SelectionLength;
+			App.Configuration.curSongs = txtSong.Text;
+			App.Configuration.curSelectedStart = txtSong.SelectionStart;
+			App.Configuration.curSelectedLength = txtSong.SelectionLength;
 			if (this.Location.X > 0 && this.Location.Y > 0)
 			{
-				Controller.Configuration.curWindowLocation = this.Location; // sometimes it saves negative values
+				App.Configuration.curWindowLocation = this.Location; // sometimes it saves negative values
 			}
-			Controller.Configuration.curWindowSize = this.Size;
-			Controller.Configuration.Save();
+			App.Configuration.curWindowSize = this.Size;
+			App.Configuration.Save();
 		}
 
 		private void LoadLastSettings()
@@ -270,13 +274,13 @@ namespace AtemKaraoke.WinForm
 			{
 				if (txtSong.Text.Length == 0)
 				{
-					txtSong.Text = Controller.Configuration.curSongs;
-					txtSong.SelectionStart = Controller.Configuration.curSelectedStart;
-					txtSong.SelectionLength = Controller.Configuration.curSelectedLength;
+					txtSong.Text = App.Configuration.curSongs;
+					txtSong.SelectionStart = App.Configuration.curSelectedStart;
+					txtSong.SelectionLength = App.Configuration.curSelectedLength;
 				}
 
-				this.Location = Controller.Configuration.curWindowLocation;
-				this.Size = Controller.Configuration.curWindowSize;
+				this.Location = App.Configuration.curWindowLocation;
+				this.Size = App.Configuration.curWindowSize;
 			}
 			catch { } //suppress errors for the first time when there are no settings saved yets
 		}
@@ -293,7 +297,7 @@ namespace AtemKaraoke.WinForm
 			try
 			{
 				// just to do sth with the switcher
-				uint result = Controller.GetSongFromPlayer();
+				uint result = App.GetSongFromPlayer();
 				Debug.Print(string.Format("KeepConectionAlive: {0}", result));
 
 				RememberSettings();
@@ -342,6 +346,11 @@ namespace AtemKaraoke.WinForm
 		private void btnSave_Click(object sender, EventArgs e)
 		{
 			RememberSettings();
+		}
+
+		private void FormMain_Load(object sender, EventArgs e)
+		{
+
 		}
 	}
 }

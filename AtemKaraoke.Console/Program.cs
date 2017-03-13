@@ -13,7 +13,7 @@ namespace AtemKaraoke
 			try
 			{
                 Console.OutputEncoding = Encoding.UTF8;
-                Controller c = new Controller();
+                App c = new App();
 
                 if (args.Length == 0)
                 {

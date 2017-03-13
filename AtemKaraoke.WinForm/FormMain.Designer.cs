@@ -38,12 +38,12 @@
 			this.btnReconnect = new System.Windows.Forms.Button();
 			this.timerKeepConnectionAlive = new System.Windows.Forms.Timer(this.components);
 			this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+			this.chkExport = new System.Windows.Forms.CheckBox();
 			this.statusStrip1 = new System.Windows.Forms.StatusStrip();
 			this.toolStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
 			this.btnOnAir = new System.Windows.Forms.Button();
 			this.pnlSong = new System.Windows.Forms.Panel();
 			this.btnCancelPreview = new System.Windows.Forms.Button();
-			this.chkExport = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -142,6 +142,19 @@
 			this.timerKeepConnectionAlive.Interval = 30000;
 			this.timerKeepConnectionAlive.Tick += new System.EventHandler(this.timerKeepConnectionAlive_Tick);
 			// 
+			// chkExport
+			// 
+			this.chkExport.AutoSize = true;
+			this.chkExport.Checked = true;
+			this.chkExport.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkExport.Location = new System.Drawing.Point(154, 9);
+			this.chkExport.Name = "chkExport";
+			this.chkExport.Size = new System.Drawing.Size(70, 21);
+			this.chkExport.TabIndex = 2;
+			this.chkExport.Text = "Export";
+			this.toolTip.SetToolTip(this.chkExport, "If it is not checked then the previous export of images is used");
+			this.chkExport.UseVisualStyleBackColor = true;
+			// 
 			// statusStrip1
 			// 
 			this.statusStrip1.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -196,19 +209,6 @@
 			this.btnCancelPreview.Visible = false;
 			this.btnCancelPreview.Click += new System.EventHandler(this.btnOffAir_Click);
 			// 
-			// chkExport
-			// 
-			this.chkExport.AutoSize = true;
-			this.chkExport.Checked = true;
-			this.chkExport.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkExport.Location = new System.Drawing.Point(154, 9);
-			this.chkExport.Name = "chkExport";
-			this.chkExport.Size = new System.Drawing.Size(70, 21);
-			this.chkExport.TabIndex = 2;
-			this.chkExport.Text = "Export";
-			this.toolTip.SetToolTip(this.chkExport, "If it is not checked then the previous export of images is used");
-			this.chkExport.UseVisualStyleBackColor = true;
-			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
@@ -229,6 +229,7 @@
 			this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
 			this.Text = "AtemKaraoke";
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Closing);
+			this.Load += new System.EventHandler(this.FormMain_Load);
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).EndInit();
 			this.statusStrip1.ResumeLayout(false);
 			this.statusStrip1.PerformLayout();

@@ -1,17 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="AtemKaraoke.Lib.Song">
-    <Position X="2.75" Y="0.5" Width="1.5" />
+  <Class Name="AtemKaraoke.Lib.App">
+    <Position X="3.75" Y="0.5" Width="4.25" />
     <TypeIdentifier>
-      <HashCode>AAAAAAAACAIQAAAAAgAAIAQAAAAAAAAAAAAACCAAAAA=</HashCode>
-      <FileName>Song.cs</FileName>
-    </TypeIdentifier>
-  </Class>
-  <Class Name="AtemKaraoke.Lib.Controller">
-    <Position X="0.75" Y="0.5" Width="1.5" />
-    <TypeIdentifier>
-      <HashCode>AAAAAAAAAAAAAAAAAAAAAAASEAAABAAAAAAACAAAAAA=</HashCode>
-      <FileName>Controller.cs</FileName>
+      <HashCode>AAAAQASAAICICAAAJAAAAAASEAAABAAAgCAACAAAQQA=</HashCode>
+      <FileName>App.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Tahoma" Size="8.25" />

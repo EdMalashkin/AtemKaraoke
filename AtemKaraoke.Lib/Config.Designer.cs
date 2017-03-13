@@ -151,7 +151,7 @@ namespace AtemKaraoke.Lib {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EmulateSwitcher {
             get {
                 return ((bool)(this["EmulateSwitcher"]));
@@ -249,6 +249,18 @@ namespace AtemKaraoke.Lib {
             }
             set {
                 this["curSelectedLength"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\s*\\t*\\r\\n\\s*\\t*\\r\\n")]
+        public string SongsSplitter {
+            get {
+                return ((string)(this["SongsSplitter"]));
+            }
+            set {
+                this["SongsSplitter"] = value;
             }
         }
     }

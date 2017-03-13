@@ -45,7 +45,7 @@
       <Value Profile="(Default)">192.168.2.5</Value>
     </Setting>
     <Setting Name="EmulateSwitcher" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="UseConsoleToUploadFromWinForm" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
@@ -73,6 +73,9 @@
     </Setting>
     <Setting Name="curSelectedLength" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
+    </Setting>
+    <Setting Name="SongsSplitter" Type="System.String" Scope="User">
+      <Value Profile="(Default)">\r\n\s*\t*\r\n\s*\t*\r\n</Value>
     </Setting>
   </Settings>
 </SettingsFile>

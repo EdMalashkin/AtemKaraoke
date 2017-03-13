@@ -12,7 +12,7 @@ using System.Linq;
 
 namespace AtemKaraoke.Lib
 {
-	public class Controller
+	public class App
 	{
         public Config Configuration
         {
@@ -303,76 +303,50 @@ namespace AtemKaraoke.Lib
                 Thread.Sleep(1000);
         }
 
-        MediaPlayer _mediaPlayer;
-        private MediaPlayer MediaPlayer
+        IMediaPlayer _mediaPlayer;
+        private IMediaPlayer MediaPlayer
         {
             get
             {
-                if (_mediaPlayer == null) _mediaPlayer = new MediaPlayer(Switcher);
+                if (_mediaPlayer == null)
+                    if (Config.Default.EmulateSwitcher == true)
+                    {
+                        _mediaPlayer = new MediaPlayer(Switcher);
+                    }
+                else
+                    {
+                        _mediaPlayer = new FakeMediaPlayer();
+                    }
+                
                 return _mediaPlayer;
             }
         }
 
         public void SetSongToPlayer(uint Number)
         {
-            if (Config.Default.EmulateSwitcher == true) 
-            {
-                Thread.Sleep(300);
-            }
-            else
-            {
-                MediaPlayer.SetFirstMediaPlayerSource(Number);
-            }
+            MediaPlayer.SetFirstMediaPlayerSource(Number);
         }
 
 		public void SetSongOnAir()
 		{
-			if (Config.Default.EmulateSwitcher == true)
-			{
-				Thread.Sleep(300);
-			}
-			else
-			{
-				MediaPlayer.SetSongOnAir();
-				//MediaPlayer.SetDownstreamKeyOnAir();
-			}
-		}
+            MediaPlayer.SetSongOnAir();
+            //MediaPlayer.SetDownstreamKeyOnAir();
+        }
 
-		public void SetSongOffAir()
+        public void SetSongOffAir()
 		{
-			if (Config.Default.EmulateSwitcher == true)
-			{
-				Thread.Sleep(300);
-			}
-			else
-			{
-				MediaPlayer.SetSongOffAir();
-			}
-		}
+            MediaPlayer.SetSongOffAir();
+        }
 
 		public void SetSongToPreview()
 		{
-			if (Config.Default.EmulateSwitcher == true)
-			{
-				Thread.Sleep(300);
-			}
-			else
-			{
-				MediaPlayer.SetSongToPreview();
-			}
-		}
+            MediaPlayer.SetSongToPreview();
+        }
 
 		public uint GetSongFromPlayer()
         {
             uint result = 999;
-            if (Config.Default.EmulateSwitcher == true)
-            {
-                Thread.Sleep(300);
-            }
-            else
-            {
-                result = MediaPlayer.GetFirstMediaPlayerSource();
-            }
+            result = MediaPlayer.GetFirstMediaPlayerSource();
             return result;
         }
 
