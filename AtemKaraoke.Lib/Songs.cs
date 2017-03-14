@@ -14,38 +14,50 @@ namespace AtemKaraoke.Lib
 {
 	public class Songs
 	{
-		private string _songsText;
-		private List<Song> _songsList;
-
+		private string _Text;
 		public Songs(string text)
 		{
-			_songsText = text;
+			_Text = text;
 		}
 
-		public List<Song> List {
+        private List<Song> _List;
+        public List<Song> List {
 			get
 			{
-				if (_songsList == null)
+				if (_List == null)
 				{
-					_songsList = new List<Song>();
-					string[] songs = Regex.Split(_songsText, Config.Default.SongsSplitter);
+					_List = new List<Song>();
+					string[] songs = Regex.Split(_Text, Config.Default.SongsSplitter);
 
 					for (int i = 0; i < songs.Length; i++)
 					{
 						Song s = new Song(songs[i], i + 1);
-						_songsList.Add(s);
+						_List.Add(s);
 					}
 				}
-				return _songsList;
+				return _List;
 			}
 		}
 
-		public Song Current
-		{
-			get
-			{
-				return List.First(); //temp
-			}
-		}
-	}
+        public List<Verse> Verses
+        {
+            get
+            {
+                List<Verse> list = new List<Verse>();
+                foreach (var s in List)
+                {
+                    list.AddRange(s.Verses);
+                }
+                return list;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return List.First().Name;
+            }
+        }
+    }
 }

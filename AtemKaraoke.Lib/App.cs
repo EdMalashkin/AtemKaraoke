@@ -54,17 +54,23 @@ namespace AtemKaraoke.Lib
 
         public string ConvertSongsToImages(Song song)
         {
+            return ConvertSongsToImages(song.Verses, song.Name);
+        }
+
+        public string ConvertSongsToImages(List<Verse> verses, string songName)
+        {
             string newFolder = "";
-            if (song == null) return newFolder;
-            
-            foreach (Verse verse in song.Verses)
+            if (verses == null) return newFolder;
+
+            foreach (Verse verse in verses)
             {
-                verse.FilePath = GetImageFilePath(verse.Text, verse.Number, song.Name, Config.Default.DestinationFolder);
+                verse.FilePath = GetImageFilePath(verse.Text, verse.Number, songName, Config.Default.DestinationFolder);
                 Bitmap bmp = GetImage2(verse.Text);
                 bmp.Save(verse.FilePath, System.Drawing.Imaging.ImageFormat.Png);
                 newFolder = Path.GetDirectoryName(verse.FilePath);
                 Console.WriteLine("Generated: " + verse.FilePath);
             }
+
             return newFolder;
         }
 
@@ -226,6 +232,13 @@ namespace AtemKaraoke.Lib
                    UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
                 }
         }
+        public void UploadSongsToSwitcher(List<Verse> verses)
+        {
+            foreach (Verse verse in verses)
+            {
+                UploadMediaToSwitcher(verse.FilePath, verse.Number - 1);
+            }
+        }
 
         public void UploadSongsToSwitcher(string FolderPath)
         {
@@ -309,15 +322,16 @@ namespace AtemKaraoke.Lib
             get
             {
                 if (_mediaPlayer == null)
+                {
                     if (Config.Default.EmulateSwitcher == true)
-                    {
-                        _mediaPlayer = new MediaPlayer(Switcher);
-                    }
-                else
                     {
                         _mediaPlayer = new FakeMediaPlayer();
                     }
-                
+                    else
+                    {
+                        _mediaPlayer = new MediaPlayer(Switcher);
+                    }
+                }
                 return _mediaPlayer;
             }
         }

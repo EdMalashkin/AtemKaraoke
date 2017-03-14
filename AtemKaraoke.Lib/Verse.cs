@@ -9,7 +9,25 @@ namespace AtemKaraoke.Lib
 {
 	public class Verse
 	{
-		private string _Text;
+        private Song _song;
+        private int _accumulatedLength;
+        public Verse(Song s, string text, int number, int accumulatedLength)
+        {
+            _song = s;
+            _accumulatedLength = accumulatedLength;
+            Text = text;
+            Number = number;
+        }
+
+        public Song Song
+        {
+            get
+            {
+                return _song;
+            }
+        }
+
+        private string _Text;
 		public string Text
 		{
 			get
@@ -48,17 +66,12 @@ namespace AtemKaraoke.Lib
 			}
 		}
 
-		private int _startPosition;
-		public int StartPosition
+        public int StartPosition
 		{
 			get
-			{
-				return _startPosition;
-			}
-			set
-			{
-				_startPosition = value;
-			}
+            {
+                return Song.Text.IndexOf(this.Text, _accumulatedLength);
+            }
 		}
 
 		public int EndPosition

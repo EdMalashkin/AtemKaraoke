@@ -5,7 +5,7 @@ using System;
 
 namespace AtemKaraoke.Lib
 {
-	public class Song : Verse
+	public class Song
 	{
         public Song() {  }
 
@@ -19,8 +19,33 @@ namespace AtemKaraoke.Lib
 			Number = songNumber;
 		}
 
-		private string _Name;
-		public new string Name
+        private string _Text;
+        public string Text
+        {
+            get
+            {
+                return _Text;
+            }
+            set
+            {
+                _Text = value;
+            }
+        }
+
+        private int _Number;
+        public int Number
+        {
+            get
+            {
+                return _Number;
+            }
+            set
+            {
+                _Number = value;
+            }
+        }
+        private string _Name;
+		public string Name
 		{
 			get
 			{
@@ -55,11 +80,10 @@ namespace AtemKaraoke.Lib
                     int versesCount = (verses.Length > 20) ? 20 : verses.Length;
                     for (int i = 0; i < versesCount; i++)
                     {
-                        Verse v = new Verse();
-
-                        v.Text = verses[i];
-                        v.Number = i + 1;
-                        v.StartPosition = Text.IndexOf(v.Text, accumulatedLength);
+                        var v = new Verse(this, 
+                                            verses[i], 
+                                            i + 1,
+                                            accumulatedLength);
 
                         //if (v.Number == 21)
                         //{
@@ -91,7 +115,7 @@ namespace AtemKaraoke.Lib
             e.SelectionNumber = newVerse.Number;
             e.SelectionStart = newVerse.StartPosition;
             e.SelectionLength = newVerse.EndPosition;
-            OnVerseSelected(this, e);
+            //OnVerseSelected(this, e);
         }
 
         public int SelectVerse(int curPosition)
@@ -134,6 +158,21 @@ namespace AtemKaraoke.Lib
         private void OnVerseSelected(object sender, VerseSelectedEventArgs e)
         {
             VerseSelected(this, e);
+        }
+
+        public Verse FirstVerse
+        {
+            get
+            {
+                return Verses[0];
+            }
+        }
+        public Verse LastVerse
+        {
+            get
+            {
+                return Verses[Verses.Count - 1];
+            }
         }
     }
 

@@ -4,6 +4,7 @@ using AtemKaraoke.Lib;
 using System.Diagnostics;
 using System.Collections.Generic;
 using SwitcherLib;
+using System.Drawing;
 
 namespace AtemKaraoke.WinForm
 {
@@ -58,45 +59,75 @@ namespace AtemKaraoke.WinForm
 			}
 		}
 
+        private DataGridViewCellStyle RefrainStyle()
+        {
+            var s = new DataGridViewCellStyle();
+            s.BackColor = Color.Yellow;
+            s.SelectionBackColor = Color.Yellow;
+            s.SelectionForeColor = Color.Black;
+            return s;
+        }
+
+        private void grdSong_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            var curVerse = grdSong.Rows[e.RowIndex].DataBoundItem as Verse;
+            if (curVerse == curVerse.Song.LastVerse)
+            {
+                using (Pen p = new Pen(Brushes.Black, 1))
+                {
+                    e.Graphics.DrawLine(p, new Point(e.CellBounds.Left, e.CellBounds.Bottom), new Point(e.CellBounds.Right, e.CellBounds.Bottom));
+                }
+                e.Handled = true;
+            }
+        }
+
+        private void BindGrid()
+        {
+            grdSong.AutoGenerateColumns = false;
+            _songs = new Songs(GetSelectedSongText);
+            grdSong.DataSource = _songs.Verses;
+            return;
+
+            foreach (var v in _songs.Verses)
+            {
+                int idx = grdSong.Rows.Add(v.Text);
+                var r = grdSong.Rows[idx];
+                if (v.Number == 1)
+                {
+                    foreach (DataGridViewCell cell in r.Cells)
+                    {
+                        //cell.AdjustCellBorderStyle(newStyle, null, false, false, false, false);
+                        cell.Style.ApplyStyle(RefrainStyle());
+                        //
+                    }
+                }
+                if (v.Number == 2)
+                {
+                    foreach (DataGridViewCell cell in r.Cells)
+                    {
+                        //cell.Style.Padding = ;
+                    }
+                }
+
+               }
+        }
+
 		private void chkEditMode_CheckedChanged(object sender, EventArgs e)
 		{
 			if (!chkEditMode.Checked)
 			{
-				_songs = new Songs(GetSelectedSongText);
-				//_songs.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected); is it necessary to have????
-				//txtSong.Text = _song.Text; // to see what is inside and select exactly what is inside
+				//_songs.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected); //is it necessary to have????
 				
-				grdSong.AutoGenerateColumns = false;
-				grdSong.DataSource = _songs.Current.Verses;
-
-				ResizeSongControls();
+                BindGrid();
+                ResizeSongControls();
 				grdSong.Enabled = false;
 				Cursor = Cursors.WaitCursor;
 
 				try
 				{
-					if (_isRestart != true && chkExport.Checked == true)
+					if (_isRestart == false && chkExport.Checked == true)
 					{
-						string newFolder = App.ConvertSongsToImages(_songs.Current);
-
-						if (!App.UseConsoleToUploadFromWinForm)
-						{
-							App.UploadSongsToSwitcher(_songs.Current);
-						}
-						else
-						{
-							Console.Write(newFolder);
-							string MyBatchFile = @"AtemKaraoke.Console.exe";
-
-							var process = new Process
-							{
-								StartInfo = {
-										Arguments = string.Format("\"{0}\"",  newFolder)
-									}
-							};
-							process.StartInfo.FileName = MyBatchFile;
-							bool b = process.Start();
-						}
+                        Upload();
 					}
 				}
 				catch (Exception ex)
@@ -140,10 +171,28 @@ namespace AtemKaraoke.WinForm
 			
 		}
 
-		private void DoWork(Song s)
-		{
-			throw new NotImplementedException();
-		}
+        private void Upload()
+        {
+            string newFolder = App.ConvertSongsToImages(_songs.Verses, _songs.Name);
+            if (!App.UseConsoleToUploadFromWinForm)
+            {
+                App.UploadSongsToSwitcher(_songs.Verses);
+            }
+            else
+            {
+                Console.Write(newFolder);
+                string MyBatchFile = @"AtemKaraoke.Console.exe";
+
+                var process = new Process
+                {
+                    StartInfo = {
+                                        Arguments = string.Format("\"{0}\"",  newFolder)
+                                    }
+                };
+                process.StartInfo.FileName = MyBatchFile;
+                bool b = process.Start();
+            }
+        }
 
 		private void btnOnAir_Click(object sender, EventArgs e)
 		{
@@ -219,13 +268,11 @@ namespace AtemKaraoke.WinForm
 			}
 
 			Debug.Print("OnVerseSelected " + e.SelectionNumber.ToString());
-
 		}
 
 		private void grdSong_SelectionChanged(object sender, EventArgs e)
 		{
-
-			_songs.Current.SelectVerse(_songs.Current.Verses[grdSong.CurrentRow.Index]); 
+			//_songs.SelectVerse(_songs.Verses[grdSong.CurrentRow.Index]); 
 		}
 
 		private void txtSong_Resized(object sender, EventArgs e)
@@ -352,5 +399,7 @@ namespace AtemKaraoke.WinForm
 		{
 
 		}
-	}
+
+
+    }
 }
