@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Text;
-using AtemKaraoke.Lib;
-using AtemKaraoke.Lib.Tools;
+using AtemKaraoke.Core;
+using AtemKaraoke.Core.Tools;
 using System.Collections.Generic;
 
 namespace AtemKaraoke
@@ -13,20 +13,23 @@ namespace AtemKaraoke
 			try
 			{
                 Console.OutputEncoding = Encoding.UTF8;
-                App c = new App();
+                //App app = new App();
+                ILyrics lyrics = null;
 
                 if (args.Length == 0)
                 {
-                    List<Song> songs = c.ConvertSongsToImages();
-                    c.UploadSongsToSwitcher(songs);
+                    //List<Song> songs = app.ConvertSongsToImages();
+                    //app.UploadSongsToSwitcher(songs);
+                    lyrics = new LyricsFromFile();
                 }                   
                 else if (args.Length == 1)
                 {
-                    string SourseFolder = args[0];
-                    Console.WriteLine(SourseFolder);
-                    c.UploadSongsToSwitcher(SourseFolder);
+                    string sourseFolder = args[0];
+                    Console.WriteLine(sourseFolder);
+                    lyrics = new LyricsFromFile(sourseFolder);
+                    //app.UploadSongsToSwitcher(sourseFolder);
                 }
-
+                lyrics.Send();
             }
 			catch(Exception ex)
 			{

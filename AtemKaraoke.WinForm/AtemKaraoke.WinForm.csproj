@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AtemKaraoke.WinForm</RootNamespace>
     <AssemblyName>AtemKaraoke.WinForm</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <TargetFrameworkProfile />
@@ -89,13 +89,9 @@
       <Project>{a7dcd4c2-4e5e-4814-b76c-18fe1f48fce1}</Project>
       <Name>AtemKaraoke.Console</Name>
     </ProjectReference>
-    <ProjectReference Include="..\AtemKaraoke.Lib\AtemKaraoke.Lib.csproj">
+    <ProjectReference Include="..\AtemKaraoke.Core\AtemKaraoke.Core.csproj">
       <Project>{ad856e10-c779-42f7-8149-686e5b473c81}</Project>
-      <Name>AtemKaraoke.Lib</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\SwitcherLib\SwitcherLib.csproj">
-      <Project>{5F9F52A6-9EF4-4C71-9A91-F5B864A57ABB}</Project>
-      <Name>SwitcherLib</Name>
+      <Name>AtemKaraoke.Core</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

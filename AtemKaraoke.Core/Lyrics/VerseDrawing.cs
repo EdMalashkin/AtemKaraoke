@@ -7,18 +7,29 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Drawing2D;
 
-namespace AtemKaraoke.Lib
+namespace AtemKaraoke.Core
 {
-    class VerseDrawn : Verse
+    public class VerseDrawing
     {
-        public VerseDrawn(Song s, string text, int number, int accumulatedLength) : base(s, text, number, accumulatedLength)
-        { }
+        Verse _verse;
+        public VerseDrawing(Verse verse)
+        {
+            _verse = verse;
+        }
+
+        public Verse Verse
+        {
+            get
+            {
+                return _verse;
+            }
+        }
 
         public Bitmap Image
         {
             get
             {
-                return GetImage(this.Text);
+                return GetImage(_verse.Text);
             }
         }
 
@@ -96,5 +107,6 @@ namespace AtemKaraoke.Lib
 
             return stringFormat;
         }
+
     }
 }

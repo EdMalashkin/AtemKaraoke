@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("AtemKaraoke.WinForm")]
+[assembly: AssemblyTitle("AtemKaraoke.Test")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("AtemKaraoke.WinForm")]
+[assembly: AssemblyProduct("AtemKaraoke.Test")]
 [assembly: AssemblyCopyright("Copyright ©  2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("f90efdcb-649a-482d-9ed0-d48044316da9")]
+[assembly: Guid("b60b518e-0d34-4541-b6b7-68af068cdc18")]
 
 // Version information for an assembly consists of the following four values:
 //

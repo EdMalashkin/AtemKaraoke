@@ -115,6 +115,7 @@
             this.grdSong.Size = new System.Drawing.Size(138, 549);
             this.grdSong.TabIndex = 0;
             this.grdSong.Visible = false;
+            this.grdSong.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdSong_CellFormatting);
             this.grdSong.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.grdSong_CellPainting);
             this.grdSong.SelectionChanged += new System.EventHandler(this.grdSong_SelectionChanged);
             // 

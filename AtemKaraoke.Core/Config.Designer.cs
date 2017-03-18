@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace AtemKaraoke.Lib {
+namespace AtemKaraoke.Core {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
@@ -252,15 +252,21 @@ namespace AtemKaraoke.Lib {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\s*\\t*\\r\\n\\s*\\t*\\r\\n")]
         public string SongsSplitter {
             get {
                 return ((string)(this["SongsSplitter"]));
             }
-            set {
-                this["SongsSplitter"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public int MaxAmountOfVerses {
+            get {
+                return ((int)(this["MaxAmountOfVerses"]));
             }
         }
     }

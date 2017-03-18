@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AtemKaraoke.Lib" GeneratedClassName="Config">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="AtemKaraoke.Core" GeneratedClassName="Config">
   <Profiles />
   <Settings>
     <Setting Name="FontName" Type="System.String" Scope="Application">
@@ -74,8 +74,11 @@
     <Setting Name="curSelectedLength" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SongsSplitter" Type="System.String" Scope="User">
+    <Setting Name="SongsSplitter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\r\n\s*\t*\r\n\s*\t*\r\n</Value>
+    </Setting>
+    <Setting Name="MaxAmountOfVerses" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">20</Value>
     </Setting>
   </Settings>
 </SettingsFile>

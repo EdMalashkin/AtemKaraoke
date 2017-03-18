@@ -5,12 +5,12 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
-namespace AtemKaraoke.Lib
+namespace AtemKaraoke.Core
 {
 	public class Verse
 	{
         private Song _song;
-        private int _accumulatedLength;
+        private int _accumulatedLength; // may be deleted I think
         public Verse(Song s, string text, int number, int accumulatedLength)
         {
             _song = s;
@@ -36,7 +36,7 @@ namespace AtemKaraoke.Lib
 			}
 			set
 			{
-				_Text = TrimRows(value);
+				_Text = CleanText(value);
 			}
 		}
 
@@ -66,36 +66,36 @@ namespace AtemKaraoke.Lib
 			}
 		}
 
-        public int StartPosition
-		{
-			get
-            {
-                return Song.Text.IndexOf(this.Text, _accumulatedLength);
-            }
-		}
+  //      public int StartPosition
+		//{
+		//	get
+  //          {
+  //              return Song.Text.IndexOf(this.Text, _accumulatedLength);
+  //          }
+		//}
 
-		public int EndPosition
-		{
-			get
-			{
-				return StartPosition + Text.Length;
-			}
-		}
+		//public int EndPosition
+		//{
+		//	get
+		//	{
+		//		return StartPosition + Text.Length;
+		//	}
+		//}
 
 		private string _FilePath;
-		public string FilePath
-		{
-			get
-			{
-				return _FilePath;
-			}
-			set
-			{
-				_FilePath = value;
-			}
-		}
+        public string FilePath
+        {
+            get
+            {
+                return _FilePath;
+            }
+            set
+            {
+                _FilePath = value;
+            }
+        }
 
-		private string TrimRows(string text)
+        private string CleanText(string text)
 		{
 			string[] rows = Regex.Split(text, Environment.NewLine);
 			string newText = "";
@@ -103,7 +103,12 @@ namespace AtemKaraoke.Lib
 			{
 				newText += r.Trim() + Environment.NewLine;
 			}
-			return newText.Trim().Replace("  ", " ");
+
+            //http://stackoverflow.com/questions/206717/how-do-i-replace-multiple-spaces-with-a-single-space-in-c
+            Regex regex = new Regex("[ ]{2,}", RegexOptions.None);
+            newText = regex.Replace(newText, " ");
+
+            return newText.Trim();
 		}
 
 

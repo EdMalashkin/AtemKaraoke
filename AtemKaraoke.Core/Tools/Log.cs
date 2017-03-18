@@ -3,7 +3,7 @@ using System.Diagnostics;
 using System.Text;
 using System.IO;
 
-namespace AtemKaraoke.Lib.Tools
+namespace AtemKaraoke.Core.Tools
 {
 	public static class Log
 	{

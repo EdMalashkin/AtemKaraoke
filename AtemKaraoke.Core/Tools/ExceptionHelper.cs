@@ -1,11 +1,11 @@
 ﻿using System;
-using AtemKaraoke.Lib.Tools;
+using AtemKaraoke.Core.Tools;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AtemKaraoke.Lib
+namespace AtemKaraoke.Core
 {
 	public static class ExceptionHelper
 	{

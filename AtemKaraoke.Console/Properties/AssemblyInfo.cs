@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("EDM")]
 [assembly: AssemblyProduct("AtemKaraoke")]
-[assembly: AssemblyCopyright("Copyright © EDM 2016")]
+[assembly: AssemblyCopyright("Copyright © EDM 2017")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
