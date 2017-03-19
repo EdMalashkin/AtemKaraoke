@@ -55,7 +55,7 @@ namespace AtemKaraoke.Core
 				if (_songs == null)
 				{
 					_songs = new List<Song>();
-					string[] songs = Regex.Split(_text, Config.Default.SongsSplitter);
+					string[] songs = Regex.Split(_text, Config.Default.SongSplitterInEditor);
 					for (int i = 0; i < songs.Length; i++)
 					{
 						Song s = new Song(songs[i], i + 1);

@@ -11,10 +11,12 @@ namespace AtemKaraoke.Core
 	{
         private Song _song;
         private int _accumulatedLength; // may be deleted I think
+        public readonly bool IsRefrain = false;
         public Verse(Song s, string text, int number, int accumulatedLength)
         {
             _song = s;
             _accumulatedLength = accumulatedLength;
+            IsRefrain = text.Contains("*");
             Text = text;
             Number = number;
         }
@@ -32,7 +34,7 @@ namespace AtemKaraoke.Core
 		{
 			get
 			{
-				return _Text;
+                return _Text;
 			}
 			set
 			{
@@ -108,6 +110,7 @@ namespace AtemKaraoke.Core
             Regex regex = new Regex("[ ]{2,}", RegexOptions.None);
             newText = regex.Replace(newText, " ");
 
+            newText = newText.Replace("*", ""); //refrain symbol removal
             return newText.Trim();
 		}
 

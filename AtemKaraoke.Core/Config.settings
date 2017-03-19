@@ -74,11 +74,17 @@
     <Setting Name="curSelectedLength" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SongsSplitter" Type="System.String" Scope="Application">
+    <Setting Name="SongSplitterInEditor" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\r\n\s*\t*\r\n\s*\t*\r\n</Value>
     </Setting>
     <Setting Name="MaxAmountOfVerses" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">20</Value>
+    </Setting>
+    <Setting Name="RefrainePadding" Type="System.Int32" Scope="Application">
+      <Value Profile="(Default)">50</Value>
+    </Setting>
+    <Setting Name="SongSplitterInPresenter" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">3</Value>
     </Setting>
   </Settings>
 </SettingsFile>

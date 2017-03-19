@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using AtemKaraoke.Core;
 using System.Diagnostics;
 using System.Drawing;
+using System.Linq;
 
 namespace AtemKaraoke.WinForm
 {
@@ -96,6 +97,10 @@ namespace AtemKaraoke.WinForm
             //        e.Graphics.DrawLine(p, new Point(e.CellBounds.Left, e.CellBounds.Bottom), new Point(e.CellBounds.Right, e.CellBounds.Bottom));
             //    }
             //    e.Handled = true;
+
+            //    //var cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //    //cell.Value = "test";
+            //    //e.CellStyle.ForeColor = Color.Black;
             //}
         }
 
@@ -104,10 +109,13 @@ namespace AtemKaraoke.WinForm
             var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
             if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
             {
-                var cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-                e.CellStyle.ForeColor = Color.Red;
-                //cell.Value = cell.Value + System.Environment.NewLine;
-                //e.Value = cell.Value + System.Environment.NewLine;
+                e.Value += String.Concat(Enumerable.Repeat(Environment.NewLine, Config.Default.SongSplitterInPresenter));
+            }
+            if (curVerseFile.Verse.IsRefrain == true)
+            {
+                Padding p = e.CellStyle.Padding;
+                p.Left = Config.Default.RefrainePadding;
+                e.CellStyle.Padding = p;
             }
         }
 

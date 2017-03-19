@@ -255,9 +255,9 @@ namespace AtemKaraoke.Core {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\s*\\t*\\r\\n\\s*\\t*\\r\\n")]
-        public string SongsSplitter {
+        public string SongSplitterInEditor {
             get {
-                return ((string)(this["SongsSplitter"]));
+                return ((string)(this["SongSplitterInEditor"]));
             }
         }
         
@@ -267,6 +267,27 @@ namespace AtemKaraoke.Core {
         public int MaxAmountOfVerses {
             get {
                 return ((int)(this["MaxAmountOfVerses"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int RefrainePadding {
+            get {
+                return ((int)(this["RefrainePadding"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("3")]
+        public int SongSplitterInPresenter {
+            get {
+                return ((int)(this["SongSplitterInPresenter"]));
+            }
+            set {
+                this["SongSplitterInPresenter"] = value;
             }
         }
     }
