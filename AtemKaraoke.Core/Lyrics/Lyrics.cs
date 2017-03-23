@@ -4,6 +4,7 @@ using System.Text.RegularExpressions;
 using System.Linq;
 using AtemKaraoke.Core.Tools;
 using System.IO;
+using System.Text;
 
 namespace AtemKaraoke.Core
 {
@@ -123,6 +124,21 @@ namespace AtemKaraoke.Core
                 _selectedNumber = newVerseFile.Verse.Number;
                 Switcher.SetMediaToPlayer(_selectedNumber);
             }
+        }
+
+        public string GetSongSplitter()
+        {
+            return String.Concat(Enumerable.Repeat(Environment.NewLine, Config.Default.SongSplitterInPresenter));
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (var s in Songs)
+            {
+                result.Append(s.ToString() + GetSongSplitter());
+            }
+            return result.ToString();
         }
     }
 }

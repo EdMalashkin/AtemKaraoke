@@ -114,6 +114,11 @@ namespace AtemKaraoke.Core
             return newText.Trim();
 		}
 
-
-	}
+        public override string ToString()
+        {
+            string result = Text;
+            if (IsRefrain) result = "*" + result;
+            return result;
+        }
+    }
 }

@@ -2,6 +2,7 @@
 using System.Text.RegularExpressions;
 using AtemKaraoke.Core.Tools;
 using System;
+using System.Text;
 
 namespace AtemKaraoke.Core
 {
@@ -170,6 +171,18 @@ namespace AtemKaraoke.Core
             {
                 return VerseFiles[VerseFiles.Count - 1].Verse;
             }
+        }
+
+        public override string ToString()
+        {
+            StringBuilder result = new StringBuilder();
+            foreach (var v in VerseFiles)
+            {
+                result.Append(v.Verse.ToString());
+                result.Append(Environment.NewLine);
+                result.Append(Environment.NewLine);
+            }
+            return result.ToString();
         }
     }
 

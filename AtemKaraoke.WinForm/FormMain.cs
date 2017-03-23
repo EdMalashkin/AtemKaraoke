@@ -23,6 +23,8 @@ namespace AtemKaraoke.WinForm
         //}
 
         Lyrics _lyrics;
+        private object True;
+
         private Lyrics Lyrics
         {
             get
@@ -85,38 +87,6 @@ namespace AtemKaraoke.WinForm
             s.SelectionBackColor = Color.Yellow;
             s.SelectionForeColor = Color.Black;
             return s;
-        }
-
-        private void grdSong_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            //var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-            //if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
-            //{
-            //    using (Pen p = new Pen(Brushes.Black, 1))
-            //    {
-            //        e.Graphics.DrawLine(p, new Point(e.CellBounds.Left, e.CellBounds.Bottom), new Point(e.CellBounds.Right, e.CellBounds.Bottom));
-            //    }
-            //    e.Handled = true;
-
-            //    //var cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            //    //cell.Value = "test";
-            //    //e.CellStyle.ForeColor = Color.Black;
-            //}
-        }
-
-        private void grdSong_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
-        {
-            var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-            if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
-            {
-                e.Value += String.Concat(Enumerable.Repeat(Environment.NewLine, Config.Default.SongSplitterInPresenter));
-            }
-            if (curVerseFile.Verse.IsRefrain == true)
-            {
-                Padding p = e.CellStyle.Padding;
-                p.Left = Config.Default.RefrainePadding;
-                e.CellStyle.Padding = p;
-            }
         }
 
         private void BindGrid()
@@ -439,5 +409,104 @@ namespace AtemKaraoke.WinForm
 
 		}
 
+        #region GridEvents
+
+        private void grdSong_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
+        {
+            //var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+            //if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
+            //{
+            //    using (Pen p = new Pen(Brushes.Black, 1))
+            //    {
+            //        e.Graphics.DrawLine(p, new Point(e.CellBounds.Left, e.CellBounds.Bottom), new Point(e.CellBounds.Right, e.CellBounds.Bottom));
+            //    }
+            //    e.Handled = true;
+
+            //    //var cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //    //cell.Value = "test";
+            //    //e.CellStyle.ForeColor = Color.Black;
+            //}
+        }
+
+        private void grdSong_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
+        {
+            var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+            if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
+            {
+                e.Value += Lyrics.GetSongSplitter();
+            }
+            if (curVerseFile.Verse.IsRefrain == true)
+            {
+                Padding p = e.CellStyle.Padding;
+                p.Left = Config.Default.RefrainePadding;
+                e.CellStyle.Padding = p;
+            }
+        }
+
+        private void grdSong_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            //var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+            //DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            //cell.ReadOnly = false;
+            //grdSong.CurrentCell = cell;
+            //grdSong.EditMode = DataGridViewEditMode.EditOnEnter;
+            ////grdSong.CurrentCell.KeyEntersEditMode
+            grdSong.CurrentCell.ReadOnly = false;
+            //grdSong.BeginEdit(true);
+        }
+
+        private void grdSong_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
+        {
+            //Here we save a current value of cell to some variable, that later we can compare with a new value
+            //For example using of dgv.Tag property
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            {
+                grdSong.Tag = grdSong.CurrentCell.Value;
+            }
+        }
+
+        private void grdSong_Validating(object sender, DataGridViewCellValidatingEventArgs e)
+        {
+            //if (grdSong.Tag == grdSong.CurrentCell.Value)
+            //    e.Cancel = true;    //Cancel changes of current cell
+            DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+        }
+
+        private void grdSong_CellEndEdit(object sender, DataGridViewCellEventArgs e)
+        {
+            //DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+
+            //if (grdSong.Tag != grdSong.CurrentCell.Value)
+            //{
+            //    var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+                
+            //    curVerseFile.Verse.Text = cell.Value.ToString();
+            //    string filePath = curVerseFile.Save();
+            //}
+            //grdSong.CurrentCell.ReadOnly = true;
+        }
+
+        private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
+
+            DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+            var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+
+            if (cell.EditedFormattedValue.ToString() != curVerseFile.Verse.Text)
+            {
+                curVerseFile.Verse.Text = cell.EditedFormattedValue.ToString();
+                string filePath = curVerseFile.Save();
+                txtSong.Text = Lyrics.ToString();
+            }
+            grdSong.CurrentCell.ReadOnly = true;
+        }
+
+        #endregion
+
+        private void grdSong_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }

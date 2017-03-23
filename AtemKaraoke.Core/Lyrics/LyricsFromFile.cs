@@ -38,7 +38,8 @@ namespace AtemKaraoke.Core
             int fileNumber = 0;
             foreach (string file in files)
             {
-                Song s = new Song(file, fileNumber++);
+                Song s = new Song(file);
+                s.Number = fileNumber++;
                 songs.Add(s);
             }
             return new Lyrics(songs);
@@ -46,17 +47,17 @@ namespace AtemKaraoke.Core
 
         public string Save()
         {
-            return _lyrics.Save();
+            return Lyrics.Save();
         }
 
         public void Send()
         {
-            _lyrics.Send();
+            Lyrics.Send();
         }
 
         public void Select(VerseFile newVerseFile)
         {
-            _lyrics.Select(newVerseFile);
+            Lyrics.Select(newVerseFile);
         }
     }
 }
