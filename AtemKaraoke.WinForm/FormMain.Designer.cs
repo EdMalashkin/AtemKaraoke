@@ -114,13 +114,8 @@
             this.grdSong.Size = new System.Drawing.Size(138, 549);
             this.grdSong.TabIndex = 0;
             this.grdSong.Visible = false;
-            this.grdSong.CellBeginEdit += new System.Windows.Forms.DataGridViewCellCancelEventHandler(this.grdSong_CellBeginEdit);
-            this.grdSong.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSong_CellContentClick);
             this.grdSong.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSong_CellDoubleClick);
-            this.grdSong.CellEndEdit += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSong_CellEndEdit);
             this.grdSong.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdSong_CellFormatting);
-            this.grdSong.CellPainting += new System.Windows.Forms.DataGridViewCellPaintingEventHandler(this.grdSong_CellPainting);
-            this.grdSong.CellValidating += new System.Windows.Forms.DataGridViewCellValidatingEventHandler(this.grdSong_Validating);
             this.grdSong.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSong_CellValueChanged);
             this.grdSong.SelectionChanged += new System.EventHandler(this.grdSong_SelectionChanged);
             // 

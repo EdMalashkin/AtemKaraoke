@@ -138,7 +138,7 @@ namespace AtemKaraoke.Core
             {
                 result.Append(s.ToString() + GetSongSplitter());
             }
-            return result.ToString();
+            return result.ToString().Trim();
         }
     }
 }

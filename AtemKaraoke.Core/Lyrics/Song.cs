@@ -182,7 +182,7 @@ namespace AtemKaraoke.Core
                 result.Append(Environment.NewLine);
                 result.Append(Environment.NewLine);
             }
-            return result.ToString();
+            return result.ToString().Trim();
         }
     }
 

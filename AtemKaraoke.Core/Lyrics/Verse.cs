@@ -118,7 +118,7 @@ namespace AtemKaraoke.Core
         {
             string result = Text;
             if (IsRefrain) result = "*" + result;
-            return result;
+            return result.Trim();
         }
     }
 }

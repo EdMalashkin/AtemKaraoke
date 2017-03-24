@@ -1,5 +1,6 @@
 ﻿using AtemKaraoke.Core.Tools;
 using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,30 +10,52 @@ namespace AtemKaraoke.Core
 {   // decorator over Lyrics to load its content from files
     public class LyricsFromFile : ILyrics
     {
-        string _folder;
+        string _path;
         Lyrics _lyrics;
 
         public LyricsFromFile()
         {
-            _folder = Config.Default.SourceFolder;
+            _path = Config.Default.SourceFolder;
         }
-        public LyricsFromFile(string folder)
+        public LyricsFromFile(string path)
         {
-            _folder = folder;
+            _path = path;
         }
 
         private Lyrics Lyrics
         {
             get
             {
-                if (_lyrics == null) _lyrics = CreateLyricsFromFiles();
+                if (_lyrics == null) _lyrics = CreateLyrics();
                 return _lyrics;
             }
         }
 
-        private Lyrics CreateLyricsFromFiles()
+        private Lyrics CreateLyrics()
         {
-            IOrderedEnumerable<string> files = FileHelper.GetAllFilesList(_folder, Config.Default.SourceFolderPattern);
+            Lyrics lyr;
+            if (System.IO.File.Exists(_path))
+            {
+                lyr = CreateLyricsFromFile();
+            }
+            else
+            {
+                lyr = CreateLyricsFromFolder();
+            }
+            return lyr;
+        }
+
+        private Lyrics CreateLyricsFromFile()
+        {
+            List<Song> songs = new List<Song>();
+            Song s = new Song(_path, 1);
+            songs.Add(s);
+            return new Lyrics(songs);
+        }
+
+        private Lyrics CreateLyricsFromFolder()
+        {
+            IOrderedEnumerable<string> files = FileHelper.GetAllFilesList(_path, Config.Default.SourceFolderPattern);
             List<Song> songs = new List<Song>();
 
             int fileNumber = 0;

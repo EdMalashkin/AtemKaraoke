@@ -24,9 +24,9 @@ namespace AtemKaraoke
                 }                   
                 else if (args.Length == 1)
                 {
-                    string sourseFolder = args[0];
-                    Console.WriteLine(sourseFolder);
-                    lyrics = new LyricsFromFile(sourseFolder);
+                    string path = args[0];
+                    Console.WriteLine(path);
+                    lyrics = new LyricsFromFile(path);
                     //app.UploadSongsToSwitcher(sourseFolder);
                 }
                 lyrics.Send();

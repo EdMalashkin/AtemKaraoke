@@ -177,28 +177,29 @@ namespace AtemKaraoke.WinForm
 			
 		}
 
+        private void SendViaConsole(string path)
+        {
+            string MyBatchFile = @"AtemKaraoke.Console.exe";
+            var process = new Process
+            {
+                StartInfo = {
+                                Arguments = string.Format("\"{0}\"",  path)
+                            }
+            };
+            process.StartInfo.FileName = MyBatchFile;
+            bool b = process.Start();
+        }
+
         private void Upload()
         {
-            //string newFolder = App.ConvertSongsToImages(_lyrics.VerseFiles, _lyrics.Name);
             if (!Lyrics.Configuration.UseConsoleToUploadFromWinForm)
             {
-                //App.UploadSongsToSwitcher(_lyrics.VerseFiles);
                 Lyrics.Send();
             }
             else
             {   // this works today:
                 string folder = Lyrics.Save();
-                Console.Write(folder);
-                string MyBatchFile = @"AtemKaraoke.Console.exe";
-
-                var process = new Process
-                {
-                    StartInfo = {
-                                    Arguments = string.Format("\"{0}\"",  folder)
-                                }
-                };
-                process.StartInfo.FileName = MyBatchFile;
-                bool b = process.Start();
+                SendViaConsole(folder);
             }
         }
 
@@ -411,23 +412,6 @@ namespace AtemKaraoke.WinForm
 
         #region GridEvents
 
-        private void grdSong_CellPainting(object sender, DataGridViewCellPaintingEventArgs e)
-        {
-            //var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-            //if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
-            //{
-            //    using (Pen p = new Pen(Brushes.Black, 1))
-            //    {
-            //        e.Graphics.DrawLine(p, new Point(e.CellBounds.Left, e.CellBounds.Bottom), new Point(e.CellBounds.Right, e.CellBounds.Bottom));
-            //    }
-            //    e.Handled = true;
-
-            //    //var cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            //    //cell.Value = "test";
-            //    //e.CellStyle.ForeColor = Color.Black;
-            //}
-        }
-
         private void grdSong_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
@@ -455,58 +439,25 @@ namespace AtemKaraoke.WinForm
             //grdSong.BeginEdit(true);
         }
 
-        private void grdSong_CellBeginEdit(object sender, DataGridViewCellCancelEventArgs e)
-        {
-            //Here we save a current value of cell to some variable, that later we can compare with a new value
-            //For example using of dgv.Tag property
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            {
-                grdSong.Tag = grdSong.CurrentCell.Value;
-            }
-        }
-
-        private void grdSong_Validating(object sender, DataGridViewCellValidatingEventArgs e)
-        {
-            //if (grdSong.Tag == grdSong.CurrentCell.Value)
-            //    e.Cancel = true;    //Cancel changes of current cell
-            DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-        }
-
-        private void grdSong_CellEndEdit(object sender, DataGridViewCellEventArgs e)
-        {
-            //DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-
-            //if (grdSong.Tag != grdSong.CurrentCell.Value)
-            //{
-            //    var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-                
-            //    curVerseFile.Verse.Text = cell.Value.ToString();
-            //    string filePath = curVerseFile.Save();
-            //}
-            //grdSong.CurrentCell.ReadOnly = true;
-        }
-
         private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex < 0 || e.ColumnIndex < 0) return;
-
-            DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-
-            if (cell.EditedFormattedValue.ToString() != curVerseFile.Verse.Text)
-            {
-                curVerseFile.Verse.Text = cell.EditedFormattedValue.ToString();
-                string filePath = curVerseFile.Save();
-                txtSong.Text = Lyrics.ToString();
+            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
+            { 
+                DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+                string newVerseValue = cell.EditedFormattedValue.ToString().Trim();
+                string oldVerseValue = curVerseFile.Verse.Text.Trim();
+                if (newVerseValue != oldVerseValue)
+                {
+                    curVerseFile.Verse.Text = newVerseValue;
+                    string filePath = curVerseFile.Save();
+                    SendViaConsole(filePath);
+                    txtSong.Text = Lyrics.ToString();
+                    grdSong.CurrentCell.ReadOnly = true;
+                }
             }
-            grdSong.CurrentCell.ReadOnly = true;
         }
 
         #endregion
-
-        private void grdSong_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
-        }
     }
 }
