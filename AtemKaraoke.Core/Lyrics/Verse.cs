@@ -120,5 +120,10 @@ namespace AtemKaraoke.Core
             if (IsRefrain) result = "*" + result;
             return result.Trim();
         }
+
+        public bool IsDifferent(string value)
+        {
+            return (Text.Trim() != value.Trim());
+        }
     }
 }

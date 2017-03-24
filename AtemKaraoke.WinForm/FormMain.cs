@@ -445,9 +445,8 @@ namespace AtemKaraoke.WinForm
             { 
                 DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-                string newVerseValue = cell.EditedFormattedValue.ToString().Trim();
-                string oldVerseValue = curVerseFile.Verse.Text.Trim();
-                if (newVerseValue != oldVerseValue)
+                string newVerseValue = cell.EditedFormattedValue.ToString();
+                if (curVerseFile.Verse.IsDifferent(newVerseValue))
                 {
                     curVerseFile.Verse.Text = newVerseValue;
                     string filePath = curVerseFile.Save();
