@@ -59,7 +59,7 @@ namespace AtemKaraoke.Core
 				if (_songs == null)
 				{
 					_songs = new List<Song>();
-					string[] songs = Regex.Split(_text, Config.Default.SongSplitterInEditor);
+					string[] songs = Regex.Split(_text.Trim(), Config.Default.SongSplitterInEditor);
 					for (int i = 0; i < songs.Length; i++)
 					{
 						Song s = new Song(this, songs[i], i + 1);
@@ -92,7 +92,7 @@ namespace AtemKaraoke.Core
                 {
                     string name = Songs.First().Text;
                     if (name.Length > Config.Default.FileNameLength)
-                        name = name.Substring(0, Config.Default.FileNameLength);
+                        name = name.Substring(0, 20);
                     _name = name;
                 }
                 return _name;

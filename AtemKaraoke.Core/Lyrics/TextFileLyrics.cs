@@ -37,36 +37,46 @@ namespace AtemKaraoke.Core
             Lyrics lyr;
             if (System.IO.File.Exists(_path))
             {
-                lyr = CreateLyricsFromImageFile();
+                lyr = CreateLyricsFromFile();
             }
             else
             {
-                lyr = CreateLyricsFromImageFolder();
+                lyr = CreateLyricsFromFolder();
             }
             return lyr;
         }
 
-        private Lyrics CreateLyricsFromImageFile()
+        private Lyrics CreateLyrics(string songsText)
         {
-            List<Song> songs = new List<Song>();
-            Song s = new Song(this.Lyrics, _path, 1);
-            songs.Add(s);
-            return new Lyrics(songs);
+            var lyr = new Lyrics(songsText); // like from the form
+            return lyr;
         }
 
-        private Lyrics CreateLyricsFromImageFolder()
+        private Lyrics CreateLyricsFromFile()
+        {
+            var songsText = new StringBuilder();
+            songsText.Append(FileHelper.GetTextFromFile(_path).Trim());
+            songsText.Append(GetSongSplitter());
+            return CreateLyrics(songsText.ToString());
+        }
+
+        private Lyrics CreateLyricsFromFolder()
         {
             IOrderedEnumerable<string> files = FileHelper.GetAllFiles(_path, Config.Default.SourceFolderPattern);
-            List<Song> songs = new List<Song>();
+            var songsText = new StringBuilder();
 
-            int fileNumber = 0;
-            foreach (var file in files)
+            foreach (var filePath in files)
             {
-                Song s = new Song(this.Lyrics, file);
-                s.Number = fileNumber++;
-                songs.Add(s);
+                songsText.Append(FileHelper.GetTextFromFile(filePath).Trim());
+                songsText.Append(GetSongSplitter());
             }
-            return new Lyrics(songs);
+            
+            return CreateLyrics(songsText.ToString());
+        }
+
+        private string GetSongSplitter()
+        {
+            return String.Concat(Enumerable.Repeat(Environment.NewLine, Config.Default.SongSplitterInPresenter));
         }
 
         public string Save()

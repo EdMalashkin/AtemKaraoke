@@ -15,7 +15,9 @@ namespace AtemKaraoke.Core.Tools
 			using (StreamReader sr = OpenStreamReaderWithEncoding(FilePath))
 			{
 				str = sr.ReadToEnd();
-			}
+                sr.Close();
+
+            }
 			return str;
 		}
 

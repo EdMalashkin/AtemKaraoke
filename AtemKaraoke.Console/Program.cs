@@ -18,6 +18,7 @@ namespace AtemKaraoke
                 if (args.Length == 0)
                 {
                     lyrics = new TextFileLyrics();
+                    lyrics.Save();
                 }                   
                 else if (args.Length == 1)
                 {
