@@ -39,6 +39,14 @@ namespace AtemKaraoke.Core
         }
 
         private string _filePath;
+        public string FilePath
+        {
+            get
+            {
+                return _filePath;
+            }
+        }
+
         public string Save()
         {
             _filePath = GetImageFilePath(Config.Default.DestinationFolder, _lyrics.Name, _verseDrawing.Verse.Song.Name, _verseDrawing.Verse.Number, _verseDrawing.Verse.Text);
@@ -73,8 +81,8 @@ namespace AtemKaraoke.Core
         {
             var file = obj as VerseFile;
             bool res = (file != null
-                        && file.Verse.FilePath != null
-                        && file.Verse.FilePath == this.Verse.FilePath
+                        && file.FilePath != null
+                        && file.FilePath == this.FilePath
                         && file.Text == this.Text
                         );
             return res;

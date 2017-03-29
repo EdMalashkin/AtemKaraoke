@@ -85,19 +85,6 @@ namespace AtemKaraoke.Core
 		//	}
 		//}
 
-		private string _FilePath;
-        public string FilePath
-        {
-            get
-            {
-                return _FilePath;
-            }
-            set
-            {
-                _FilePath = value;
-            }
-        }
-
         private string CleanText(string text)
 		{
 			string[] rows = Regex.Split(text, Environment.NewLine);

@@ -121,7 +121,7 @@ namespace AtemKaraoke.Core
         {
             foreach (var f in VerseFiles)
             {
-                Switcher.UploadMedia(f.Verse.FilePath, f.Verse.Number);
+                Switcher.UploadMedia(f.FilePath, f.Verse.Number);
             }
         }
 
