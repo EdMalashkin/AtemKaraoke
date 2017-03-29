@@ -37,7 +37,6 @@ string 4";
             Assert.AreEqual(lyrics.Songs.Count, 1);
         }
 
-
         [TestMethod]
         public void TestSongsAmount()
         {
@@ -71,6 +70,20 @@ Song 2";
             Assert.AreEqual(lyrics.Songs[0].Text.Contains("Song 2"), false);
             Assert.AreEqual(lyrics.Songs[1].Text.Contains("Song 1"), false);
             Assert.AreEqual(lyrics.Songs[1].Text.Contains("Song 2"), true);
+        }
+
+        [TestMethod]
+        public void TestSerialization()
+        {
+            string song = @"string 1
+string 2
+       
+string 3
+string 4";
+            var file1 = new BinaryFileLyrics(new Lyrics(song, switcher));
+            var filePath = file1.Save();
+            var file2 = new BinaryFileLyrics(filePath);
+            Assert.AreEqual(file1.Lyrics, file2.Lyrics);
         }
     }
 }

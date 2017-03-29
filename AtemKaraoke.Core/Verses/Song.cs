@@ -6,19 +6,23 @@ using System.Text;
 
 namespace AtemKaraoke.Core
 {
-	public class Song
+    [Serializable]
+    public class Song
 	{
         public Song() {  }
+        private Lyrics _lyrics;
 
-        public Song(string FilePath) 
+        public Song(Lyrics lyrics, string filePath)
 		{
-			Text = FileHelper.GetTextFromFile(FilePath);
+            Text = FileHelper.GetTextFromFile(filePath);
+            _lyrics = lyrics;
         }
-		public Song(string songText, int songNumber)
+		public Song(Lyrics lyrics, string songText, int songNumber)
 		{
 			Text = songText;
 			Number = songNumber;
-		}
+            _lyrics = lyrics;
+        }
 
         private string _Text;
         public string Text
@@ -87,7 +91,8 @@ namespace AtemKaraoke.Core
                                                                             verses[i], 
                                                                             i+1,
                                                                             accumulatedLength)
-                                                                            )
+                                                                            ),
+                                                               _lyrics
                                              );
                         _VerseFiles.Add(v);
                         accumulatedLength += v.Verse.Text.Length;

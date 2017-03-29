@@ -13,21 +13,18 @@ namespace AtemKaraoke
 			try
 			{
                 Console.OutputEncoding = Encoding.UTF8;
-                //App app = new App();
                 ILyrics lyrics = null;
 
                 if (args.Length == 0)
                 {
-                    //List<Song> songs = app.ConvertSongsToImages();
-                    //app.UploadSongsToSwitcher(songs);
-                    lyrics = new LyricsFromFile();
+                    lyrics = new TextFileLyrics();
                 }                   
                 else if (args.Length == 1)
                 {
                     string path = args[0];
                     Console.WriteLine(path);
-                    lyrics = new LyricsFromFile(path);
-                    //app.UploadSongsToSwitcher(sourseFolder);
+                    lyrics = new BinaryFileLyrics(path);
+                    
                 }
                 lyrics.Send();
             }

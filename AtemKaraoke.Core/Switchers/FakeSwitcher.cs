@@ -3,6 +3,7 @@ using System.Threading;
 
 namespace AtemKaraoke.Core
 {
+    [Serializable]
     public class FakeSwitcher : ISwitcher
     {
         public uint GetMediaFromPlayer()

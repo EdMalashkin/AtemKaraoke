@@ -230,7 +230,6 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "AtemKaraoke";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.FormMain_Closing);
-            this.Load += new System.EventHandler(this.FormMain_Load);
             ((System.ComponentModel.ISupportInitialize)(this.grdSong)).EndInit();
             this.statusStrip1.ResumeLayout(false);
             this.statusStrip1.PerformLayout();

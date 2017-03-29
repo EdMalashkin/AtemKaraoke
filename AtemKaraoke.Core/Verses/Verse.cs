@@ -7,7 +7,8 @@ using System.Threading.Tasks;
 
 namespace AtemKaraoke.Core
 {
-	public class Verse
+    [Serializable]
+    public class Verse
 	{
         private Song _song;
         private int _accumulatedLength; // may be deleted I think
@@ -121,9 +122,20 @@ namespace AtemKaraoke.Core
             return result.Trim();
         }
 
-        public bool IsDifferent(string value)
+        public bool Update(string newValue)
         {
-            return (Text.Trim() != value.Trim());
+            bool result = false;
+            if (IsEdited(newValue))
+            {
+                Text = newValue;
+                result = true;
+            }
+            return result;
+        }
+
+        private bool IsEdited(string newValue)
+        {
+            return (Text.Trim() != newValue.Trim());
         }
     }
 }

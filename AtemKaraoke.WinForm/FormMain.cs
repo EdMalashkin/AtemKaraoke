@@ -3,46 +3,12 @@ using System.Windows.Forms;
 using AtemKaraoke.Core;
 using System.Diagnostics;
 using System.Drawing;
-using System.Linq;
 
 namespace AtemKaraoke.WinForm
 {
 	public partial class FormMain : Form
 	{
-		
 		bool _isRestart;
-
-        //App _app;
-        //private App App
-        //{
-        //    get
-        //    {
-        //        if (_app == null) _app = new App();
-        //        return _app;
-        //    }
-        //}
-
-        Lyrics _lyrics;
-        private object True;
-
-        private Lyrics Lyrics
-        {
-            get
-            {
-                if (_lyrics == null) _lyrics = new Lyrics(GetSelectedSongText);
-                return _lyrics;
-            }
-        }
-
-        //App _app;
-        //private App App
-        //{
-        //    get
-        //    {
-        //        if (_app == null) _app = new App();
-        //        return _app;
-        //    }
-        //}
 
         public FormMain()
 		{
@@ -69,7 +35,20 @@ namespace AtemKaraoke.WinForm
 			statusStrip1.Refresh();
 		}
 
-		private string GetSelectedSongText
+        Lyrics _lyrics;
+        private Lyrics Lyrics
+        {
+            get
+            {
+                if (_lyrics == null)
+                {
+                    _lyrics = new Lyrics(GetSelectedSongText);
+                }
+                return _lyrics;
+            }
+        }
+
+        private string GetSelectedSongText
 		{
 			get
 			{
@@ -89,92 +68,69 @@ namespace AtemKaraoke.WinForm
             return s;
         }
 
+        private void CreateNewLyrics()
+        {
+            _lyrics = new Lyrics(GetSelectedSongText); 
+        }
+
         private void BindGrid()
         {
             grdSong.AutoGenerateColumns = false;
-            _lyrics = new Lyrics(GetSelectedSongText);
-            grdSong.DataSource = _lyrics.VerseFiles;
-            //foreach (var v in _songs.Verses)
-            //{
-            //    int idx = grdSong.Rows.Add(v.Text);
-            //    var r = grdSong.Rows[idx];
-            //    if (v.Number == 1)
-            //    {
-            //        foreach (DataGridViewCell cell in r.Cells)
-            //        {
-            //            //cell.AdjustCellBorderStyle(newStyle, null, false, false, false, false);
-            //            cell.Style.ApplyStyle(RefrainStyle());
-            //            //
-            //        }
-            //    }
-            //    if (v.Number == 2)
-            //    {
-            //        foreach (DataGridViewCell cell in r.Cells)
-            //        {
-            //            //cell.Style.Padding = ;
-            //        }
-            //    }
-
-            //   }
+            grdSong.DataSource = Lyrics.VerseFiles;
         }
 
-		private void chkEditMode_CheckedChanged(object sender, EventArgs e)
+        private void SetLiveMode()
+        {
+            grdSong.Enabled = false;
+            Cursor = Cursors.WaitCursor;
+
+            CreateNewLyrics();
+            if (_isRestart == false && chkExport.Checked == true)
+            {
+                Upload();
+            }
+            BindGrid();
+
+            ResizeSongControls();
+            chkEditMode.Text = "Back To Edit Mode";
+            toolTip.SetToolTip(chkEditMode, "Press Esc");
+            btnOnAir.Text = "Preview";
+            btnOnAir.Visible = true;
+            chkExport.Checked = true; // keep it true for the next time
+            toolStripStatusLabel.Text = "Off Air";
+            statusStrip1.Refresh();
+            grdSong.Focus();
+            txtSong.Visible = false;
+            chkExport.Visible = false;
+            grdSong.Visible = true;
+            pnlSong.Visible = true;
+
+            Cursor = Cursors.Default;
+            grdSong.Enabled = true;
+            //btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
+        }
+
+        private void SetEditMode()
+        {
+            chkEditMode.Text = "Go To Live Mode";
+            toolTip.SetToolTip(chkEditMode, "Press F5");
+            btnReconnect.Visible = false;
+            btnOnAir.Text = "Anything";
+            pnlSong.BackColor = SystemColors.Control;
+            btnOnAir.Visible = false;
+            btnCancelPreview.Visible = false;
+            Lyrics.Switcher.SetMediaOffAir();
+            toolStripStatusLabel.Text = "Edit Mode";
+            statusStrip1.Refresh();
+            txtSong.Visible = true;
+            chkExport.Visible = true;
+            grdSong.Visible = false;
+            pnlSong.Visible = false;
+        }
+
+        private void chkEditMode_CheckedChanged(object sender, EventArgs e)
 		{
-			if (!chkEditMode.Checked)
-			{
-				//_songs.VerseSelected += new VerseSelectedEventHandler(OnVerseSelected); //is it necessary to have????
-				
-                BindGrid();
-                ResizeSongControls();
-				grdSong.Enabled = false;
-				Cursor = Cursors.WaitCursor;
-
-				try
-				{
-					if (_isRestart == false && chkExport.Checked == true)
-					{
-                        Upload();
-					}
-				}
-				catch (Exception ex)
-				{
-					MessageBox.Show(ex.Message, "ATEM Error");
-				}
-				finally
-				{
-					grdSong.Enabled = true;
-					Cursor = Cursors.Default;
-
-					chkEditMode.Text = "Back To Edit Mode";
-					toolTip.SetToolTip(chkEditMode, "Press Esc");
-					btnOnAir.Text = "Preview";
-					btnOnAir.Visible = true;
-					chkExport.Checked = true; // keep it true for the next time
-					toolStripStatusLabel.Text = "Off Air";
-					statusStrip1.Refresh();
-					grdSong.Focus();
-					//btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
-				}
-			}
-			else
-			{
-				chkEditMode.Text = "Go To Live Mode";
-				toolTip.SetToolTip(chkEditMode, "Press F5");
-				btnReconnect.Visible = false;
-				btnOnAir.Text = "Anything";
-				pnlSong.BackColor = System.Drawing.SystemColors.Control;
-				btnOnAir.Visible = false;
-				btnCancelPreview.Visible = false;
-                Lyrics.Switcher.SetMediaOffAir();
-				toolStripStatusLabel.Text = "Edit Mode";
-				statusStrip1.Refresh();
-			}
-
-			txtSong.Visible = chkEditMode.Checked;
-			chkExport.Visible = chkEditMode.Checked;
-			grdSong.Visible = !chkEditMode.Checked;
-			pnlSong.Visible = !chkEditMode.Checked;
-			
+            if (!chkEditMode.Checked) SetLiveMode(); else SetEditMode();
 		}
 
         private void SendViaConsole(string path)
@@ -192,14 +148,22 @@ namespace AtemKaraoke.WinForm
 
         private void Upload()
         {
-            if (!Lyrics.Configuration.UseConsoleToUploadFromWinForm)
+            try
             {
-                Lyrics.Send();
+                Lyrics.Save();
+                if (!Lyrics.Configuration.UseConsoleToUploadFromWinForm)
+                {
+                    Lyrics.Send();
+                }
+                else
+                {   // this works today
+                    string file = new BinaryFileLyrics(Lyrics).Save();
+                    SendViaConsole(file); // the console is going to call Lyrics.Send()
+                }
             }
-            else
-            {   // this works today:
-                string folder = Lyrics.Save();
-                SendViaConsole(folder);
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ATEM Error");
             }
         }
 
@@ -405,13 +369,7 @@ namespace AtemKaraoke.WinForm
 			RememberSettings();
 		}
 
-		private void FormMain_Load(object sender, EventArgs e)
-		{
-
-		}
-
         #region GridEvents
-
         private void grdSong_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
@@ -443,12 +401,10 @@ namespace AtemKaraoke.WinForm
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
             { 
-                DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
                 var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-                string newVerseValue = cell.EditedFormattedValue.ToString();
-                if (curVerseFile.Verse.IsDifferent(newVerseValue))
+                string newValue = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString();
+                if (curVerseFile.Verse.Update(newValue))
                 {
-                    curVerseFile.Verse.Text = newVerseValue;
                     string filePath = curVerseFile.Save();
                     SendViaConsole(filePath);
                     txtSong.Text = Lyrics.ToString();
@@ -456,7 +412,6 @@ namespace AtemKaraoke.WinForm
                 }
             }
         }
-
         #endregion
     }
 }

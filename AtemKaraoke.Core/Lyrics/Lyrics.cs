@@ -5,10 +5,13 @@ using System.Linq;
 using AtemKaraoke.Core.Tools;
 using System.IO;
 using System.Text;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace AtemKaraoke.Core
 {
-	public class Lyrics : ILyrics
+    [Serializable]
+    public class Lyrics : ILyrics
     {
 		private string _text;
         // from form
@@ -59,7 +62,7 @@ namespace AtemKaraoke.Core
 					string[] songs = Regex.Split(_text, Config.Default.SongSplitterInEditor);
 					for (int i = 0; i < songs.Length; i++)
 					{
-						Song s = new Song(songs[i], i + 1);
+						Song s = new Song(this, songs[i], i + 1);
 						_songs.Add(s);
 					}
 				}
@@ -80,11 +83,19 @@ namespace AtemKaraoke.Core
             }
         }
 
+        string _name;
         public string Name
         {
             get
             {
-                return Songs.First().Name;
+                if (string.IsNullOrEmpty(_name))
+                {
+                    string name = Songs.First().Text;
+                    if (name.Length > Config.Default.FileNameLength)
+                        name = name.Substring(0, Config.Default.FileNameLength);
+                    _name = name;
+                }
+                return _name;
             }
         }
 
@@ -103,16 +114,14 @@ namespace AtemKaraoke.Core
             {
                 filePath = f.Save();
             }
-            return Path.GetDirectoryName(filePath);
+            return Directory.GetParent(Directory.GetParent(filePath).FullName).FullName;
         }
 
         public void Send()
         {
-            string filePath;
             foreach (var f in VerseFiles)
             {
-                filePath = f.Save();
-                Switcher.UploadMedia(filePath, f.Verse.Number);
+                Switcher.UploadMedia(f.Verse.FilePath, f.Verse.Number);
             }
         }
 
@@ -139,6 +148,22 @@ namespace AtemKaraoke.Core
                 result.Append(s.ToString() + GetSongSplitter());
             }
             return result.ToString().Trim();
+        }
+
+        public override bool Equals(object obj)
+        {
+            var lyr = obj as Lyrics;
+            bool res = (lyr != null
+                        && lyr.Songs.Count == this.Songs.Count
+                        && lyr.ToString() == this.ToString()
+                        && lyr.VerseFiles.SequenceEqual(this.VerseFiles)
+                        );
+            return res;
+        }
+
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
         }
     }
 }

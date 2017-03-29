@@ -8,16 +8,17 @@ using System.Threading.Tasks;
 
 namespace AtemKaraoke.Core
 {   // decorator over Lyrics to load its content from files
-    public class LyricsFromFile : ILyrics
+    [Serializable]
+    public class TextFileLyrics : ILyrics
     {
         string _path;
         Lyrics _lyrics;
 
-        public LyricsFromFile()
+        public TextFileLyrics()
         {
             _path = Config.Default.SourceFolder;
         }
-        public LyricsFromFile(string path)
+        public TextFileLyrics(string path)
         {
             _path = path;
         }
@@ -36,32 +37,32 @@ namespace AtemKaraoke.Core
             Lyrics lyr;
             if (System.IO.File.Exists(_path))
             {
-                lyr = CreateLyricsFromFile();
+                lyr = CreateLyricsFromImageFile();
             }
             else
             {
-                lyr = CreateLyricsFromFolder();
+                lyr = CreateLyricsFromImageFolder();
             }
             return lyr;
         }
 
-        private Lyrics CreateLyricsFromFile()
+        private Lyrics CreateLyricsFromImageFile()
         {
             List<Song> songs = new List<Song>();
-            Song s = new Song(_path, 1);
+            Song s = new Song(this.Lyrics, _path, 1);
             songs.Add(s);
             return new Lyrics(songs);
         }
 
-        private Lyrics CreateLyricsFromFolder()
+        private Lyrics CreateLyricsFromImageFolder()
         {
-            IOrderedEnumerable<string> files = FileHelper.GetAllFilesList(_path, Config.Default.SourceFolderPattern);
+            IOrderedEnumerable<string> files = FileHelper.GetAllFiles(_path, Config.Default.SourceFolderPattern);
             List<Song> songs = new List<Song>();
 
             int fileNumber = 0;
-            foreach (string file in files)
+            foreach (var file in files)
             {
-                Song s = new Song(file);
+                Song s = new Song(this.Lyrics, file);
                 s.Number = fileNumber++;
                 songs.Add(s);
             }

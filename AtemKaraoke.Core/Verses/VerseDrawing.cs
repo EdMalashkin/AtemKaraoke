@@ -9,6 +9,7 @@ using System.Drawing.Drawing2D;
 
 namespace AtemKaraoke.Core
 {
+    [Serializable]
     public class VerseDrawing
     {
         Verse _verse;

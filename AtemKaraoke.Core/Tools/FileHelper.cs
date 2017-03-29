@@ -57,12 +57,12 @@ namespace AtemKaraoke.Core.Tools
 			return new StreamReader(srcFile, enc);
 		}
 
-		public static IOrderedEnumerable<string> GetAllFilesList(string FolderPath, string SearchPattern)
+		public static IOrderedEnumerable<string> GetAllFiles(string FolderPath, string SearchPattern)
 		{
-			return Directory.GetFiles(FolderPath, SearchPattern, SearchOption.AllDirectories).OrderBy(f => new FileInfo(f).CreationTime);
+            return Directory.GetFiles(FolderPath, SearchPattern, SearchOption.AllDirectories).OrderBy(f => new FileInfo(f).CreationTime);
         }
 
-		public static void GetCleanFolder(string FolderPath)
+        public static void GetCleanFolder(string FolderPath)
 		{
 			if (!Directory.Exists(FolderPath))
 			{

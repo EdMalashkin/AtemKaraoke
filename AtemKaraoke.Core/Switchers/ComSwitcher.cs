@@ -8,6 +8,7 @@ using System.Threading;
 
 namespace AtemKaraoke.Core
 {
+    [Serializable]
     public class ComSwitcher : ISwitcher
     {
         Switcher _switcher;
