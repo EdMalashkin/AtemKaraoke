@@ -6,7 +6,8 @@ using System.Text;
 
 namespace AtemKaraoke.Core
 {
-	public class Song
+    [Serializable]
+    public class Song
 	{
         public Song() {  }
         private Lyrics _lyrics;
