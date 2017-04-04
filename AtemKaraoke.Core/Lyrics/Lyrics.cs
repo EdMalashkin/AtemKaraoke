@@ -77,7 +77,7 @@ namespace AtemKaraoke.Core
                 List<VerseFile> list = new List<VerseFile>();
                 Songs.ForEach(s => list.AddRange(s.VerseFiles));
 
-                int i = 0;
+                int i = 1;
                 list.ForEach(f => f.GlobalNumber = i++);
 
                 return list;
