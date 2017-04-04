@@ -127,34 +127,26 @@ namespace AtemKaraoke.Core
             }
         }
 
-        public void Send(int verseNumber)
-        { // the method is not a good practice - could be removed when avoidance of "console workaround" is found
-            if (verseNumber >= 0)
+        public void SendSelected()
+        {
+            if (_selectedVerse != null)
             {
-                var verseToSend = VerseFiles.Single(v => v.GlobalNumber == verseNumber);
-                if (verseToSend != null)
-                {
-                    Console.WriteLine(verseToSend.FilePath);
-                    Switcher.UploadMedia(verseToSend.FilePath, verseToSend.GlobalNumber);
-                }
-                else
-                {
-                    throw new Exception("Cannot find the verse");
-                }
+                Console.WriteLine(_selectedVerse.FilePath);
+                Switcher.UploadMedia(_selectedVerse.FilePath, _selectedVerse.GlobalNumber);
             }
             else
             {
-                Send();
+                throw new Exception("No selected verse");
             }
         }
 
-        private int _selectedNumber = -1;
+        private VerseFile _selectedVerse;
         public void Select(VerseFile newVerseFile)
         {
-            if (_selectedNumber != newVerseFile.GlobalNumber)
+            if (_selectedVerse != newVerseFile)
             {
-                _selectedNumber = newVerseFile.GlobalNumber;
-                Switcher.SetMediaToPlayer(_selectedNumber);
+                _selectedVerse = newVerseFile;
+                Switcher.SetMediaToPlayer(_selectedVerse.GlobalNumber);
             }
         }
 

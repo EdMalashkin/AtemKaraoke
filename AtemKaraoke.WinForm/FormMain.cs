@@ -133,13 +133,13 @@ namespace AtemKaraoke.WinForm
             if (!chkEditMode.Checked) SetLiveMode(); else SetEditMode();
 		}
 
-        private void SendViaConsole(string path, int verseToSend = -1)
+        private void SendViaConsole(string path, bool sendSelected = false)
         {
             var process = new Process();
             process.StartInfo = new ProcessStartInfo(@"AtemKaraoke.Console.exe");
             process.StartInfo.Arguments = string.Format("\"{0}\"", path);
-            if (verseToSend >= 0)
-                process.StartInfo.Arguments += verseToSend.ToString();
+            if (sendSelected)
+                process.StartInfo.Arguments += " sendSelected";
             process.Start();
         }
 
@@ -403,11 +403,9 @@ namespace AtemKaraoke.WinForm
                 string newValue = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString();
                 if (curVerseFile.Verse.Update(newValue))
                 {
-                    //string filePath = curVerseFile.Save();
-                    //SendViaConsole(filePath); // this doesn't work today
-
+                    Lyrics.Select(curVerseFile); // be sure to remember what verse is selected
                     string binaryFile = new BinaryFileLyrics(Lyrics).Save();
-                    SendViaConsole(binaryFile, curVerseFile.GlobalNumber); // the console is going to call Lyrics.Send()
+                    SendViaConsole(binaryFile, true); // then the console is going to call Lyrics.SendSelected()
 
                     txtSong.Text = Lyrics.ToString();
                     grdSong.CurrentCell.ReadOnly = true;

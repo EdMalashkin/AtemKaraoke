@@ -16,7 +16,7 @@ namespace AtemKaraoke.Core
     {
         VerseDrawing _verseDrawing;
         Lyrics _lyrics;
-        public int GlobalNumber;
+        internal int GlobalNumber;
 
         public VerseFile(VerseDrawing verseDrawing, Lyrics lyrics)
         {

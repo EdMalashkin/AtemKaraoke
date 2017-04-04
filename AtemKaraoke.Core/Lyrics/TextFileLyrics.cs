@@ -89,9 +89,9 @@ namespace AtemKaraoke.Core
             Lyrics.Send();
         }
 
-        public void Send(int verseNumber)
+        public void SendSelected()
         {
-            Lyrics.Send(verseNumber);
+            Lyrics.SendSelected();
         }
 
         public void Select(VerseFile newVerseFile)

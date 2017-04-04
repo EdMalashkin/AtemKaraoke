@@ -14,13 +14,13 @@ namespace AtemKaraoke
 			{
                 Console.OutputEncoding = Encoding.UTF8;
                 ILyrics lyrics = null;
-                int verseNumber = -1;
+                bool sendSelected = false;
 
                 if (args.Length == 0)
                 {
                     lyrics = new TextFileLyrics(); // generate Lyrics from text files
                     lyrics.Save();
-                }                   
+                }
                 else if (args.Length >= 1)
                 {
                     string path = args[0];
@@ -28,16 +28,15 @@ namespace AtemKaraoke
                     lyrics = new BinaryFileLyrics(path); // get Lyrics by deserializing
                 }
 
-                if (args.Length == 2)
+                if (args.Length == 2 && args[1].Trim() == "sendSelected")
                 {
-                    int temp;
-                    if (int.TryParse(args[1], out temp))
-                        verseNumber = temp;
-                    else
-                        throw new Exception("The second argument (a verse number to send) must be an integer");
+                    sendSelected = true;
                 }
 
-                lyrics.Send(verseNumber);
+                if (sendSelected)
+                    lyrics.SendSelected();
+                else
+                    lyrics.Send();
             }
 			catch(Exception ex)
 			{
