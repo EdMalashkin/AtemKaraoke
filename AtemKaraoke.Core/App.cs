@@ -95,7 +95,7 @@
 
 //            foreach (var f in verses)
 //            {
-//                f.Verse.FilePath = GetImageFilePath(f.Verse.Text, f.Verse.Number, songName, Config.Default.DestinationFolder);
+//                f.Verse.FilePath = GetImageFilePath(f.Verse.Text, f.GlobalNumber, songName, Config.Default.DestinationFolder);
 //                Bitmap bmp = GetImage2(f.Verse.Text);
 //                bmp.Save(f.FilePath, System.Drawing.Imaging.ImageFormat.Png);
 //                newFolder = Path.GetDirectoryName(f.FilePath);
@@ -259,14 +259,14 @@
 //        {
 //                foreach (var f in song.VerseFiles)
 //                {
-//                   UploadMediaToSwitcher(f.FilePath, f.Verse.Number);
+//                   UploadMediaToSwitcher(f.FilePath, f.GlobalNumber);
 //                }
 //        }
 //        public void UploadSongsToSwitcher(List<VerseFile> verses)
 //        {
 //            foreach (var f in verses)
 //            {
-//                UploadMediaToSwitcher(f.Verse.FilePath, f.Verse.Number );
+//                UploadMediaToSwitcher(f.Verse.FilePath, f.GlobalNumber );
 //            }
 //        }
 

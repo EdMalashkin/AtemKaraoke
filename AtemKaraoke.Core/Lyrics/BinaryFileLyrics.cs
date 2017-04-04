@@ -9,7 +9,7 @@ using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
 namespace AtemKaraoke.Core
-{   // decorator over Lyrics to load its content from files
+{   // decorator over Lyrics to load its content from binary files
     [Serializable]
     public class BinaryFileLyrics : ILyrics
     {
@@ -83,6 +83,11 @@ namespace AtemKaraoke.Core
         public void Send()
         {
             Lyrics.Send();
+        }
+
+        public void Send(int verseNumber)
+        {
+            Lyrics.Send(verseNumber);
         }
 
         public void Select(VerseFile newVerseFile)

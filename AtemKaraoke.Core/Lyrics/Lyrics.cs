@@ -75,10 +75,11 @@ namespace AtemKaraoke.Core
             get
             {
                 List<VerseFile> list = new List<VerseFile>();
-                foreach (var s in Songs)
-                {
-                    list.AddRange(s.VerseFiles);
-                }
+                Songs.ForEach(s => list.AddRange(s.VerseFiles));
+
+                int i = 0;
+                list.ForEach(f => f.GlobalNumber = i++);
+
                 return list;
             }
         }
@@ -121,16 +122,38 @@ namespace AtemKaraoke.Core
         {
             foreach (var f in VerseFiles)
             {
-                Switcher.UploadMedia(f.FilePath, f.Verse.Number);
+                Console.WriteLine(f.FilePath);
+                Switcher.UploadMedia(f.FilePath, f.GlobalNumber);
+            }
+        }
+
+        public void Send(int verseNumber)
+        { // the method is not a good practice - could be removed when avoidance of "console workaround" is found
+            if (verseNumber >= 0)
+            {
+                var verseToSend = VerseFiles.Single(v => v.GlobalNumber == verseNumber);
+                if (verseToSend != null)
+                {
+                    Console.WriteLine(verseToSend.FilePath);
+                    Switcher.UploadMedia(verseToSend.FilePath, verseToSend.GlobalNumber);
+                }
+                else
+                {
+                    throw new Exception("Cannot find the verse");
+                }
+            }
+            else
+            {
+                Send();
             }
         }
 
         private int _selectedNumber = -1;
         public void Select(VerseFile newVerseFile)
         {
-            if (_selectedNumber != newVerseFile.Verse.Number)
+            if (_selectedNumber != newVerseFile.GlobalNumber)
             {
-                _selectedNumber = newVerseFile.Verse.Number;
+                _selectedNumber = newVerseFile.GlobalNumber;
                 Switcher.SetMediaToPlayer(_selectedNumber);
             }
         }

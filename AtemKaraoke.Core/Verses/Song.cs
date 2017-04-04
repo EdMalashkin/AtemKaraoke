@@ -149,7 +149,7 @@ namespace AtemKaraoke.Core
         //        {
         //            SelectVerse(v.Verse);
 
-        //            resultNumber = v.Verse.Number;
+        //            resultNumber = v.GlobalNumber;
         //            break;
         //        }
         //    }

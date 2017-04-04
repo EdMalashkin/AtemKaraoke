@@ -10,6 +10,7 @@ namespace AtemKaraoke.Core
     {
         string Save();
         void Send();
+        void Send(int verseNumber);
         void Select(VerseFile newVerse);
     }
 }

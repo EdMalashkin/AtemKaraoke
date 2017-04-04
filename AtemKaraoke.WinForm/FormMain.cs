@@ -133,17 +133,14 @@ namespace AtemKaraoke.WinForm
             if (!chkEditMode.Checked) SetLiveMode(); else SetEditMode();
 		}
 
-        private void SendViaConsole(string path)
+        private void SendViaConsole(string path, int verseToSend = -1)
         {
-            string MyBatchFile = @"AtemKaraoke.Console.exe";
-            var process = new Process
-            {
-                StartInfo = {
-                                Arguments = string.Format("\"{0}\"",  path)
-                            }
-            };
-            process.StartInfo.FileName = MyBatchFile;
-            bool b = process.Start();
+            var process = new Process();
+            process.StartInfo = new ProcessStartInfo(@"AtemKaraoke.Console.exe");
+            process.StartInfo.Arguments = string.Format("\"{0}\"", path);
+            if (verseToSend >= 0)
+                process.StartInfo.Arguments += verseToSend.ToString();
+            process.Start();
         }
 
         private void Upload()
@@ -157,8 +154,8 @@ namespace AtemKaraoke.WinForm
                 }
                 else
                 {   // this works today
-                    string file = new BinaryFileLyrics(Lyrics).Save();
-                    SendViaConsole(file); // the console is going to call Lyrics.Send()
+                    string binaryFile = new BinaryFileLyrics(Lyrics).Save();
+                    SendViaConsole(binaryFile); // the console is going to call Lyrics.Send()
                 }
             }
             catch (Exception ex)
@@ -392,8 +389,9 @@ namespace AtemKaraoke.WinForm
             //cell.ReadOnly = false;
             //grdSong.CurrentCell = cell;
             //grdSong.EditMode = DataGridViewEditMode.EditOnEnter;
-            ////grdSong.CurrentCell.KeyEntersEditMode
+            //grdSong.CurrentCell.KeyEntersEditMode();
             grdSong.CurrentCell.ReadOnly = false;
+            Debug.Print("grdSong_CellDoubleClick");
             //grdSong.BeginEdit(true);
         }
 
@@ -405,13 +403,23 @@ namespace AtemKaraoke.WinForm
                 string newValue = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString();
                 if (curVerseFile.Verse.Update(newValue))
                 {
-                    string filePath = curVerseFile.Save();
-                    SendViaConsole(filePath);
+                    //string filePath = curVerseFile.Save();
+                    //SendViaConsole(filePath); // this doesn't work today
+
+                    string binaryFile = new BinaryFileLyrics(Lyrics).Save();
+                    SendViaConsole(binaryFile, curVerseFile.GlobalNumber); // the console is going to call Lyrics.Send()
+
                     txtSong.Text = Lyrics.ToString();
                     grdSong.CurrentCell.ReadOnly = true;
                 }
             }
         }
         #endregion
+
+        private void grdSong_MouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //grdSong.CurrentCell.ReadOnly = false;
+            Debug.Print("grdSong_MouseDoubleClick");
+        }
     }
 }

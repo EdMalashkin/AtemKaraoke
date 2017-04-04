@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace AtemKaraoke.Core
-{   // decorator over Lyrics to load its content from files
+{   // decorator over Lyrics to load its content from text files
     [Serializable]
     public class TextFileLyrics : ILyrics
     {
@@ -87,6 +87,11 @@ namespace AtemKaraoke.Core
         public void Send()
         {
             Lyrics.Send();
+        }
+
+        public void Send(int verseNumber)
+        {
+            Lyrics.Send(verseNumber);
         }
 
         public void Select(VerseFile newVerseFile)
