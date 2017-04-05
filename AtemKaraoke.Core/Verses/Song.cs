@@ -14,154 +14,79 @@ namespace AtemKaraoke.Core
 
         public Song(Lyrics lyrics, string filePath)
 		{
-            Text = FileHelper.GetTextFromFile(filePath);
-            _lyrics = lyrics;
-        }
-		public Song(Lyrics lyrics, string songText, int songNumber)
-		{
-			Text = songText;
-			Number = songNumber;
+            _text = FileHelper.GetTextFromFile(filePath);
             _lyrics = lyrics;
         }
 
-        private string _Text;
+        public Song(Lyrics lyrics, string songText, int songNumber)
+		{
+            _text = songText.Trim();
+            _number = songNumber;
+            _lyrics = lyrics;
+        }
+
+        private string _text;
         public string Text
         {
             get
             {
-                return _Text;
-            }
-            set
-            {
-                _Text = value.Trim();
+                return _text;
             }
         }
 
-        private int _Number;
+        private int _number;
         public int Number
         {
             get
             {
-                return _Number;
-            }
-            set
-            {
-                _Number = value;
+                return _number;
             }
         }
 
-        private string _Name;
+        private string _name;
 		public string Name
 		{
 			get
 			{
-				if (string.IsNullOrEmpty (_Name))
+				if (string.IsNullOrEmpty (_name))
 				{
 					if (Text.Length > Config.Default.FileNameLength)
-						_Name = Text.Substring(0, Config.Default.FileNameLength);
+						_name = Text.Substring(0, Config.Default.FileNameLength);
 					else
-						_Name = Text;
+						_name = Text;
 
-					_Name = string.Format("{0} {1}", Number, _Name).Trim();
+					_name = string.Format("{0} {1}", Number, _name).Trim();
 				}
 					
-				return _Name;
-			}
-			set
-			{
-				_Name = value;
+				return _name;
 			}
 		}
 
-		private List<VerseFile> _VerseFiles;
+		private List<VerseFile> _verseFiles;
 		public List<VerseFile> VerseFiles
 		{
 			get
 			{
-                if (_VerseFiles == null)
+                if (_verseFiles == null)
                 {
-                    _VerseFiles = new List<VerseFile>();
+                    _verseFiles = new List<VerseFile>();
                     string[] verses = Regex.Split(Text, Config.Default.Splitter);
-                    int accumulatedLength = 0;
                     int maxArray = Config.Default.MaxAmountOfVerses;
                     int versesCount = (verses.Length >= maxArray) ? maxArray : verses.Length;
                     for (int i = 0; i < versesCount; i++)
                     {
                         var v = new VerseFile(new VerseDrawing(new Verse(   this, 
                                                                             verses[i], 
-                                                                            i+1,
-                                                                            accumulatedLength)
+                                                                            i+1)
                                                                             ),
                                                                _lyrics
                                              );
-                        _VerseFiles.Add(v);
-                        accumulatedLength += v.Verse.Text.Length;
+                        _verseFiles.Add(v);
                     }
                 }
-				return _VerseFiles;
-			}
-			set
-			{
-				_VerseFiles = value;
+				return _verseFiles;
 			}
 		}
-
-        private Verse SelectedVerse;
-        public void SelectVerse(Verse newVerse)
-        {
-            if (newVerse == null) return;
-            if (SelectedVerse != null && SelectedVerse.Number == newVerse.Number) return;
-
-            SelectedVerse = newVerse;
-
-            //VerseSelectedEventArgs e = new VerseSelectedEventArgs();
-            //e.SelectionNumber = newVerse.Number;
-            //e.SelectionStart = newVerse.StartPosition;
-            //e.SelectionLength = newVerse.EndPosition;
-            //OnVerseSelected(this, e);
-        }
-
-        //public int SelectVerse(int curPosition)
-        //{
-        //    string splitter = Config.Default.Splitter;
-        //    int resultNumber = -1;
-        //    int selectionStart = Text.LastIndexOf(splitter, curPosition);
-        //    int selectionLength = Text.IndexOf(splitter, curPosition);
-
-        //    if (curPosition < Text.Length)
-        //    {
-        //        int startIndex = curPosition - splitter.Length / 2;
-        //        if (startIndex < 0) return -1;
-        //        string curTextToCheckIfSplitter = Text.Substring(startIndex, splitter.Length);
-        //        if (splitter == curTextToCheckIfSplitter) return -1;
-        //    }
-
-        //    if (selectionStart == -1)
-        //        selectionStart = 0;
-        //    if (selectionLength == -1)
-        //        selectionLength = Text.Length;
-
-        //    selectionLength = selectionLength - selectionStart;
-
-        //    foreach (var v in VerseFiles)
-        //    {
-        //        if (v.Verse.StartPosition == selectionStart)
-        //        {
-        //            SelectVerse(v.Verse);
-
-        //            resultNumber = v.GlobalNumber;
-        //            break;
-        //        }
-        //    }
-
-        //    return resultNumber;
-        //}
-
-        //public event VerseSelectedEventHandler VerseSelected;
-        //private void OnVerseSelected(object sender, VerseSelectedEventArgs e)
-        //{
-        //    VerseSelected(this, e);
-        //}
 
         public Verse FirstVerse
         {
@@ -170,6 +95,7 @@ namespace AtemKaraoke.Core
                 return VerseFiles[0].Verse;
             }
         }
+
         public Verse LastVerse
         {
             get

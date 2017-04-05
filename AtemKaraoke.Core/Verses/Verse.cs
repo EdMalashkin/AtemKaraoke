@@ -11,15 +11,14 @@ namespace AtemKaraoke.Core
     public class Verse
 	{
         private Song _song;
-        private int _accumulatedLength; // may be deleted I think
         public readonly bool IsRefrain = false;
-        public Verse(Song s, string text, int number, int accumulatedLength)
+
+        public Verse(Song s, string text, int number)
         {
             _song = s;
-            _accumulatedLength = accumulatedLength;
+            _dirtyText = text;
+            _number = number;
             IsRefrain = text.Contains("*");
-            Text = text;
-            Number = number;
         }
 
         public Song Song
@@ -30,60 +29,45 @@ namespace AtemKaraoke.Core
             }
         }
 
-        private string _Text;
-		public string Text
+        private string _dirtyText;
+        private string _cleanedText;
+        public string Text
 		{
 			get
 			{
-                return _Text;
-			}
-			set
-			{
-				_Text = CleanText(value);
-			}
-		}
-
-		private string _Name;
-		public string Name
-		{
-			get
-			{
-				return _Name;
-			}
-			set
-			{
-				_Name = value;
+                if (string.IsNullOrEmpty(_cleanedText))
+                {
+                    _cleanedText = CleanText(_dirtyText);
+                }
+                return _cleanedText;
 			}
 		}
 
-		private int _Number;
+        public bool Update(string newValue)
+        {
+            bool result = false;
+            if (IsEdited(newValue))
+            {
+                _dirtyText = newValue;
+                _cleanedText = CleanText(newValue);
+                result = true;
+            }
+            return result;
+        }
+
+        private bool IsEdited(string newText)
+        {
+            return (_dirtyText.Trim() != newText.Trim());
+        }
+
+        private int _number;
 		public int Number
 		{
 			get
 			{
-				return _Number;
-			}
-			set
-			{
-				_Number = value;
+				return _number;
 			}
 		}
-
-  //      public int StartPosition
-		//{
-		//	get
-  //          {
-  //              return Song.Text.IndexOf(this.Text, _accumulatedLength);
-  //          }
-		//}
-
-		//public int EndPosition
-		//{
-		//	get
-		//	{
-		//		return StartPosition + Text.Length;
-		//	}
-		//}
 
         private string CleanText(string text)
 		{
@@ -107,22 +91,6 @@ namespace AtemKaraoke.Core
             string result = Text;
             if (IsRefrain) result = "*" + result;
             return result.Trim();
-        }
-
-        public bool Update(string newValue)
-        {
-            bool result = false;
-            if (IsEdited(newValue))
-            {
-                Text = newValue;
-                result = true;
-            }
-            return result;
-        }
-
-        private bool IsEdited(string newValue)
-        {
-            return (Text.Trim() != newValue.Trim());
         }
     }
 }
