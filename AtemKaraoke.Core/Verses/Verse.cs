@@ -11,14 +11,12 @@ namespace AtemKaraoke.Core
     public class Verse
 	{
         private Song _song;
-        public readonly bool IsRefrain = false;
 
         public Verse(Song s, string text, int number)
         {
             _song = s;
             _dirtyText = text;
             _number = number;
-            IsRefrain = text.Contains("*");
         }
 
         public Song Song
@@ -86,11 +84,17 @@ namespace AtemKaraoke.Core
             return newText.Trim();
 		}
 
+        public bool IsRefrain
+        {
+            get
+            {
+                return _dirtyText.Contains("*");
+            }
+        }
+
         public override string ToString()
         {
-            string result = Text;
-            if (IsRefrain) result = "*" + result;
-            return result.Trim();
+            return _dirtyText.Trim();
         }
     }
 }
