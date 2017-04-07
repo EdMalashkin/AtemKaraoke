@@ -47,7 +47,7 @@ namespace AtemKaraoke
             {
                 Console.WriteLine("Finished");
                 //Console.ReadLine();
-                new Reader().ReadLine(5000);
+                new Reader().ReadLine(3000);
             }
 		}
 	}

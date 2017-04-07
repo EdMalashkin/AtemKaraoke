@@ -88,20 +88,74 @@ namespace AtemKaraoke.Core
 			}
 		}
 
-        public Verse FirstVerse
+        public VerseFile FirstVerseFile
         {
             get
             {
-                return VerseFiles[0].Verse;
+                return VerseFiles[0];
             }
         }
 
-        public Verse LastVerse
+        public VerseFile LastVerseFile
         {
             get
             {
-                return VerseFiles[VerseFiles.Count - 1].Verse;
+                return VerseFiles[VerseFiles.Count - 1];
             }
+        }
+
+        public VerseFile NextRefrain
+        {
+            get
+            {
+                var result = _lyrics.SelectedVerse;
+                int curIndex = GetCurrentSelectedVerseIndex();
+                if (curIndex >= 0)
+                {
+                    for (int i = curIndex + 1; i < VerseFiles.Count; i++)
+                    {
+                        if (VerseFiles[i].Verse.IsRefrain)
+                        {
+                            result = VerseFiles[i];
+                            break;
+                        }
+                    }
+                }
+                return result;
+            }
+        }
+
+        public VerseFile PrevRefrain
+        {
+            get
+            {
+                var result = _lyrics.SelectedVerse;
+                int curIndex = GetCurrentSelectedVerseIndex();
+                if (curIndex >= 0)
+                {
+                    for (int i = curIndex - 1; i >= 0; i--)
+                    {
+                        if (VerseFiles[i].Verse.IsRefrain)
+                        {
+                            result = VerseFiles[i];
+                            break;
+                        }
+
+                    }
+                }
+                return result;
+            }
+        }
+
+
+        //private VerseFile GetVerseByGlobalNumber(int globalNumber)
+        //{
+        //    return VerseFiles.Find(v => v.GlobalNumber == globalNumber);
+        //}
+
+        private int GetCurrentSelectedVerseIndex()
+        {
+            return VerseFiles.FindIndex(v => v.GlobalNumber == _lyrics.SelectedVerse.GlobalNumber && _lyrics.SelectedVerse.Verse.Song == this);
         }
 
         public override string ToString()
@@ -110,19 +164,17 @@ namespace AtemKaraoke.Core
             foreach (var v in VerseFiles)
             {
                 result.Append(v.Verse.ToString());
-                result.Append(Environment.NewLine);
-                result.Append(Environment.NewLine);
             }
             return result.ToString().Trim();
         }
     }
 
-    public delegate void VerseSelectedEventHandler(object source, VerseSelectedEventArgs args);
-    public class VerseSelectedEventArgs : EventArgs
-    {
-        public int SelectionStart { get; set; }
-        public int SelectionLength { get; set; }
-        public int SelectionNumber { get; set; }
-    }
+    //public delegate void VerseSelectedEventHandler(object source, VerseSelectedEventArgs args);
+    //public class VerseSelectedEventArgs : EventArgs
+    //{
+    //    public int SelectionStart { get; set; }
+    //    public int SelectionLength { get; set; }
+    //    public int SelectionNumber { get; set; }
+    //}
 
 }

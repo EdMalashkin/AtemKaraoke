@@ -32,6 +32,14 @@ namespace AtemKaraoke.Core
             }
         }
 
+        public int LyricsIndexBasedOnZero
+        {
+            get
+            {
+                return GlobalNumber - 1;
+            }
+        }
+
         public string Text // used when binding
         {
             get

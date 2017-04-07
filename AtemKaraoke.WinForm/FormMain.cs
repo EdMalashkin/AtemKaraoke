@@ -6,7 +6,7 @@ using System.Drawing;
 
 namespace AtemKaraoke.WinForm
 {
-	public partial class FormMain : Form
+    public partial class FormMain : Form
 	{
 		bool _isRestart;
 
@@ -15,12 +15,8 @@ namespace AtemKaraoke.WinForm
 			InitializeComponent();
 			LoadLastSettings();
 			chkEditMode.Checked = true;
-			toolTip.SetToolTip(chkEditMode, "Press F5");
-			toolTip.SetToolTip(btnOnAir, "Press F6");
-			toolTip.SetToolTip(btnCancelPreview, "Press F7");
-			toolStripStatusLabel.Text = "Edit Mode";
-			statusStrip1.Refresh();
-		}
+            Init();
+        }
 
 		public FormMain(bool isRestart)
 		{
@@ -28,12 +24,17 @@ namespace AtemKaraoke.WinForm
 			InitializeComponent();
 			LoadLastSettings();
 			chkEditMode.Checked = false;
-			toolTip.SetToolTip(chkEditMode, "Press Esc");
-			toolTip.SetToolTip(btnOnAir, "Press F6");
-			toolTip.SetToolTip(btnCancelPreview, "Press F7");
-			toolStripStatusLabel.Text = "Edit Mode";
-			statusStrip1.Refresh();
-		}
+            Init();
+        }
+
+        private void Init()
+        {
+            toolTip.SetToolTip(chkEditMode, "Press F5");
+            toolTip.SetToolTip(btnOnAir, "Press F6");
+            toolTip.SetToolTip(btnCancelPreview, "Press F7");
+            toolStripStatusLabel.Text = "Edit Mode";
+            statusStrip1.Refresh();
+        }
 
         Lyrics _lyrics;
         private Lyrics Lyrics
@@ -42,7 +43,8 @@ namespace AtemKaraoke.WinForm
             {
                 if (_lyrics == null)
                 {
-                    _lyrics = new Lyrics(GetSelectedSongText);
+                    //_lyrics = new Lyrics(GetSelectedSongText);
+                    CreateNewLyrics();
                 }
                 return _lyrics;
             }
@@ -70,13 +72,15 @@ namespace AtemKaraoke.WinForm
 
         private void CreateNewLyrics()
         {
-            _lyrics = new Lyrics(GetSelectedSongText); 
+            _lyrics = new Lyrics(GetSelectedSongText);
+            _lyrics.OnVerseSelected += new EventHandler(this.OnVerseSelected);
         }
 
         private void BindGrid()
         {
             grdSong.AutoGenerateColumns = false;
             grdSong.DataSource = Lyrics.VerseFiles;
+            Lyrics.SelectFirstVerse(); ;
         }
 
         private void SetLiveMode()
@@ -154,8 +158,10 @@ namespace AtemKaraoke.WinForm
                 }
                 else
                 {   // this works today
+                    _lyrics.OnVerseSelected -= new EventHandler(this.OnVerseSelected); // to avoid {"Type 'System.Windows.Forms.Form' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable
                     string binaryFile = new BinaryFileLyrics(Lyrics).Save();
-                    SendViaConsole(binaryFile); // the console is going to call Lyrics.Send()
+                    SendViaConsole(binaryFile); // then the console is going to call Lyrics.Send()
+                    _lyrics.OnVerseSelected += new EventHandler(this.OnVerseSelected);
                 }
             }
             catch (Exception ex)
@@ -218,32 +224,17 @@ namespace AtemKaraoke.WinForm
 			btnCancelPreview.Visible = false;
 		}
 
-		public void OnVerseSelected(object sender, VerseSelectedEventArgs e)
+		public void OnVerseSelected(object sender, EventArgs e)
 		{
-			//grdSong.Enabled = false; // cannot do that because the grid looses focus
-			grdSong.Cursor = Cursors.WaitCursor;
-
-			try
-			{
-                Lyrics.Switcher.SetMediaToPlayer(e.SelectionNumber);
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message, "ATEM Error");
-			}
-			finally
-			{
-				//grdSong.Enabled = true;
-				grdSong.Cursor = Cursors.Default;
-			}
-
-			Debug.Print("OnVerseSelected " + e.SelectionNumber.ToString());
-		}
+            var curVerse = (VerseFile)sender;
+            grdSong.Rows[curVerse.LyricsIndexBasedOnZero].Selected = true;
+            //Debug.Print("OnVerseSelected {0}", curVerse.LyricsIndexBasedOnZero);
+        }
 
 		private void grdSong_SelectionChanged(object sender, EventArgs e)
 		{
-            var curVerseFile = grdSong.Rows[grdSong.CurrentRow.Index].DataBoundItem as VerseFile;
-            Lyrics.Select(curVerseFile); 
+            //var curVerseFile = grdSong.Rows[grdSong.CurrentRow.Index].DataBoundItem as VerseFile;
+            //Lyrics.Select(curVerseFile); 
 		}
 
 		private void txtSong_Resized(object sender, EventArgs e)
@@ -361,7 +352,7 @@ namespace AtemKaraoke.WinForm
 			return result;
 		}
 
-		private void btnSave_Click(object sender, EventArgs e)
+        private void btnSave_Click(object sender, EventArgs e)
 		{
 			RememberSettings();
 		}
@@ -370,7 +361,7 @@ namespace AtemKaraoke.WinForm
         private void grdSong_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
         {
             var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-            if (curVerseFile.Verse == curVerseFile.Verse.Song.LastVerse)
+            if (curVerseFile == curVerseFile.Verse.Song.LastVerseFile)
             {
                 e.Value += Lyrics.GetSongSplitter();
             }
@@ -412,12 +403,57 @@ namespace AtemKaraoke.WinForm
                 }
             }
         }
-        #endregion
 
         private void grdSong_MouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
         {
             //grdSong.CurrentCell.ReadOnly = false;
             Debug.Print("grdSong_MouseDoubleClick");
         }
+
+        private void grdSong_CellClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+            Lyrics.Select(curVerseFile);
+        }
+
+        private void grdSong_KeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.KeyCode)
+            {
+                case Keys.Down:
+                    Lyrics.SelectNextVerse();
+                    break;
+                case Keys.Up:
+                    Lyrics.SelectPrevVerse();
+                    break;
+                case Keys.Right:
+                    Lyrics.SelectNextKeyVerse();
+                    break;
+                case Keys.Left:
+                    Lyrics.SelectPrevKeyVerse();
+                    break;
+                case Keys.Home:
+                    Lyrics.SelectFirstVerse();
+                    break;
+                case Keys.End:
+                    Lyrics.SelectLastVerse();
+                    break;
+                case Keys.PageUp:
+                    Lyrics.SelectFirstVerse();
+                    break;
+                case Keys.PageDown:
+                    Lyrics.SelectLastVerse();
+                    break;
+            }
+        }
+
+        private void grdSong_KeyPress(object sender, KeyPressEventArgs e)
+        {
+
+        }
+
+        #endregion
+
+
     }
 }

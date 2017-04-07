@@ -116,9 +116,11 @@
             this.grdSong.Visible = false;
             this.grdSong.CellDoubleClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSong_CellDoubleClick);
             this.grdSong.CellFormatting += new System.Windows.Forms.DataGridViewCellFormattingEventHandler(this.grdSong_CellFormatting);
+            this.grdSong.CellMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdSong_CellClick);
             this.grdSong.CellMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.grdSong_MouseDoubleClick);
             this.grdSong.CellValueChanged += new System.Windows.Forms.DataGridViewCellEventHandler(this.grdSong_CellValueChanged);
             this.grdSong.SelectionChanged += new System.EventHandler(this.grdSong_SelectionChanged);
+            this.grdSong.KeyDown += new System.Windows.Forms.KeyEventHandler(this.grdSong_KeyDown);
             // 
             // Column1
             // 

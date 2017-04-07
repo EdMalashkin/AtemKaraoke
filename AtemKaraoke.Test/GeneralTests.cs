@@ -6,7 +6,7 @@ using System.Text;
 namespace AtemKaraoke.Test
 {
     [TestClass]
-    public class UnitTest1
+    public class GeneralTests
     {
         ISwitcher switcher = new FakeSwitcher();
 

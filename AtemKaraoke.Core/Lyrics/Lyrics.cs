@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Diagnostics;
 
 namespace AtemKaraoke.Core
 {
@@ -84,6 +85,83 @@ namespace AtemKaraoke.Core
             }
         }
 
+        private VerseFile _previouslySelectedVerse;
+        private VerseFile GetNextToPreviouslySelectedVerse()
+        {
+            return VerseFiles.Where(v => _previouslySelectedVerse != null 
+                                    && v.Verse.Song == _previouslySelectedVerse.Verse.Song
+                                    && v.LyricsIndexBasedOnZero == _previouslySelectedVerse.LyricsIndexBasedOnZero + 1)
+                             .FirstOrDefault();
+        }
+
+        private List<VerseFile> GetPrevKeyVerses()
+        {
+            return new List<VerseFile>() {
+                GetNextToPreviouslySelectedVerse(),
+                SelectedVerse.Verse.Song.PrevRefrain
+            }
+            .Where(v => v != null && v.LyricsIndexBasedOnZero < SelectedVerse.LyricsIndexBasedOnZero)
+            .OrderBy(v => v.LyricsIndexBasedOnZero)
+            .ToList();
+        }
+
+        private List<VerseFile> GetNextKeyVerses()
+        {
+            return new List<VerseFile>() {
+                GetNextToPreviouslySelectedVerse(),
+                SelectedVerse.Verse.Song.NextRefrain
+            }
+            .Where(v => v!=null && v.LyricsIndexBasedOnZero > SelectedVerse.LyricsIndexBasedOnZero)
+            .OrderBy(v => v.LyricsIndexBasedOnZero)
+            .ToList();
+        }
+
+        public void SelectPrevKeyVerse()
+        {
+            Select(GetPrevKeyVerses().FirstOrDefault());
+        }
+
+        public void SelectNextKeyVerse()
+        {
+            Select(GetNextKeyVerses().FirstOrDefault());
+        }
+
+        public void SelectFirstVerse()
+        {
+            Select(VerseFiles.FirstOrDefault());
+        }
+
+        public void SelectLastVerse()
+        {
+            Select(VerseFiles.Last());
+        }
+
+        public void SelectPrevVerse()
+        {
+            Select(PrevVerseFile);
+        }
+
+        public void SelectNextVerse()
+        {
+            Select(NextVerseFile);
+        }
+
+        private VerseFile PrevVerseFile
+        {
+            get
+            {
+                return VerseFiles.Find(v => v.GlobalNumber == SelectedVerse.GlobalNumber - 1);
+            }
+        }
+
+        private VerseFile NextVerseFile
+        {
+            get
+            {
+                return VerseFiles.Find(v => v.GlobalNumber == SelectedVerse.GlobalNumber + 1);
+            }
+        }
+
         string _name;
         public string Name
         {
@@ -129,10 +207,10 @@ namespace AtemKaraoke.Core
 
         public void SendSelected()
         {
-            if (_selectedVerse != null)
+            if (SelectedVerse != null)
             {
-                Console.WriteLine(_selectedVerse.FilePath);
-                Switcher.UploadMedia(_selectedVerse.FilePath, _selectedVerse.GlobalNumber);
+                Console.WriteLine(SelectedVerse.FilePath);
+                Switcher.UploadMedia(SelectedVerse.FilePath, SelectedVerse.GlobalNumber);
             }
             else
             {
@@ -141,12 +219,45 @@ namespace AtemKaraoke.Core
         }
 
         private VerseFile _selectedVerse;
+        public VerseFile SelectedVerse
+        {
+            get
+            {
+                return _selectedVerse;
+            }
+        }
+
+        private void Select(VerseFile refraineVerse, VerseFile cachedVerse)
+        {
+
+        }
+
         public void Select(VerseFile newVerseFile)
         {
-            if (_selectedVerse != newVerseFile)
+            if (newVerseFile != null && SelectedVerse != newVerseFile)
             {
+                _previouslySelectedVerse = _selectedVerse;
                 _selectedVerse = newVerseFile;
+
                 Switcher.SetMediaToPlayer(_selectedVerse.GlobalNumber);
+                if (OnVerseSelected != null)
+                {
+                    OnVerseSelected(_selectedVerse, null);
+                }
+
+                if (_previouslySelectedVerse == null)
+                {
+                    Debug.Print("Verse index {0} is selected",
+                                                        newVerseFile.LyricsIndexBasedOnZero);
+                }
+                else
+                {
+                    Debug.Print("Verse index {0} is selected after {1}",
+                                                        newVerseFile.LyricsIndexBasedOnZero,
+                                                        _previouslySelectedVerse.LyricsIndexBasedOnZero);
+                }
+
+                //OnVerseSelected?.Invoke(SelectedVerse, null);
             }
         }
 
@@ -160,7 +271,7 @@ namespace AtemKaraoke.Core
             StringBuilder result = new StringBuilder();
             foreach (var s in Songs)
             {
-                result.Append(s.ToString() + GetSongSplitter());
+                result.Append(s.ToString());
             }
             return result.ToString().Trim();
         }
@@ -180,5 +291,7 @@ namespace AtemKaraoke.Core
         {
             return base.GetHashCode();
         }
+
+        public event EventHandler OnVerseSelected;
     }
 }
