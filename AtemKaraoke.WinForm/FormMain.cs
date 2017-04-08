@@ -198,7 +198,7 @@ namespace AtemKaraoke.WinForm
 				else if (btnOnAir.Text == _labelOnAir)
 				{
                     Lyrics.Switcher.SetMediaOnAir();
-					pnlSong.BackColor = System.Drawing.Color.Red;
+					pnlSong.BackColor = Color.Red;
 					btnOnAir.Text = _labelOffAir; // declare the next action
 					btnCancelPreview.Visible = false;
 					toolStripStatusLabel.Text = _labelOnAir + "!";
