@@ -10,6 +10,10 @@ namespace AtemKaraoke.WinForm
 	{
 		bool _isRestart;
 
+        const string _labelPreview = "Preview";
+        const string _labelOnAir = "On Air";
+        const string _labelOffAir = "Off Air";
+
         public FormMain()
 		{
 			InitializeComponent();
@@ -98,10 +102,10 @@ namespace AtemKaraoke.WinForm
             ResizeSongControls();
             chkEditMode.Text = "Back To Edit Mode";
             toolTip.SetToolTip(chkEditMode, "Press Esc");
-            btnOnAir.Text = "Preview";
+            btnOnAir.Text = _labelPreview;
             btnOnAir.Visible = true;
             chkExport.Checked = true; // keep it true for the next time
-            toolStripStatusLabel.Text = "Off Air";
+            toolStripStatusLabel.Text = _labelOffAir;
             statusStrip1.Refresh();
             grdSong.Focus();
             txtSong.Visible = false;
@@ -182,31 +186,31 @@ namespace AtemKaraoke.WinForm
 				grdSong.Enabled = false;
 				Cursor = Cursors.WaitCursor;
 
-				if (btnOnAir.Text == "Preview")
+				if (btnOnAir.Text == _labelPreview)
 				{
 					Lyrics.Switcher.SetMediaToPreview();
-					pnlSong.BackColor = System.Drawing.Color.LightGreen;
-					btnOnAir.Text = "On Air"; // declare the next action
+					pnlSong.BackColor = Color.LightGreen;
+					btnOnAir.Text = _labelOnAir; // declare the next action
 					btnCancelPreview.Visible = true;
-					toolStripStatusLabel.Text = "Preview";
+					toolStripStatusLabel.Text = _labelPreview;
 					statusStrip1.Refresh();
 				}
-				else if (btnOnAir.Text == "On Air")
+				else if (btnOnAir.Text == _labelOnAir)
 				{
                     Lyrics.Switcher.SetMediaOnAir();
 					pnlSong.BackColor = System.Drawing.Color.Red;
-					btnOnAir.Text = "Off Air"; // declare the next action
+					btnOnAir.Text = _labelOffAir; // declare the next action
 					btnCancelPreview.Visible = false;
-					toolStripStatusLabel.Text = "On Air!";
+					toolStripStatusLabel.Text = _labelOnAir + "!";
 					statusStrip1.Refresh();
 				}
 				else
 				{
                     Lyrics.Switcher.SetMediaOffAir();
 					pnlSong.BackColor = System.Drawing.SystemColors.Control;
-					btnOnAir.Text = "Preview";
+					btnOnAir.Text = _labelPreview;
 					btnCancelPreview.Visible = false;
-					toolStripStatusLabel.Text = "Off Air";
+					toolStripStatusLabel.Text = _labelOffAir;
 					statusStrip1.Refresh();
 				}
 			}
@@ -257,7 +261,6 @@ namespace AtemKaraoke.WinForm
 
 		private void ResizeSongControls()
 		{
-
 			pnlSong.Left = txtSong.Left;
 			pnlSong.Top = txtSong.Top;
 			pnlSong.Width = txtSong.Width;
@@ -355,7 +358,15 @@ namespace AtemKaraoke.WinForm
 					result = true;
 					break;
 				case Keys.Escape:
-					chkEditMode.Checked = true;
+                    if (grdSong.ReadOnly)
+                    {
+                        chkEditMode.Checked = true;
+                    }
+                    else
+                    {
+                        grdSong.CurrentCell.ReadOnly = true;
+                        grdSong.EndEdit();
+                    }
 					result = true;
 					break;
                 case Keys.F2:
@@ -363,6 +374,7 @@ namespace AtemKaraoke.WinForm
                     {
                         grdSong_CellDoubleClick(null, null);
                     }
+                    result = true;
                     break;
                 default:
 					result = base.ProcessCmdKey(ref msg, keyData);
@@ -390,6 +402,7 @@ namespace AtemKaraoke.WinForm
                 p.Left = Config.Default.RefrainPadding;
                 e.CellStyle.Padding = p;
             }
+            grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Double-click or F2 to edit a single verse";
         }
 
         private void grdSong_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
