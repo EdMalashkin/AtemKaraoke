@@ -358,7 +358,13 @@ namespace AtemKaraoke.WinForm
 					chkEditMode.Checked = true;
 					result = true;
 					break;
-				default:
+                case Keys.F2:
+                    if (grdSong.Visible)
+                    {
+                        grdSong_CellDoubleClick(null, null);
+                    }
+                    break;
+                default:
 					result = base.ProcessCmdKey(ref msg, keyData);
 					break;
 			}
@@ -388,21 +394,9 @@ namespace AtemKaraoke.WinForm
 
         private void grdSong_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            //var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-            //DataGridViewCell cell = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex];
-            //cell.ReadOnly = false;
-            //grdSong.CurrentCell = cell;
-            //grdSong.EditMode = DataGridViewEditMode.EditOnEnter;
-            //grdSong.CurrentCell.KeyEntersEditMode();
             grdSong.CurrentCell.ReadOnly = false;
+            grdSong.BeginEdit(false);
             Debug.Print("grdSong_CellDoubleClick");
-            //grdSong.BeginEdit(true);
-        }
-
-        private void grdSong_MouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            //grdSong.CurrentCell.ReadOnly = false;
-            Debug.Print("grdSong_MouseDoubleClick");
         }
 
         private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
