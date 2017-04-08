@@ -234,16 +234,12 @@ namespace AtemKaraoke.Core
 
         public void Select(VerseFile newVerseFile)
         {
-            if (newVerseFile != null && SelectedVerse != newVerseFile)
+            if (newVerseFile != null && _selectedVerse != newVerseFile)
             {
                 _previouslySelectedVerse = _selectedVerse;
                 _selectedVerse = newVerseFile;
 
-                Switcher.SetMediaToPlayer(_selectedVerse.GlobalNumber);
-                if (OnVerseSelected != null)
-                {
-                    OnVerseSelected(_selectedVerse, null);
-                }
+                Switcher.SetMediaToPlayer(newVerseFile.GlobalNumber);
 
                 if (_previouslySelectedVerse == null)
                 {
@@ -257,7 +253,11 @@ namespace AtemKaraoke.Core
                                                         _previouslySelectedVerse.LyricsIndexBasedOnZero);
                 }
 
-                //OnVerseSelected?.Invoke(SelectedVerse, null);
+                //if (OnVerseSelected != null)
+                //{
+                //    OnVerseSelected(newVerseFile, null);
+                //}
+                OnVerseSelected?.Invoke(newVerseFile, null);
             }
         }
 

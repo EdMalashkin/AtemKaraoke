@@ -228,14 +228,22 @@ namespace AtemKaraoke.WinForm
 		{
             var curVerse = (VerseFile)sender;
             grdSong.Rows[curVerse.LyricsIndexBasedOnZero].Selected = true;
-            //Debug.Print("OnVerseSelected {0}", curVerse.LyricsIndexBasedOnZero);
+            Debug.Print("OnVerseSelected {0}", curVerse.LyricsIndexBasedOnZero);
         }
 
 		private void grdSong_SelectionChanged(object sender, EventArgs e)
 		{
-            //var curVerseFile = grdSong.Rows[grdSong.CurrentRow.Index].DataBoundItem as VerseFile;
-            //Lyrics.Select(curVerseFile); 
-		}
+            if (grdSong.CurrentRow != null && Lyrics.SelectedVerse != null)
+            {
+                var curVerseFile = grdSong.Rows[grdSong.CurrentRow.Index].DataBoundItem as VerseFile;
+                if (curVerseFile.LyricsIndexBasedOnZero != Lyrics.SelectedVerse.LyricsIndexBasedOnZero)
+                {
+                    //attempt to cancel the autoselection with arrows when it contradicts with Lyrics.SelectedVerse
+                    grdSong.Rows[Lyrics.SelectedVerse.LyricsIndexBasedOnZero].Selected = true;
+                }
+                //Debug.Print("grdSong_SelectionChanged {0}", curVerseFile.LyricsIndexBasedOnZero);
+            }
+        }
 
 		private void txtSong_Resized(object sender, EventArgs e)
 		{
