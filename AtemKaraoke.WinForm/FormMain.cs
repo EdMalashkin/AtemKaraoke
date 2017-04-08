@@ -387,7 +387,7 @@ namespace AtemKaraoke.WinForm
             if (curVerseFile.Verse.IsRefrain == true)
             {
                 Padding p = e.CellStyle.Padding;
-                p.Left = Config.Default.RefrainePadding;
+                p.Left = Config.Default.RefrainPadding;
                 e.CellStyle.Padding = p;
             }
         }

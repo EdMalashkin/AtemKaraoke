@@ -273,9 +273,9 @@ namespace AtemKaraoke.Core {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("50")]
-        public int RefrainePadding {
+        public int RefrainPadding {
             get {
-                return ((int)(this["RefrainePadding"]));
+                return ((int)(this["RefrainPadding"]));
             }
         }
         
