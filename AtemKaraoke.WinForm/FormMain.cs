@@ -158,10 +158,8 @@ namespace AtemKaraoke.WinForm
                 }
                 else
                 {   // this works today
-                    _lyrics.OnVerseSelected -= new EventHandler(this.OnVerseSelected); // to avoid {"Type 'System.Windows.Forms.Form' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable
-                    string binaryFile = new BinaryFileLyrics(Lyrics).Save();
+                    string binaryFile = SaveLyrics();
                     SendViaConsole(binaryFile); // then the console is going to call Lyrics.Send()
-                    _lyrics.OnVerseSelected += new EventHandler(this.OnVerseSelected);
                 }
             }
             catch (Exception ex)
@@ -170,6 +168,13 @@ namespace AtemKaraoke.WinForm
             }
         }
 
+        private string SaveLyrics()
+        {
+            Lyrics.OnVerseSelected -= new EventHandler(this.OnVerseSelected); // to avoid {"Type 'System.Windows.Forms.Form' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable
+            string binaryFile = new BinaryFileLyrics(Lyrics).Save();
+            Lyrics.OnVerseSelected += new EventHandler(this.OnVerseSelected);
+            return binaryFile;
+        }
 		private void btnOnAir_Click(object sender, EventArgs e)
 		{
 			try
@@ -315,7 +320,7 @@ namespace AtemKaraoke.WinForm
 			{
 				// just to do sth with the switcher
 				uint result = Lyrics.Switcher.GetMediaFromPlayer();
-				Debug.Print(string.Format("KeepConectionAlive: {0}", result));
+				Debug.Print("KeepConectionAlive: {0}", result);
 
 				RememberSettings();
 			}
@@ -394,6 +399,12 @@ namespace AtemKaraoke.WinForm
             //grdSong.BeginEdit(true);
         }
 
+        private void grdSong_MouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            //grdSong.CurrentCell.ReadOnly = false;
+            Debug.Print("grdSong_MouseDoubleClick");
+        }
+
         private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
@@ -403,19 +414,13 @@ namespace AtemKaraoke.WinForm
                 if (curVerseFile.Verse.Update(newValue))
                 {
                     Lyrics.Select(curVerseFile); // be sure to remember what verse is selected
-                    string binaryFile = new BinaryFileLyrics(Lyrics).Save();
+                    string binaryFile = SaveLyrics();
                     SendViaConsole(binaryFile, true); // then the console is going to call Lyrics.SendSelected()
-
+                    
                     txtSong.Text = Lyrics.ToString();
                     grdSong.CurrentCell.ReadOnly = true;
                 }
             }
-        }
-
-        private void grdSong_MouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
-        {
-            //grdSong.CurrentCell.ReadOnly = false;
-            Debug.Print("grdSong_MouseDoubleClick");
         }
 
         private void grdSong_CellClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -453,11 +458,6 @@ namespace AtemKaraoke.WinForm
                     Lyrics.SelectLastVerse();
                     break;
             }
-        }
-
-        private void grdSong_KeyPress(object sender, KeyPressEventArgs e)
-        {
-
         }
 
         #endregion
