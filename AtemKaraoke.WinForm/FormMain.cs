@@ -143,12 +143,15 @@ namespace AtemKaraoke.WinForm
 
         private void SendViaConsole(string path, bool sendSelected = false)
         {
-            var process = new Process();
-            process.StartInfo = new ProcessStartInfo(@"AtemKaraoke.Console.exe");
-            process.StartInfo.Arguments = string.Format("\"{0}\"", path);
-            if (sendSelected)
-                process.StartInfo.Arguments += " sendSelected";
-            process.Start();
+			if (path.Trim().Length > 0)
+			{
+				var process = new Process();
+				process.StartInfo = new ProcessStartInfo(@"AtemKaraoke.Console.exe");
+				process.StartInfo.Arguments = string.Format("\"{0}\"", path);
+				if (sendSelected)
+					process.StartInfo.Arguments += " sendSelected";
+				process.Start();
+			}
         }
 
         private void Upload()
@@ -174,11 +177,22 @@ namespace AtemKaraoke.WinForm
 
         private string SaveLyrics()
         {
-            Lyrics.OnVerseSelected -= new EventHandler(this.OnVerseSelected); // to avoid {"Type 'System.Windows.Forms.Form' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable
-            string binaryFile = new BinaryFileLyrics(Lyrics).Save();
-            Lyrics.OnVerseSelected += new EventHandler(this.OnVerseSelected);
-            return binaryFile;
-        }
+			string binaryFile = "";
+			try
+			{
+				Lyrics.OnVerseSelected -= new EventHandler(this.OnVerseSelected); // to avoid {"Type 'System.Windows.Forms.Form' in Assembly 'System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089' is not marked as serializable
+				var tempSwitcher = Lyrics.Switcher;
+				Lyrics.Switcher = null;
+				binaryFile = new BinaryFileLyrics(Lyrics).Save();
+				Lyrics.OnVerseSelected += new EventHandler(this.OnVerseSelected);
+				Lyrics.Switcher = tempSwitcher;
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message, "ATEM Error");
+			}
+			return binaryFile;
+		}
 		private void btnOnAir_Click(object sender, EventArgs e)
 		{
 			try
