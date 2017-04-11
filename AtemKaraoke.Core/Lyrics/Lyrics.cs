@@ -51,6 +51,10 @@ namespace AtemKaraoke.Core
                 }
                 return _switcher;
             }
+			set
+			{
+				_switcher = value;
+			}
         }
 
         private List<Song> _songs;
