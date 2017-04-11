@@ -149,5 +149,50 @@ song 1 refrain 5*
             lyrics.SelectNextKeyVerse();
             Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
         }
+
+        [TestMethod]
+        public void TestSelectDoubleKeyVerse()
+        {
+            string song = @"
+refrain index 0-A*
+
+refrain index 1-A*
+
+refrain index 2-A*
+
+verse index 3
+
+verse index 4
+
+verse index 5
+
+refrain index 6-B*
+
+refrain index 7-B*
+
+refrain index 8-B*
+";
+            Lyrics lyrics = new Lyrics(song, switcher);
+            lyrics.SelectFirstVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.SelectNextVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+
+            lyrics.SelectNextVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 3);
+
+            lyrics.SelectPrevKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.SelectNextVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 4);
+
+        }
     }
 }

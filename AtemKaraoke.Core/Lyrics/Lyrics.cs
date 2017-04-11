@@ -85,12 +85,13 @@ namespace AtemKaraoke.Core
             }
         }
 
+        private VerseFile _previouslySelectedKeyVerse;
         private VerseFile _previouslySelectedVerse;
         private VerseFile GetNextToPreviouslySelectedVerse()
         {
-            return VerseFiles.Where(v => _previouslySelectedVerse != null 
-                                    && v.Verse.Song == _previouslySelectedVerse.Verse.Song
-                                    && v.LyricsIndexBasedOnZero == _previouslySelectedVerse.LyricsIndexBasedOnZero + 1)
+            return VerseFiles.Where(v => _previouslySelectedKeyVerse != null 
+                                    && v.Verse.Song == _previouslySelectedKeyVerse.Verse.Song
+                                    && v.LyricsIndexBasedOnZero == _previouslySelectedKeyVerse.LyricsIndexBasedOnZero + 1)
                              .FirstOrDefault();
         }
 
@@ -227,15 +228,17 @@ namespace AtemKaraoke.Core
             }
         }
 
-        private void Select(VerseFile refraineVerse, VerseFile cachedVerse)
-        {
-
-        }
-
         public void Select(VerseFile newVerseFile)
         {
             if (newVerseFile != null && _selectedVerse != newVerseFile)
             {
+                // if a previous verse was also a refrain then keep _previouslySelectedVerse in _previouslySelectedKeyVerse to use it later
+                if (!(newVerseFile.Verse.IsRefrain 
+                    && _previouslySelectedVerse != null
+                    && _previouslySelectedVerse.Verse.IsRefrain))
+                {
+                    _previouslySelectedKeyVerse = _selectedVerse;
+                }
                 _previouslySelectedVerse = _selectedVerse;
                 _selectedVerse = newVerseFile;
 

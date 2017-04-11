@@ -135,7 +135,12 @@ namespace AtemKaraoke.Core
                 {
                     for (int i = curIndex - 1; i >= 0; i--)
                     {
-                        if (VerseFiles[i].Verse.IsRefrain)
+
+                        if (VerseFiles[i].Verse.IsRefrain
+                            && (    i == 0
+                                    ||  VerseFiles[i-1] == null 
+                                    || !VerseFiles[i-1].Verse.IsRefrain)  // refrain may consists of several verses
+                                )
                         {
                             result = VerseFiles[i];
                             break;
