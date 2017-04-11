@@ -237,9 +237,11 @@ namespace AtemKaraoke.Core
             if (newVerseFile != null && _selectedVerse != newVerseFile)
             {
                 // if a previous verse was also a refrain then keep _previouslySelectedVerse in _previouslySelectedKeyVerse to use it later
+                // so only if 2 refrains go in a row 
                 if (!(newVerseFile.Verse.IsRefrain 
-                    && _previouslySelectedVerse != null
-                    && _previouslySelectedVerse.Verse.IsRefrain))
+                    && _selectedVerse != null
+                    && _selectedVerse.Verse.IsRefrain
+                    && Math.Abs(_selectedVerse.LyricsIndexBasedOnZero - newVerseFile.LyricsIndexBasedOnZero) == 1))
                 {
                     _previouslySelectedKeyVerse = _selectedVerse;
                 }

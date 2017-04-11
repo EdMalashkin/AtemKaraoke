@@ -193,6 +193,22 @@ refrain index 8-B*
             lyrics.SelectNextKeyVerse();
             Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 4);
 
+            lyrics.SelectPrevKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.SelectNextVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
+
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 6);
+            lyrics.SelectNextKeyVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 7);
+            lyrics.SelectNextVerse();
+            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 8);
         }
     }
 }
