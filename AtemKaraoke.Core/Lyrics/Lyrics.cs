@@ -2,12 +2,8 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Linq;
-using AtemKaraoke.Core.Tools;
 using System.IO;
 using System.Text;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters.Binary;
-using System.Diagnostics;
 
 namespace AtemKaraoke.Core
 {
@@ -15,20 +11,26 @@ namespace AtemKaraoke.Core
     public class Lyrics : ILyrics
     {
 		private string _text;
+
+        private Lyrics()
+        {
+            _selection = new Selection(this);
+        }
+
         // from form
-        public Lyrics(string text)
+        public Lyrics(string text) : this()
         {
             _text = text;
         }
 
         // from unit test
-        public Lyrics(string text, ISwitcher switcher)
-		{
+        public Lyrics(string text, ISwitcher switcher) : this()
+        {
 			_text = text;
             _switcher = switcher;
         }
 
-        public Lyrics(List<Song> songs)
+        public Lyrics(List<Song> songs) : this()
         {
             _songs = songs;
         }
@@ -89,84 +91,6 @@ namespace AtemKaraoke.Core
             }
         }
 
-        private VerseFile _previouslySelectedKeyVerse;
-        private VerseFile _previouslySelectedVerse;
-        private VerseFile GetNextToPreviouslySelectedVerse()
-        {
-            return VerseFiles.Where(v => _previouslySelectedKeyVerse != null 
-                                    && v.Verse.Song == _previouslySelectedKeyVerse.Verse.Song
-                                    && v.LyricsIndexBasedOnZero == _previouslySelectedKeyVerse.LyricsIndexBasedOnZero + 1)
-                             .FirstOrDefault();
-        }
-
-        private List<VerseFile> GetPrevKeyVerses()
-        {
-            return new List<VerseFile>() {
-                GetNextToPreviouslySelectedVerse(),
-                SelectedVerse.Verse.Song.PrevRefrain
-            }
-            .Where(v => v != null && v.LyricsIndexBasedOnZero < SelectedVerse.LyricsIndexBasedOnZero)
-            .OrderBy(v => v.LyricsIndexBasedOnZero)
-            .ToList();
-        }
-
-        private List<VerseFile> GetNextKeyVerses()
-        {
-            return new List<VerseFile>() {
-                GetNextToPreviouslySelectedVerse(),
-                SelectedVerse.Verse.Song.NextRefrain
-            }
-            .Where(v => v!=null && v.LyricsIndexBasedOnZero > SelectedVerse.LyricsIndexBasedOnZero)
-            .OrderBy(v => v.LyricsIndexBasedOnZero)
-            .ToList();
-        }
-
-        public void SelectPrevKeyVerse()
-        {
-            Select(GetPrevKeyVerses().FirstOrDefault());
-        }
-
-        public void SelectNextKeyVerse()
-        {
-            Select(GetNextKeyVerses().FirstOrDefault());
-        }
-
-        public void SelectFirstVerse()
-        {
-            Select(VerseFiles.FirstOrDefault());
-        }
-
-        public void SelectLastVerse()
-        {
-            Select(VerseFiles.Last());
-        }
-
-        public void SelectPrevVerse()
-        {
-            Select(PrevVerseFile);
-        }
-
-        public void SelectNextVerse()
-        {
-            Select(NextVerseFile);
-        }
-
-        private VerseFile PrevVerseFile
-        {
-            get
-            {
-                return VerseFiles.Find(v => v.GlobalNumber == SelectedVerse.GlobalNumber - 1);
-            }
-        }
-
-        private VerseFile NextVerseFile
-        {
-            get
-            {
-                return VerseFiles.Find(v => v.GlobalNumber == SelectedVerse.GlobalNumber + 1);
-            }
-        }
-
         string _name;
         public string Name
         {
@@ -191,6 +115,15 @@ namespace AtemKaraoke.Core
             }
         }
 
+        private Selection _selection;
+        public Selection Selection
+        {
+            get
+            {
+                return _selection;
+            }
+        }
+
         public string Save()
         {
             string filePath = "";
@@ -212,61 +145,14 @@ namespace AtemKaraoke.Core
 
         public void SendSelected()
         {
-            if (SelectedVerse != null)
+            if (Selection.CurrentVerse != null)
             {
-                Console.WriteLine(SelectedVerse.FilePath);
-                Switcher.UploadMedia(SelectedVerse.FilePath, SelectedVerse.GlobalNumber);
+                Console.WriteLine(Selection.CurrentVerse.FilePath);
+                Switcher.UploadMedia(Selection.CurrentVerse.FilePath, Selection.CurrentVerse.GlobalNumber);
             }
             else
             {
                 throw new Exception("No selected verse");
-            }
-        }
-
-        private VerseFile _selectedVerse;
-        public VerseFile SelectedVerse
-        {
-            get
-            {
-                return _selectedVerse;
-            }
-        }
-
-        public void Select(VerseFile newVerseFile)
-        {
-            if (newVerseFile != null && _selectedVerse != newVerseFile)
-            {
-                // if a previous verse was also a refrain then keep _previouslySelectedVerse in _previouslySelectedKeyVerse to use it later
-                // so only if 2 refrains go in a row 
-                if (!(newVerseFile.Verse.IsRefrain 
-                    && _selectedVerse != null
-                    && _selectedVerse.Verse.IsRefrain
-                    && Math.Abs(_selectedVerse.LyricsIndexBasedOnZero - newVerseFile.LyricsIndexBasedOnZero) == 1))
-                {
-                    _previouslySelectedKeyVerse = _selectedVerse;
-                }
-                _previouslySelectedVerse = _selectedVerse;
-                _selectedVerse = newVerseFile;
-
-                Switcher.SetMediaToPlayer(newVerseFile.GlobalNumber);
-
-                if (_previouslySelectedVerse == null)
-                {
-                    Debug.Print("Verse index {0} is selected",
-                                                        newVerseFile.LyricsIndexBasedOnZero);
-                }
-                else
-                {
-                    Debug.Print("Verse index {0} is selected after {1}",
-                                                        newVerseFile.LyricsIndexBasedOnZero,
-                                                        _previouslySelectedVerse.LyricsIndexBasedOnZero);
-                }
-
-                //if (OnVerseSelected != null)
-                //{
-                //    OnVerseSelected(newVerseFile, null);
-                //}
-                OnVerseSelected?.Invoke(newVerseFile, null);
             }
         }
 
@@ -300,7 +186,5 @@ namespace AtemKaraoke.Core
         {
             return base.GetHashCode();
         }
-
-        public event EventHandler OnVerseSelected;
     }
 }

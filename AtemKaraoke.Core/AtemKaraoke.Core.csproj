@@ -48,6 +48,7 @@
     <Compile Include="Lyrics\ILyrics.cs" />
     <Compile Include="Lyrics\Lyrics.cs" />
     <Compile Include="Lyrics\BinaryFileLyrics.cs" />
+    <Compile Include="Lyrics\Selection.cs" />
     <Compile Include="Lyrics\TextFileLyrics.cs" />
     <Compile Include="Verses\VerseFile.cs" />
     <Compile Include="Switchers\ComSwitcher.cs" />

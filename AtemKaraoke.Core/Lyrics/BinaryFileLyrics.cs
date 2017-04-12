@@ -1,10 +1,5 @@
-﻿using AtemKaraoke.Core.Tools;
-using System;
+﻿using System;
 using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
@@ -88,11 +83,6 @@ namespace AtemKaraoke.Core
         public void SendSelected()
         {
             Lyrics.SendSelected();
-        }
-
-        public void Select(VerseFile newVerseFile)
-        {
-            Lyrics.Select(newVerseFile);
         }
     }
 }

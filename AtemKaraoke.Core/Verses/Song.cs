@@ -108,7 +108,7 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                var result = _lyrics.SelectedVerse;
+                var result = _lyrics.Selection.CurrentVerse;
                 int curIndex = GetCurrentSelectedVerseIndex();
                 if (curIndex >= 0)
                 {
@@ -129,7 +129,7 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                var result = _lyrics.SelectedVerse;
+                var result = _lyrics.Selection.CurrentVerse;
                 int curIndex = GetCurrentSelectedVerseIndex();
                 if (curIndex >= 0)
                 {
@@ -160,7 +160,7 @@ namespace AtemKaraoke.Core
 
         private int GetCurrentSelectedVerseIndex()
         {
-            return VerseFiles.FindIndex(v => v.GlobalNumber == _lyrics.SelectedVerse.GlobalNumber && _lyrics.SelectedVerse.Verse.Song == this);
+            return VerseFiles.FindIndex(v => v.GlobalNumber == _lyrics.Selection.CurrentVerse.GlobalNumber && _lyrics.Selection.CurrentVerse.Verse.Song == this);
         }
 
         public override string ToString()

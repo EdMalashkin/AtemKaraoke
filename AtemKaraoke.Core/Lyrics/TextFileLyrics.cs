@@ -93,10 +93,5 @@ namespace AtemKaraoke.Core
         {
             Lyrics.SendSelected();
         }
-
-        public void Select(VerseFile newVerseFile)
-        {
-            Lyrics.Select(newVerseFile);
-        }
     }
 }

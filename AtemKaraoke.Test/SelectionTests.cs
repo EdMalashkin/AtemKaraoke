@@ -46,25 +46,25 @@ string 2
 string 3
 string 4";
             Lyrics lyrics = new Lyrics(song, switcher);
-            lyrics.SelectFirstVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectFirstVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToFirstVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToFirstVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
 
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
 
-            lyrics.SelectPrevVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectPrevVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToPrevVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToPrevVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
 
-            lyrics.SelectLastVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectLastVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToLastVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToLastVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
         }
 
         [TestMethod]
@@ -89,28 +89,28 @@ next song string
 next song refrain*
 ";
             Lyrics lyrics = new Lyrics(song, switcher);
-            lyrics.SelectFirstVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
-            lyrics.SelectPrevKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 3);
-            lyrics.SelectPrevKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 4);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
-            lyrics.SelectPrevKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToFirstVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 2);
+            lyrics.Selection.ToPrevKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 3);
+            lyrics.Selection.ToPrevKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 4);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToPrevKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
         }
 
         [TestMethod]
@@ -131,23 +131,23 @@ song 1 string 4
 song 1 refrain 5*
 ";
             Lyrics lyrics = new Lyrics(song, switcher);
-            lyrics.SelectFirstVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+            lyrics.Selection.ToFirstVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 2);
 
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 3);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
-            lyrics.SelectPrevKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 4);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 3);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToPrevKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 4);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
         }
 
         [TestMethod]
@@ -173,42 +173,42 @@ refrain index 7-B*
 refrain index 8-B*
 ";
             Lyrics lyrics = new Lyrics(song, switcher);
-            lyrics.SelectFirstVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+            lyrics.Selection.ToFirstVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 2);
 
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 3);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 3);
 
-            lyrics.SelectPrevKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+            lyrics.Selection.ToPrevKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 2);
 
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 4);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 4);
 
-            lyrics.SelectPrevKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 0);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 1);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 2);
+            lyrics.Selection.ToPrevKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 0);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 1);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 2);
 
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 5);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 5);
 
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 6);
-            lyrics.SelectNextKeyVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 7);
-            lyrics.SelectNextVerse();
-            Assert.AreEqual(lyrics.SelectedVerse.LyricsIndexBasedOnZero, 8);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 6);
+            lyrics.Selection.ToNextKeyVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 7);
+            lyrics.Selection.ToNextVerse();
+            Assert.AreEqual(lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero, 8);
         }
     }
 }

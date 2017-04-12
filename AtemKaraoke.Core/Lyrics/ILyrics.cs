@@ -11,6 +11,5 @@ namespace AtemKaraoke.Core
         string Save();
         void Send();
         void SendSelected();
-        void Select(VerseFile newVerse);
     }
 }
