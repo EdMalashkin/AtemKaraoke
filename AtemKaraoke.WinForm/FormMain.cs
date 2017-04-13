@@ -360,7 +360,11 @@ namespace AtemKaraoke.WinForm
 					RememberSettings();
 					result = true;
 					break;
-				case Keys.F5:
+                case Keys.Control | Keys.A:
+                    if (txtSong.Visible) txtSong.SelectAll();
+                    result = true;
+                    break;
+                case Keys.F5:
 					chkEditMode.Checked = false;
 					result = true;
 					break;
