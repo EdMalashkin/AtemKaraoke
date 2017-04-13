@@ -389,10 +389,7 @@ namespace AtemKaraoke.WinForm
 					result = true;
 					break;
                 case Keys.F2:
-                    if (grdSong.Visible)
-                    {
-                        grdSong_CellDoubleClick(null, null);
-                    }
+                    if (grdSong.Visible) StartEditingCell(grdSong.CurrentCell);
                     result = true;
                     break;
                 default:
@@ -421,68 +418,109 @@ namespace AtemKaraoke.WinForm
                 p.Left = Config.Default.RefrainPadding;
                 e.CellStyle.Padding = p;
             }
-            grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Double-click or F2 to edit a single verse";
+            grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].ToolTipText = "Double-click or F2 to edit a selected verse. Right-click to edit any verse";
         }
 
         private void grdSong_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
-            grdSong.CurrentCell.ReadOnly = false;
-            grdSong.BeginEdit(false);
+            StartEditingCell(e.RowIndex, e.ColumnIndex);
             Debug.Print("grdSong_CellDoubleClick");
         }
 
-        private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
+        private DataGridViewCell _selectedBeforeEditingCell;
+
+        private void StartEditingCell(DataGridViewCell cell)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex >= 0)
-            { 
-                var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-                string newValue = grdSong.Rows[e.RowIndex].Cells[e.ColumnIndex].EditedFormattedValue.ToString();
+            if (cell != null)
+            {
+                _selectedBeforeEditingCell = grdSong.CurrentCell;
+                cell.ReadOnly = false;
+                cell.Selected = true;
+                grdSong.BeginEdit(false);
+            }
+        }
+
+        private void StartEditingCell(int rowIndex, int columnIndex)
+        {
+            if (rowIndex >= 0 && columnIndex >= 0)
+            {
+                var cell = grdSong.Rows[rowIndex].Cells[columnIndex];
+                StartEditingCell(cell);
+            }
+        }
+
+        private void EndEditingCell(int rowIndex, int columnIndex)
+        {
+            if (rowIndex >= 0 && columnIndex >= 0)
+            {
+                var curCell = grdSong.Rows[rowIndex].Cells[columnIndex];
+                var curVerseFile = grdSong.Rows[rowIndex].DataBoundItem as VerseFile;
+                string newValue = curCell.EditedFormattedValue.ToString();
                 if (curVerseFile.Verse.Update(newValue))
                 {
-                    Lyrics.Selection.ToVerse(curVerseFile); // be sure to remember what verse is selected
                     string binaryFile = SaveLyrics();
                     SendViaConsole(binaryFile, true); // then the console is going to call Lyrics.SendSelected()
-                    
+
                     txtSong.Text = Lyrics.ToString();
-                    grdSong.CurrentCell.ReadOnly = true;
+                    grdSong.EndEdit();
+                    curCell.ReadOnly = true;
+                    if (_selectedBeforeEditingCell != null) _selectedBeforeEditingCell.Selected = true;
                 }
             }
         }
 
-        private void grdSong_CellClick(object sender, DataGridViewCellMouseEventArgs e)
+        private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
-            var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
-            Lyrics.Selection.ToVerse(curVerseFile);
+            EndEditingCell(e.RowIndex, e.ColumnIndex);
+        }
+
+        private void grdSong_CellMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (!grdSong.IsCurrentCellInEditMode)
+            {
+                if (e.Button == MouseButtons.Left)
+                {
+                    var curVerseFile = grdSong.Rows[e.RowIndex].DataBoundItem as VerseFile;
+                    Lyrics.Selection.ToVerse(curVerseFile);
+                }
+                else if (e.Button == MouseButtons.Right)
+                {
+                    StartEditingCell(e.RowIndex, e.ColumnIndex);
+                }
+            }
         }
 
         private void grdSong_KeyDown(object sender, KeyEventArgs e)
         {
-            switch (e.KeyCode)
+            if (!grdSong.IsCurrentCellInEditMode)
             {
-                case Keys.Down:
-                    Lyrics.Selection.ToNextVerse();
-                    break;
-                case Keys.Up:
-                    Lyrics.Selection.ToPrevVerse();
-                    break;
-                case Keys.Right:
-                    Lyrics.Selection.ToNextKeyVerse();
-                    break;
-                case Keys.Left:
-                    Lyrics.Selection.ToPrevKeyVerse();
-                    break;
-                case Keys.Home:
-                    Lyrics.Selection.ToFirstVerse();
-                    break;
-                case Keys.End:
-                    Lyrics.Selection.ToLastVerse();
-                    break;
-                case Keys.PageUp:
-                    Lyrics.Selection.ToFirstVerse();
-                    break;
-                case Keys.PageDown:
-                    Lyrics.Selection.ToLastVerse();
-                    break;
+                switch (e.KeyCode)
+                {
+                    case Keys.Down:
+                        Lyrics.Selection.ToNextVerse();
+                        break;
+                    case Keys.Up:
+                        Lyrics.Selection.ToPrevVerse();
+                        break;
+                    case Keys.Right:
+                        Lyrics.Selection.ToNextKeyVerse();
+                        break;
+                    case Keys.Left:
+                        Lyrics.Selection.ToPrevKeyVerse();
+                        break;
+                    case Keys.Home:
+                        Lyrics.Selection.ToFirstVerse();
+                        break;
+                    case Keys.End:
+                        Lyrics.Selection.ToLastVerse();
+                        break;
+                    case Keys.PageUp:
+                        Lyrics.Selection.ToFirstVerse();
+                        break;
+                    case Keys.PageDown:
+                        Lyrics.Selection.ToLastVerse();
+                        break;
+                }
             }
         }
 
