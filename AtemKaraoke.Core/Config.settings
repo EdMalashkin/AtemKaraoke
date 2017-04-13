@@ -83,8 +83,11 @@
     <Setting Name="RefrainPadding" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">50</Value>
     </Setting>
-    <Setting Name="SongSplitterInPresenter" Type="System.Int32" Scope="User">
+    <Setting Name="SongSplitterInPresenter" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3</Value>
+    </Setting>
+    <Setting Name="RefrainSymbol" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">*</Value>
     </Setting>
   </Settings>
 </SettingsFile>

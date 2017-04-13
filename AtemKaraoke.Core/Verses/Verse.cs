@@ -48,7 +48,7 @@ namespace AtemKaraoke.Core
             {
                 if (IsRefrain)
                 {
-                    _dirtyText = '*' + newValue;
+                    _dirtyText = Config.Default.RefrainSymbol + newValue;
                 }
                 else
                 {
@@ -87,7 +87,7 @@ namespace AtemKaraoke.Core
             Regex regex = new Regex("[ ]{2,}", RegexOptions.None);
             newText = regex.Replace(newText, " ");
 
-            newText = newText.Replace("*", ""); //refrain symbol removal
+            newText = newText.Replace(Config.Default.RefrainSymbol, ""); //refrain symbol removal
             return newText.Trim();
 		}
 
@@ -95,7 +95,7 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                return _dirtyText.Contains("*");
+                return _dirtyText.Contains(Config.Default.RefrainSymbol);
             }
         }
 

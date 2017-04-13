@@ -151,7 +151,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
         public bool EmulateSwitcher {
             get {
                 return ((bool)(this["EmulateSwitcher"]));
@@ -279,15 +279,21 @@ namespace AtemKaraoke.Core {
             }
         }
         
-        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("3")]
         public int SongSplitterInPresenter {
             get {
                 return ((int)(this["SongSplitterInPresenter"]));
             }
-            set {
-                this["SongSplitterInPresenter"] = value;
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("*")]
+        public string RefrainSymbol {
+            get {
+                return ((string)(this["RefrainSymbol"]));
             }
         }
     }

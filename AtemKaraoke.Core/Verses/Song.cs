@@ -153,12 +153,6 @@ namespace AtemKaraoke.Core
             }
         }
 
-
-        //private VerseFile GetVerseByGlobalNumber(int globalNumber)
-        //{
-        //    return VerseFiles.Find(v => v.GlobalNumber == globalNumber);
-        //}
-
         private int GetCurrentSelectedVerseIndex()
         {
             return VerseFiles.FindIndex(v => v.GlobalNumber == _lyrics.Selection.CurrentVerse.GlobalNumber && _lyrics.Selection.CurrentVerse.Verse.Song == this);
@@ -166,7 +160,11 @@ namespace AtemKaraoke.Core
 
         private string GetVerseSplitter()
         {
-            return String.Concat(Enumerable.Repeat(Environment.NewLine, 2)); // to do: make 2 dynamic
+            //string newLine = "\r\n";
+            ////int count = Regex.Matches(Config.Default.Splitter, newLine).Count;
+            //int count = Regex.Split(Config.Default.Splitter, newLine).Length - 1;
+            //return String.Concat(Enumerable.Repeat(Environment.NewLine, count));
+            return String.Concat(Enumerable.Repeat(Environment.NewLine, 2)); // to do - make 2 dynamic
         }
 
         public override string ToString()
@@ -180,13 +178,4 @@ namespace AtemKaraoke.Core
             return result.ToString().Trim();
         }
     }
-
-    //public delegate void VerseSelectedEventHandler(object source, VerseSelectedEventArgs args);
-    //public class VerseSelectedEventArgs : EventArgs
-    //{
-    //    public int SelectionStart { get; set; }
-    //    public int SelectionLength { get; set; }
-    //    public int SelectionNumber { get; set; }
-    //}
-
 }
