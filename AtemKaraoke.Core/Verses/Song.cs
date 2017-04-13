@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using AtemKaraoke.Core.Tools;
 using System;
 using System.Text;
+using System.Linq;
 
 namespace AtemKaraoke.Core
 {
@@ -163,12 +164,18 @@ namespace AtemKaraoke.Core
             return VerseFiles.FindIndex(v => v.GlobalNumber == _lyrics.Selection.CurrentVerse.GlobalNumber && _lyrics.Selection.CurrentVerse.Verse.Song == this);
         }
 
+        private string GetVerseSplitter()
+        {
+            return String.Concat(Enumerable.Repeat(Environment.NewLine, 2)); // to do: make 2 dynamic
+        }
+
         public override string ToString()
         {
             StringBuilder result = new StringBuilder();
             foreach (var v in VerseFiles)
             {
                 result.Append(v.Verse.ToString());
+                result.Append(GetVerseSplitter());
             }
             return result.ToString().Trim();
         }

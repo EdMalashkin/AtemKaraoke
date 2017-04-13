@@ -85,5 +85,19 @@ string 4";
             var file2 = new BinaryFileLyrics(filePath);
             Assert.AreEqual(file1.Lyrics, file2.Lyrics);
         }
+
+        [TestMethod]
+        public void TestLyricsToString()
+        {
+            string song = @"string 1
+string 2
+
+
+string 3
+
+string 4";
+            Lyrics lyrics = new Lyrics(song, switcher);
+            Assert.AreEqual(song, lyrics.ToString());
+        }
     }
 }

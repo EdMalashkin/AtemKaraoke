@@ -167,6 +167,7 @@ namespace AtemKaraoke.Core
             foreach (var s in Songs)
             {
                 result.Append(s.ToString());
+                result.Append(GetSongSplitter());
             }
             return result.ToString().Trim();
         }

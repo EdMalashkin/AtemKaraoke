@@ -46,7 +46,14 @@ namespace AtemKaraoke.Core
             bool result = false;
             if (IsEdited(newValue))
             {
-                _dirtyText = newValue;
+                if (IsRefrain)
+                {
+                    _dirtyText = '*' + newValue;
+                }
+                else
+                {
+                    _dirtyText = newValue;
+                }
                 _cleanedText = CleanText(newValue);
                 result = true;
             }
@@ -94,7 +101,7 @@ namespace AtemKaraoke.Core
 
         public override string ToString()
         {
-            return _dirtyText.Trim();
+            return _dirtyText;
         }
     }
 }
