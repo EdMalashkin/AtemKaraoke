@@ -71,7 +71,7 @@ namespace AtemKaraoke.Core
                 if (_verseFiles == null)
                 {
                     _verseFiles = new List<VerseFile>();
-                    string[] verses = Regex.Split(Text, Config.Default.Splitter);
+                    string[] verses = Regex.Split(Text, Config.Default.VerseSplitter);
                     int maxArray = Config.Default.MaxAmountOfVerses;
                     int versesCount = (verses.Length >= maxArray) ? maxArray : verses.Length;
                     for (int i = 0; i < versesCount; i++)

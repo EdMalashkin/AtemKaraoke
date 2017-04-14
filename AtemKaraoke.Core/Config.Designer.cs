@@ -134,9 +134,9 @@ namespace AtemKaraoke.Core {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\s*\\t*\\r\\n")]
-        public string Splitter {
+        public string VerseSplitter {
             get {
-                return ((string)(this["Splitter"]));
+                return ((string)(this["VerseSplitter"]));
             }
         }
         
@@ -151,7 +151,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
         public bool EmulateSwitcher {
             get {
                 return ((bool)(this["EmulateSwitcher"]));
@@ -255,9 +255,9 @@ namespace AtemKaraoke.Core {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("\\r\\n\\s*\\t*\\r\\n\\s*\\t*\\r\\n")]
-        public string SongSplitterInEditor {
+        public string SongSplitter {
             get {
-                return ((string)(this["SongSplitterInEditor"]));
+                return ((string)(this["SongSplitter"]));
             }
         }
         
@@ -291,9 +291,18 @@ namespace AtemKaraoke.Core {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("*")]
-        public string RefrainSymbol {
+        public string RefrainSign {
             get {
-                return ((string)(this["RefrainSymbol"]));
+                return ((string)(this["RefrainSign"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("//")]
+        public string CommentSign {
+            get {
+                return ((string)(this["CommentSign"]));
             }
         }
     }

@@ -32,6 +32,14 @@ namespace AtemKaraoke.Core
             }
         }
 
+        public VerseDrawing VerseDrawing
+        {
+            get
+            {
+                return _verseDrawing;
+            }
+        }
+
         public int LyricsIndexBasedOnZero
         {
             get

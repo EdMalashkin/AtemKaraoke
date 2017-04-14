@@ -48,7 +48,7 @@ namespace AtemKaraoke.Core
             {
                 if (IsRefrain)
                 {
-                    _dirtyText = Config.Default.RefrainSymbol + newValue;
+                    _dirtyText = Config.Default.RefrainSign + newValue;
                 }
                 else
                 {
@@ -76,26 +76,35 @@ namespace AtemKaraoke.Core
 
         private string CleanText(string text)
 		{
-			string[] rows = Regex.Split(text, Environment.NewLine);
-			string newText = "";
+            StringBuilder newText = new StringBuilder();
+            char[] charsToTrim = {' ', '\t' };
+            string[] rows = Regex.Split(text, Environment.NewLine);
+
 			foreach (string r in rows)
 			{
-				newText += r.Trim() + Environment.NewLine;
+                newText.Append(r.Trim(charsToTrim));
+                newText.Append(Environment.NewLine);
 			}
+            return CutRefrainSign(MultipleSpacesToSingle(newText.ToString().TrimEnd()));
+        }
 
+        private string MultipleSpacesToSingle(string str)
+        {
             //http://stackoverflow.com/questions/206717/how-do-i-replace-multiple-spaces-with-a-single-space-in-c
             Regex regex = new Regex("[ ]{2,}", RegexOptions.None);
-            newText = regex.Replace(newText, " ");
+            return regex.Replace(str, " ");
+        }
 
-            newText = newText.Replace(Config.Default.RefrainSymbol, ""); //refrain symbol removal
-            return newText.Trim();
-		}
+        private string CutRefrainSign(string str)
+        {
+            return str.Replace(Config.Default.RefrainSign, ""); //refrain symbols removal;
+        }
 
         public bool IsRefrain
         {
             get
             {
-                return _dirtyText.Contains(Config.Default.RefrainSymbol);
+                return _dirtyText.Contains(Config.Default.RefrainSign);
             }
         }
 

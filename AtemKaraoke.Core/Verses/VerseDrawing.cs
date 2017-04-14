@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Drawing.Text;
 using System.Drawing.Drawing2D;
+using System.Text.RegularExpressions;
 
 namespace AtemKaraoke.Core
 {
@@ -30,8 +31,31 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                return GetImage(_verse.Text);
+                return GetImage(Text);
             }
+        }
+
+        public string Text
+        {
+            get
+            {
+                return CutComments(_verse.Text);
+            }
+        }
+
+        private string CutComments(string verseText)
+        {
+            StringBuilder result = new StringBuilder();
+            string[] rows = Regex.Split(verseText, Environment.NewLine);
+            for (int i = 0; i < rows.Count(); i++)
+            {
+                if (!rows[i].TrimStart().StartsWith(Config.Default.CommentSign))
+                {
+                    result.Append(rows[i]);
+                    result.Append(Environment.NewLine);
+                }
+            }
+            return result.ToString().TrimEnd();
         }
 
         private Bitmap GetImage(string verseText)

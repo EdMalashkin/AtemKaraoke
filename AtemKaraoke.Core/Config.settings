@@ -38,14 +38,14 @@
     <Setting Name="FileNameLength" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">50</Value>
     </Setting>
-    <Setting Name="Splitter" Type="System.String" Scope="Application">
+    <Setting Name="VerseSplitter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\r\n\s*\t*\r\n</Value>
     </Setting>
     <Setting Name="SwitcherAddress" Type="System.String" Scope="Application">
       <Value Profile="(Default)">192.168.88.5</Value>
     </Setting>
     <Setting Name="EmulateSwitcher" Type="System.Boolean" Scope="Application">
-      <Value Profile="(Default)">False</Value>
+      <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="UseConsoleToUploadFromWinForm" Type="System.Boolean" Scope="Application">
       <Value Profile="(Default)">True</Value>
@@ -74,7 +74,7 @@
     <Setting Name="curSelectedLength" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">0</Value>
     </Setting>
-    <Setting Name="SongSplitterInEditor" Type="System.String" Scope="Application">
+    <Setting Name="SongSplitter" Type="System.String" Scope="Application">
       <Value Profile="(Default)">\r\n\s*\t*\r\n\s*\t*\r\n</Value>
     </Setting>
     <Setting Name="MaxAmountOfVerses" Type="System.Int32" Scope="Application">
@@ -86,8 +86,11 @@
     <Setting Name="SongSplitterInPresenter" Type="System.Int32" Scope="Application">
       <Value Profile="(Default)">3</Value>
     </Setting>
-    <Setting Name="RefrainSymbol" Type="System.String" Scope="Application">
+    <Setting Name="RefrainSign" Type="System.String" Scope="Application">
       <Value Profile="(Default)">*</Value>
+    </Setting>
+    <Setting Name="CommentSign" Type="System.String" Scope="Application">
+      <Value Profile="(Default)">//</Value>
     </Setting>
   </Settings>
 </SettingsFile>

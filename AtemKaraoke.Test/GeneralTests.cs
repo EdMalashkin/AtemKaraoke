@@ -60,7 +60,7 @@ Song 2";
 
             Song 2 Verse    1     
  
-    Song 2 Verse 2  ";
+     Song 2 Verse 2  ";
             Lyrics lyrics = new Lyrics(song, switcher);
             Assert.AreEqual(lyrics.VerseFiles[0].Text, "Song 1 Verse 1");
             Assert.AreEqual(lyrics.VerseFiles[1].Text, "Song 1 Verse 2");
@@ -89,7 +89,17 @@ string 4";
         [TestMethod]
         public void TestLyricsToString()
         {
-            string song = @"string 1
+            string song = @"
+string 1
+string 2
+
+
+string 3
+
+string 4
+  ";
+
+            string result = @"string 1
 string 2
 
 
@@ -97,7 +107,7 @@ string 3
 
 string 4";
             Lyrics lyrics = new Lyrics(song, switcher);
-            Assert.AreEqual(song, lyrics.ToString());
+            Assert.AreEqual(lyrics.ToString(), result);
         }
     }
 }
