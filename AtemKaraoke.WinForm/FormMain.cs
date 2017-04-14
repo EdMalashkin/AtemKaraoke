@@ -377,14 +377,13 @@ namespace AtemKaraoke.WinForm
 					result = true;
 					break;
 				case Keys.Escape:
-                    if (grdSong.ReadOnly)
+                    if (!IsCellBeingEdited())
                     {
                         chkEditMode.Checked = true;
                     }
                     else
                     {
-                        grdSong.CurrentCell.ReadOnly = true;
-                        grdSong.EndEdit();
+                        if (grdSong.Visible) CancelEditingCell();
                     }
 					result = true;
 					break;
@@ -428,6 +427,10 @@ namespace AtemKaraoke.WinForm
         }
 
         private DataGridViewCell _selectedBeforeEditingCell;
+        private bool IsCellBeingEdited()
+        {
+            return _selectedBeforeEditingCell != null;
+        }
 
         private void StartEditingCell(DataGridViewCell cell)
         {
@@ -449,6 +452,13 @@ namespace AtemKaraoke.WinForm
             }
         }
 
+        private void CancelEditingCell()
+        {
+            grdSong.CancelEdit();
+            grdSong.CurrentCell.ReadOnly = true;
+            _selectedBeforeEditingCell = null;
+        }
+
         private void EndEditingCell(int rowIndex, int columnIndex)
         {
             if (rowIndex >= 0 && columnIndex >= 0)
@@ -467,7 +477,9 @@ namespace AtemKaraoke.WinForm
                     if (_selectedBeforeEditingCell != null) _selectedBeforeEditingCell.Selected = true;
                 }
             }
+            _selectedBeforeEditingCell = null;
         }
+
 
         private void grdSong_CellValueChanged(object sender, DataGridViewCellEventArgs e)
         {
