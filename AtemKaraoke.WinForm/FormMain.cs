@@ -92,12 +92,19 @@ namespace AtemKaraoke.WinForm
             grdSong.Enabled = false;
             Cursor = Cursors.WaitCursor;
 
-            CreateNewLyrics();
-            if (_isRestart == false && chkExport.Checked == true)
+            try
             {
-                Upload();
+                CreateNewLyrics();
+                if (_isRestart == false && chkExport.Checked == true)
+                {
+                    Upload();
+                }
+                BindGrid();
             }
-            BindGrid();
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ATEM Error");
+            }
 
             ResizeSongControls();
             chkEditMode.Text = "Back To Edit Mode";
@@ -127,7 +134,14 @@ namespace AtemKaraoke.WinForm
             pnlSong.BackColor = SystemColors.Control;
             btnOnAir.Visible = false;
             btnCancelPreview.Visible = false;
-            Lyrics.Switcher.SetMediaOffAir();
+            try
+            {
+                Lyrics.Switcher.SetMediaOffAir();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "ATEM Error");
+            }
             toolStripStatusLabel.Text = "Edit Mode";
             statusStrip1.Refresh();
             txtSong.Visible = true;
