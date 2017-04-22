@@ -89,11 +89,19 @@ namespace AtemKaraoke.Core
 			}
 		}
 
+        private List<VerseFile> VerseFilesSelectable
+        {
+            get
+            {
+                return VerseFiles.Where(v => v.NumberToSelect > 0).ToList();
+            }
+        }
+
         public VerseFile FirstVerseFile
         {
             get
             {
-                return VerseFiles[0];
+                return VerseFilesSelectable[0];
             }
         }
 
@@ -101,7 +109,7 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                return VerseFiles[VerseFiles.Count - 1];
+                return VerseFilesSelectable[VerseFilesSelectable.Count - 1];
             }
         }
 
@@ -113,11 +121,11 @@ namespace AtemKaraoke.Core
                 int curIndex = GetCurrentSelectedVerseIndex();
                 if (curIndex >= 0)
                 {
-                    for (int i = curIndex + 1; i < VerseFiles.Count; i++)
+                    for (int i = curIndex + 1; i < VerseFilesSelectable.Count; i++)
                     {
-                        if (VerseFiles[i].Verse.IsRefrain)
+                        if (VerseFilesSelectable[i].Verse.IsRefrain)
                         {
-                            result = VerseFiles[i];
+                            result = VerseFilesSelectable[i];
                             break;
                         }
                     }
@@ -137,13 +145,13 @@ namespace AtemKaraoke.Core
                     for (int i = curIndex - 1; i >= 0; i--)
                     {
 
-                        if (VerseFiles[i].Verse.IsRefrain
+                        if (VerseFilesSelectable[i].Verse.IsRefrain
                             && (    i == 0
-                                    ||  VerseFiles[i-1] == null 
-                                    || !VerseFiles[i-1].Verse.IsRefrain)  // refrain may consists of several verses
+                                    ||  VerseFilesSelectable[i-1] == null 
+                                    || !VerseFilesSelectable[i-1].Verse.IsRefrain)  // refrain may consists of several verses
                                 )
                         {
-                            result = VerseFiles[i];
+                            result = VerseFilesSelectable[i];
                             break;
                         }
 
@@ -155,7 +163,7 @@ namespace AtemKaraoke.Core
 
         private int GetCurrentSelectedVerseIndex()
         {
-            return VerseFiles.FindIndex(v => v.GlobalNumber == _lyrics.Selection.CurrentVerse.GlobalNumber && _lyrics.Selection.CurrentVerse.Verse.Song == this);
+            return VerseFilesSelectable.FindIndex(v => v.NumberToSelect == _lyrics.Selection.CurrentVerse.NumberToSelect && _lyrics.Selection.CurrentVerse.Verse.Song == this);
         }
 
         private string GetVerseSplitter()

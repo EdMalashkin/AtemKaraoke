@@ -108,6 +108,23 @@ namespace AtemKaraoke.Core
             }
         }
 
+        internal bool IsCommentOnly
+        {
+            get
+            {
+                bool anyContent = false;
+                string[] rows = Regex.Split(Text, Environment.NewLine);
+                for (int i = 0; i < rows.Count(); i++)
+                {
+                    if (!rows[i].TrimStart().StartsWith(Config.Default.CommentSign))
+                    {
+                        anyContent = true;
+                        break;
+                    }
+                }
+                return !anyContent;
+            }
+        }
         public override string ToString()
         {
             return _dirtyText;

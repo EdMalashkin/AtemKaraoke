@@ -26,12 +26,12 @@ namespace AtemKaraoke.Core
 
         public void ToFirstVerse()
         {
-            ToVerse(_lyrics.VerseFiles.FirstOrDefault());
+            ToVerse(_lyrics.VerseFilesSelectable.FirstOrDefault());
         }
 
         public void ToLastVerse()
         {
-            ToVerse(_lyrics.VerseFiles.Last());
+            ToVerse(_lyrics.VerseFilesSelectable.LastOrDefault());
         }
 
         public void ToPrevVerse()
@@ -48,9 +48,9 @@ namespace AtemKaraoke.Core
         private VerseFile _previouslySelectedVerse;
         private VerseFile GetNextToPreviouslySelectedVerse()
         {
-            return _lyrics.VerseFiles.Where(v => _previouslySelectedKeyVerse != null
+            return _lyrics.VerseFilesSelectable.Where(v => _previouslySelectedKeyVerse != null
                                     && v.Verse.Song == _previouslySelectedKeyVerse.Verse.Song
-                                    && v.LyricsIndexBasedOnZero == _previouslySelectedKeyVerse.LyricsIndexBasedOnZero + 1)
+                                    && v.IndexBasedOnZeroToSelect == _previouslySelectedKeyVerse.IndexBasedOnZeroToSelect + 1)
                              .FirstOrDefault();
         }
 
@@ -60,8 +60,8 @@ namespace AtemKaraoke.Core
                 GetNextToPreviouslySelectedVerse(),
                 CurrentVerse.Verse.Song.PrevRefrain
             }
-            .Where(v => v != null && v.LyricsIndexBasedOnZero < CurrentVerse.LyricsIndexBasedOnZero)
-            .OrderBy(v => v.LyricsIndexBasedOnZero)
+            .Where(v => v != null && v.IndexBasedOnZeroToSelect < CurrentVerse.IndexBasedOnZeroToSelect)
+            .OrderBy(v => v.IndexBasedOnZeroToSelect)
             .ToList();
         }
 
@@ -71,8 +71,8 @@ namespace AtemKaraoke.Core
                 GetNextToPreviouslySelectedVerse(),
                 CurrentVerse.Verse.Song.NextRefrain
             }
-            .Where(v => v != null && v.LyricsIndexBasedOnZero > CurrentVerse.LyricsIndexBasedOnZero)
-            .OrderBy(v => v.LyricsIndexBasedOnZero)
+            .Where(v => v != null && v.IndexBasedOnZeroToSelect > CurrentVerse.IndexBasedOnZeroToSelect)
+            .OrderBy(v => v.IndexBasedOnZeroToSelect)
             .ToList();
         }
 
@@ -80,7 +80,7 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                return _lyrics.VerseFiles.Find(v => v.GlobalNumber == CurrentVerse.GlobalNumber - 1);
+                return _lyrics.VerseFilesSelectable.Find(v => v.NumberToSelect == CurrentVerse.NumberToSelect - 1);
             }
         }
 
@@ -88,7 +88,7 @@ namespace AtemKaraoke.Core
         {
             get
             {
-                return _lyrics.VerseFiles.Find(v => v.GlobalNumber == CurrentVerse.GlobalNumber + 1);
+                return _lyrics.VerseFilesSelectable.Find(v => v.NumberToSelect == CurrentVerse.NumberToSelect + 1);
             }
         }
 
@@ -105,32 +105,32 @@ namespace AtemKaraoke.Core
 
         public void ToVerse(VerseFile newVerseFile)
         {
-            if (newVerseFile != null && _currentVerse != newVerseFile)
+            if (newVerseFile != null && _currentVerse != newVerseFile && newVerseFile.NumberToSelect.HasValue)
             {
                 // if a previous verse was also a refrain then keep _previouslySelectedVerse in _previouslySelectedKeyVerse to use it later
                 // so only if 2 refrains go in a row 
                 if (!(newVerseFile.Verse.IsRefrain
                     && _currentVerse != null
                     && _currentVerse.Verse.IsRefrain
-                    && Math.Abs(_currentVerse.LyricsIndexBasedOnZero - newVerseFile.LyricsIndexBasedOnZero) == 1))
+                    && Math.Abs(_currentVerse.IndexBasedOnZeroToSelect.Value - newVerseFile.IndexBasedOnZeroToSelect.Value) == 1))
                 {
                     _previouslySelectedKeyVerse = _currentVerse;
                 }
                 _previouslySelectedVerse = _currentVerse;
                 _currentVerse = newVerseFile;
 
-                _lyrics.Switcher.SetMediaToPlayer(newVerseFile.GlobalNumber);
+                _lyrics.Switcher.SetMediaToPlayer(newVerseFile.NumberToSelect.Value);
 
                 if (_previouslySelectedVerse == null)
                 {
                     Debug.Print("Verse index {0} is selected",
-                                                        newVerseFile.LyricsIndexBasedOnZero);
+                                                        newVerseFile.IndexBasedOnZeroToSelect);
                 }
                 else
                 {
                     Debug.Print("Verse index {0} is selected after {1}",
-                                                        newVerseFile.LyricsIndexBasedOnZero,
-                                                        _previouslySelectedVerse.LyricsIndexBasedOnZero);
+                                                        newVerseFile.IndexBasedOnZeroToSelect,
+                                                        _previouslySelectedVerse.IndexBasedOnZeroToSelect);
                 }
 
                 //if (OnVerseSelected != null)

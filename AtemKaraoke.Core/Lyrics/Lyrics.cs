@@ -84,10 +84,23 @@ namespace AtemKaraoke.Core
                 List<VerseFile> list = new List<VerseFile>();
                 Songs.ForEach(s => list.AddRange(s.VerseFiles));
 
-                int i = 1;
-                list.ForEach(f => f.GlobalNumber = i++);
+                int selectionNumber = 1;
+                int absoluteNumber = 1;
+                list.ForEach(f => 
+                {
+                    if (!f.Verse.IsCommentOnly) f.NumberToSelect = selectionNumber++;
+                    f.NumberInGrid = absoluteNumber++;
+                });
 
                 return list;
+            }
+        }
+
+        public List<VerseFile> VerseFilesSelectable
+        {
+            get
+            {
+                return VerseFiles.Where(v => v.NumberToSelect > 0).ToList();
             }
         }
 
@@ -139,7 +152,7 @@ namespace AtemKaraoke.Core
             foreach (var f in VerseFiles)
             {
                 Console.WriteLine(f.FilePath);
-                Switcher.UploadMedia(f.FilePath, f.GlobalNumber);
+                Switcher.UploadMedia(f.FilePath, f.NumberToSelect.Value);
             }
         }
 
@@ -148,7 +161,7 @@ namespace AtemKaraoke.Core
             if (Selection.CurrentVerse != null)
             {
                 Console.WriteLine(Selection.CurrentVerse.FilePath);
-                Switcher.UploadMedia(Selection.CurrentVerse.FilePath, Selection.CurrentVerse.GlobalNumber);
+                Switcher.UploadMedia(Selection.CurrentVerse.FilePath, Selection.CurrentVerse.NumberToSelect.Value);
             }
             else
             {

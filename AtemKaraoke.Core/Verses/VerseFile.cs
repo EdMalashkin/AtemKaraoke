@@ -16,7 +16,8 @@ namespace AtemKaraoke.Core
     {
         VerseDrawing _verseDrawing;
         Lyrics _lyrics;
-        internal int GlobalNumber;
+        internal int? NumberToSelect;
+        internal int NumberInGrid;
 
         public VerseFile(VerseDrawing verseDrawing, Lyrics lyrics)
         {
@@ -40,11 +41,19 @@ namespace AtemKaraoke.Core
             }
         }
 
-        public int LyricsIndexBasedOnZero
+        public int? IndexBasedOnZeroToSelect
         {
             get
             {
-                return GlobalNumber - 1;
+                return NumberToSelect - 1;
+            }
+        }
+
+        public int IndexBasedOnZeroInGrid
+        {
+            get
+            {
+                return NumberInGrid - 1;
             }
         }
 

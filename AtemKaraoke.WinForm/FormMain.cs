@@ -265,19 +265,22 @@ namespace AtemKaraoke.WinForm
 		public void OnVerseSelected(object sender, EventArgs e)
 		{
             var curVerse = (VerseFile)sender;
-            grdSong.Rows[curVerse.LyricsIndexBasedOnZero].Selected = true;
-            Debug.Print("OnVerseSelected {0}", curVerse.LyricsIndexBasedOnZero);
+            if (curVerse.IndexBasedOnZeroToSelect.HasValue)
+            {
+                grdSong.Rows[curVerse.IndexBasedOnZeroInGrid].Selected = true;
+                Debug.Print("OnVerseSelected {0}", curVerse.IndexBasedOnZeroToSelect);
+            }
         }
 
 		private void grdSong_SelectionChanged(object sender, EventArgs e)
 		{
-            if (grdSong.CurrentRow != null && Lyrics.Selection.CurrentVerse != null)
+            if (grdSong.CurrentRow != null && Lyrics.Selection.CurrentVerse != null && Lyrics.Selection.CurrentVerse.IndexBasedOnZeroToSelect.HasValue)
             {
                 var curVerseFile = grdSong.Rows[grdSong.CurrentRow.Index].DataBoundItem as VerseFile;
-                if (curVerseFile.LyricsIndexBasedOnZero != Lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero)
+                if (curVerseFile.IndexBasedOnZeroToSelect != Lyrics.Selection.CurrentVerse.IndexBasedOnZeroToSelect)
                 {
                     //attempt to cancel the autoselection with arrows when it contradicts with Lyrics.SelectedVerse
-                    grdSong.Rows[Lyrics.Selection.CurrentVerse.LyricsIndexBasedOnZero].Selected = true;
+                    grdSong.Rows[Lyrics.Selection.CurrentVerse.IndexBasedOnZeroInGrid].Selected = true;
                 }
                 //Debug.Print("grdSong_SelectionChanged {0}", curVerseFile.LyricsIndexBasedOnZero);
             }
