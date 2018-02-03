@@ -164,6 +164,7 @@ namespace AtemKaraoke.WinForm
 				process.StartInfo.Arguments = string.Format("\"{0}\"", path);
 				if (sendSelected)
 					process.StartInfo.Arguments += " sendSelected";
+				Debug.Print(process.StartInfo.Arguments);
 				process.Start();
 			}
         }

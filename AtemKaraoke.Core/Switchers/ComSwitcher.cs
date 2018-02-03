@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SwitcherLib;
 using System.Threading;
+using System.Diagnostics;
 
 namespace AtemKaraoke.Core
 {
@@ -98,6 +99,7 @@ namespace AtemKaraoke.Core
             }
             else
             {
+				Debug.Print(string.Format("Slot {0}; File: {1}", Slot, FilePath));
                 Upload upload = new Upload(Switcher, FilePath, Slot);
                 //upload.SetName(verse.Name);
                 //upload.transferCompleted = transferCompleted;

@@ -105,7 +105,7 @@ namespace AtemKaraoke.Core
 
         public void ToVerse(VerseFile newVerseFile)
         {
-            if (newVerseFile != null && _currentVerse != newVerseFile && newVerseFile.NumberToSelect.HasValue)
+            if (newVerseFile != null && _currentVerse != newVerseFile && newVerseFile.IndexBasedOnZeroToSelect.HasValue)
             {
                 // if a previous verse was also a refrain then keep _previouslySelectedVerse in _previouslySelectedKeyVerse to use it later
                 // so only if 2 refrains go in a row 
@@ -119,7 +119,7 @@ namespace AtemKaraoke.Core
                 _previouslySelectedVerse = _currentVerse;
                 _currentVerse = newVerseFile;
 
-                _lyrics.Switcher.SetMediaToPlayer(newVerseFile.NumberToSelect.Value);
+                _lyrics.Switcher.SetMediaToPlayer(newVerseFile.IndexBasedOnZeroToSelect.Value);
 
                 if (_previouslySelectedVerse == null)
                 {
