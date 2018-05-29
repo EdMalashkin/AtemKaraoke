@@ -109,5 +109,26 @@ string 4";
             Lyrics lyrics = new Lyrics(song, switcher);
             Assert.AreEqual(lyrics.ToString(), result);
         }
-    }
+
+
+		[TestMethod]
+		public void TestEditingVerseInSeveralSongs()
+		{
+			string song = @"Song 1
+                        
+                                
+Song 2";
+			Lyrics lyrics = new Lyrics(song, switcher);
+			Assert.AreEqual(lyrics.Songs.Count, 2);
+			lyrics.Songs[0].VerseFiles[0].Verse.Update("Song 1 edited");
+			string songEdited = lyrics.ToString();
+
+			string song2 = @"Song 1 edited
+                        
+                                
+Song 2";
+			Assert.AreEqual(lyrics.Songs.Count, 2);
+			Assert.AreEqual(song2.Replace(" ", ""), songEdited.Replace(" ", ""));
+		}
+	}
 }

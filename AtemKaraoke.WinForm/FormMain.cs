@@ -74,11 +74,18 @@ namespace AtemKaraoke.WinForm
             return s;
         }
 
-        private void CreateNewLyrics()
+		string _lastNotSelectedText = "";
+		int _lastSelectedTextPosition = 0;
+
+		private void CreateNewLyrics()
         {
-            _lyrics = new Lyrics(GetSelectedSongText);
+			string selectedText = GetSelectedSongText;
+			_lastSelectedTextPosition = txtSong.Text.IndexOf(selectedText);
+			_lastNotSelectedText = txtSong.Text.Replace(selectedText, "");
+
+			_lyrics = new Lyrics(selectedText);
             _lyrics.Selection.OnVerseSelected += new EventHandler(this.OnVerseSelected);
-        }
+		}
 
         private void BindGrid()
         {
@@ -489,7 +496,7 @@ namespace AtemKaraoke.WinForm
                     string binaryFile = SaveLyrics();
                     SendViaConsole(binaryFile, true); // then the console is going to call Lyrics.SendSelected()
 
-                    txtSong.Text = Lyrics.ToString();
+                    txtSong.Text = _lastNotSelectedText.Insert(_lastSelectedTextPosition, Lyrics.ToString());
                     grdSong.EndEdit();
                     curCell.ReadOnly = true;
                     if (_selectedBeforeEditingCell != null) _selectedBeforeEditingCell.Selected = true;
@@ -554,8 +561,8 @@ namespace AtemKaraoke.WinForm
             }
         }
 
-        #endregion
 
+		#endregion
 
-    }
+	}
 }
