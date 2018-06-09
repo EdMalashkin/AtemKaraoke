@@ -80,8 +80,11 @@ namespace AtemKaraoke.WinForm
 		private void CreateNewLyrics()
         {
 			string selectedText = GetSelectedSongText;
-			_lastSelectedTextPosition = txtSong.Text.IndexOf(selectedText);
-			_lastNotSelectedText = txtSong.Text.Replace(selectedText, "");
+			if (selectedText.Length > 0)
+			{
+				_lastSelectedTextPosition = txtSong.Text.IndexOf(selectedText);
+				_lastNotSelectedText = txtSong.Text.Replace(selectedText, "");
+			}
 
 			_lyrics = new Lyrics(selectedText);
             _lyrics.Selection.OnVerseSelected += new EventHandler(this.OnVerseSelected);
