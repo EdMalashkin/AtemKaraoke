@@ -210,87 +210,87 @@ namespace SwitcherLib
 			return list;
 		}
 
-		public class ProgramInput
-		{
-			private long InputId;
-			public int me { get; set; }
-			public long inputId
-			{
-				get
-				{
-					switch (me)
-					{
-						case 2:
-							m_mixEffectBlock2.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, out InputId);
-							return InputId;
-						default:
-							m_mixEffectBlock1.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, out InputId);
-							return InputId;
-					}
-				}
-				set
-				{
-					switch (me)
-					{
-						case 2:
-							if (m_mixEffectBlock2 != null)
-							{
-								m_mixEffectBlock2.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, value);
-							}
-							break;
-						default:
-							if (m_mixEffectBlock1 != null)
-							{
-								m_mixEffectBlock1.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, value);
-							}
-							break;
-					}
-				}
-			}
-		}
-		public class PreviewInput
-		{
-			private long InputId;
-			public int me
-			{
-				get; set;
-			}
-			public long inputId
-			{
-				get
-				{
-					switch (me)
-					{
-						case 2:
-							m_mixEffectBlock2.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, out InputId);
-							return InputId;
-						default:
-							m_mixEffectBlock1.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, out InputId);
-							return InputId;
+		//public class ProgramInput
+		//{
+		//	private long InputId;
+		//	public int me { get; set; }
+		//	public long inputId
+		//	{
+		//		get
+		//		{
+		//			switch (me)
+		//			{
+		//				case 2:
+		//					m_mixEffectBlock2.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, out InputId);
+		//					return InputId;
+		//				default:
+		//					m_mixEffectBlock1.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, out InputId);
+		//					return InputId;
+		//			}
+		//		}
+		//		set
+		//		{
+		//			switch (me)
+		//			{
+		//				case 2:
+		//					if (m_mixEffectBlock2 != null)
+		//					{
+		//						m_mixEffectBlock2.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, value);
+		//					}
+		//					break;
+		//				default:
+		//					if (m_mixEffectBlock1 != null)
+		//					{
+		//						m_mixEffectBlock1.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdProgramInput, value);
+		//					}
+		//					break;
+		//			}
+		//		}
+		//	}
+		//}
+		//public class PreviewInput
+		//{
+		//	private long InputId;
+		//	public int me
+		//	{
+		//		get; set;
+		//	}
+		//	public long inputId
+		//	{
+		//		get
+		//		{
+		//			switch (me)
+		//			{
+		//				case 2:
+		//					m_mixEffectBlock2.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, out InputId);
+		//					return InputId;
+		//				default:
+		//					m_mixEffectBlock1.GetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, out InputId);
+		//					return InputId;
 
-					}
+		//			}
 
-				}
-				set
-				{
-					switch (me)
-					{
-						case 2:
-							if (m_mixEffectBlock2 != null)
-							{
-								m_mixEffectBlock2.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, value);
-							}
-							break;
-						default:
-							if (m_mixEffectBlock1 != null)
-							{
-								m_mixEffectBlock1.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, value);
-							}
-							break;
-					}
-				}
-			}
-		}
+		//		}
+		//		set
+		//		{
+		//			switch (me)
+		//			{
+		//				case 2:
+		//					if (m_mixEffectBlock2 != null)
+		//					{
+		//						m_mixEffectBlock2.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, value);
+		//					}
+		//					break;
+		//				default:
+		//					if (m_mixEffectBlock1 != null)
+		//					{
+		//						m_mixEffectBlock1.SetInt(_BMDSwitcherMixEffectBlockPropertyId.bmdSwitcherMixEffectBlockPropertyIdPreviewInput, value);
+		//					}
+		//					break;
+		//			}
+		//		}
+		//	}
+		//}
 
 		public void Cut(int me = 1)
 		{
