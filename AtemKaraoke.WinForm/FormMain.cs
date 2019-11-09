@@ -72,7 +72,7 @@ namespace AtemKaraoke.WinForm
 
 			var cursorPos = txtSong.SelectionStart;
 			var lyr = new Lyrics(txtSong.Text);
-			txtSong.Text = Lyrics.ToString();
+			txtSong.Text = lyr.ToString();
 			Song selectedSong = null;
 			foreach (var song in lyr.Songs)
 			{
