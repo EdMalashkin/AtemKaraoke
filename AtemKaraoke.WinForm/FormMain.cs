@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using AtemKaraoke.Core;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace AtemKaraoke.WinForm
 {
@@ -63,6 +64,28 @@ namespace AtemKaraoke.WinForm
 				else
 					return txtSong.Text;
 			}
+		}
+
+		private void SelectSongOnCursor()
+		{
+			if (txtSong.SelectionLength > 0) return;
+
+			var cursorPos = txtSong.SelectionStart;
+			var lyr = new Lyrics(txtSong.Text);
+			txtSong.Text = Lyrics.ToString();
+			Song selectedSong = null;
+			foreach (var song in lyr.Songs)
+			{
+				if (cursorPos >= song.GetFirstCharPosition() && cursorPos >= song.GetLastCharPosition())
+				{
+					selectedSong = song;
+				}
+			}
+			if (selectedSong != null)
+			{
+				txtSong.Select(selectedSong.GetFirstCharPosition(), selectedSong.ToString().Length);
+			}
+			
 		}
 
         private DataGridViewCellStyle RefrainStyle()
@@ -392,7 +415,11 @@ namespace AtemKaraoke.WinForm
                     if (txtSong.Visible) txtSong.SelectAll();
                     result = true;
                     break;
-                case Keys.F5:
+				case Keys.F4:
+					SelectSongOnCursor();
+					result = true;
+					break;
+				case Keys.F5:
 					chkEditMode.Checked = false;
 					result = true;
 					break;

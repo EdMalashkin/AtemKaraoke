@@ -185,5 +185,15 @@ namespace AtemKaraoke.Core
             }
             return result.ToString().Trim();
         }
-    }
+
+		public int GetFirstCharPosition()
+		{
+			return _lyrics.ToString().IndexOf(this.ToString());
+		}
+
+		public int GetLastCharPosition()
+		{
+			return _lyrics.ToString().LastIndexOf(this.ToString());
+		}
+	}
 }
