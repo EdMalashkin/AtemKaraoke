@@ -24,13 +24,13 @@
       <Value Profile="(Default)">60</Value>
     </Setting>
     <Setting Name="SourceFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">D:\Projects\AtemKaraoke\AtemKaraoke.Console\Songs</Value>
+      <Value Profile="(Default)">С:\Projects\AtemKaraoke\AtemKaraoke.Console\Songs</Value>
     </Setting>
     <Setting Name="SourceFolderPattern" Type="System.String" Scope="Application">
       <Value Profile="(Default)">*.txt</Value>
     </Setting>
     <Setting Name="DestinationFolder" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">D:\Projects\AtemKaraoke\AtemKaraoke.Console\Songs</Value>
+      <Value Profile="(Default)">С:\Projects\AtemKaraoke\AtemKaraoke.Console\Songs</Value>
     </Setting>
     <Setting Name="FontColor" Type="System.String" Scope="Application">
       <Value Profile="(Default)">White</Value>

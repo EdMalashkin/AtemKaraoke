@@ -12,7 +12,7 @@ namespace AtemKaraoke.Core {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.9.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
     public sealed partial class Config : global::System.Configuration.ApplicationSettingsBase {
         
         private static Config defaultInstance = ((Config)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Config())));
@@ -88,7 +88,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("С:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
         public string SourceFolder {
             get {
                 return ((string)(this["SourceFolder"]));
@@ -106,7 +106,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("D:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("С:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
         public string DestinationFolder {
             get {
                 return ((string)(this["DestinationFolder"]));
