@@ -40,11 +40,15 @@ namespace AtemKaraoke
             }
 			catch(Exception ex)
 			{
-				Console.WriteLine(ex.Message);
-				ExceptionHelper.HandleException(ex);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("!!!!!!!!!!!!!!!!!");
+                Console.WriteLine(ex.Message);
+                Console.WriteLine("!!!!!!!!!!!!!!!!!");
+                ExceptionHelper.HandleException(ex);
 			}
             finally
             {
+                Console.ResetColor();
                 Console.WriteLine("Finished");
                 //Console.ReadLine();
                 new Reader().ReadLine(3000);
