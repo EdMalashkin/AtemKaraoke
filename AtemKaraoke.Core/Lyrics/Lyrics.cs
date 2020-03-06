@@ -152,7 +152,7 @@ namespace AtemKaraoke.Core
             foreach (var f in VerseFiles)
             {
                 Console.WriteLine(f.FilePath);
-                Switcher.UploadMedia(f.FilePath, f.NumberToSelect.Value);
+                Switcher.UploadMedia(f.FilePath, f.IndexBasedOnZeroToSelect.Value);
             }
         }
 
@@ -161,7 +161,7 @@ namespace AtemKaraoke.Core
             if (Selection.CurrentVerse != null)
             {
                 Console.WriteLine(Selection.CurrentVerse.FilePath);
-                Switcher.UploadMedia(Selection.CurrentVerse.FilePath, Selection.CurrentVerse.NumberToSelect.Value);
+                Switcher.UploadMedia(Selection.CurrentVerse.FilePath, Selection.CurrentVerse.IndexBasedOnZeroToSelect.Value);
             }
             else
             {

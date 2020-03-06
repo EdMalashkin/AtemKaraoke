@@ -49,9 +49,16 @@ namespace AtemKaraoke.Core
             string[] rows = Regex.Split(verseText, Environment.NewLine);
             for (int i = 0; i < rows.Count(); i++)
             {
-                if (!rows[i].TrimStart().StartsWith(Config.Default.CommentSign))
+                if (!rows[i].TrimStart().StartsWith(Config.Default.CommentSign)) // if the row is not a comment as whole
                 {
-                    result.Append(rows[i]);
+					if (rows[i].Contains(Config.Default.CommentSign)) // if still contains inline comment
+					{
+						result.Append(rows[i].Substring (0, rows[i].IndexOf(Config.Default.CommentSign)).TrimEnd());
+					}
+					else
+					{
+						result.Append(rows[i]);
+					}
                     result.Append(Environment.NewLine);
                 }
             }

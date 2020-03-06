@@ -14,11 +14,11 @@ namespace AtemKaraoke.Test
         {
             string song = @"
     //comment
-string 1
+string 1 // another comment // yet another comment
 string 2
 
 string 3
-string 4
+string 4//a comment
  //   comment
 ";
             string result1 = @"string 1

@@ -103,7 +103,7 @@ namespace SwitcherLib
 				IBMDSwitcherKey key = GetKey1();
 				key.SetOnAir(0);
 				key.SetInputFill(3010); //http://skaarhoj.com/fileadmin/BMDPROTOCOL.html
-				GetTransition1Parameters().SetNextTransitionSelection(_BMDSwitcherTransitionSelection.bmdSwitcherTransitionSelectionKey1);
+				GetTransition1Parameters().SetNextTransitionSelection(_BMDSwitcherTransitionSelection.bmdSwitcherTransitionSelectionKey1 | _BMDSwitcherTransitionSelection.bmdSwitcherTransitionSelectionBackground);
 				//GetTransition1Parameters().SetNextTransitionSelection(_BMDSwitcherTransitionSelection.bmdSwitcherTransitionSelectionBackground);
 			}
 			catch (Exception ex)

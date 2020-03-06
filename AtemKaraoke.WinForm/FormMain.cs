@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using AtemKaraoke.Core;
 using System.Diagnostics;
 using System.Drawing;
+using System.Text.RegularExpressions;
 
 namespace AtemKaraoke.WinForm
 {
@@ -65,6 +66,28 @@ namespace AtemKaraoke.WinForm
 			}
 		}
 
+		private void SelectSongOnCursor()
+		{
+			if (txtSong.SelectionLength > 0) return;
+
+			var cursorPos = txtSong.SelectionStart;
+			var lyr = new Lyrics(txtSong.Text);
+			txtSong.Text = lyr.ToString();
+			Song selectedSong = null;
+			foreach (var song in lyr.Songs)
+			{
+				if (cursorPos >= song.GetFirstCharPosition() && cursorPos >= song.GetLastCharPosition())
+				{
+					selectedSong = song;
+				}
+			}
+			if (selectedSong != null)
+			{
+				txtSong.Select(selectedSong.GetFirstCharPosition(), selectedSong.ToString().Length);
+			}
+			
+		}
+
         private DataGridViewCellStyle RefrainStyle()
         {
             var s = new DataGridViewCellStyle();
@@ -74,11 +97,21 @@ namespace AtemKaraoke.WinForm
             return s;
         }
 
-        private void CreateNewLyrics()
+		string _lastNotSelectedText = "";
+		int _lastSelectedTextPosition = 0;
+
+		private void CreateNewLyrics()
         {
-            _lyrics = new Lyrics(GetSelectedSongText);
+			string selectedText = GetSelectedSongText;
+			if (selectedText.Length > 0)
+			{
+				_lastSelectedTextPosition = txtSong.Text.IndexOf(selectedText);
+				_lastNotSelectedText = txtSong.Text.Replace(selectedText, "");
+			}
+
+			_lyrics = new Lyrics(selectedText);
             _lyrics.Selection.OnVerseSelected += new EventHandler(this.OnVerseSelected);
-        }
+		}
 
         private void BindGrid()
         {
@@ -164,6 +197,7 @@ namespace AtemKaraoke.WinForm
 				process.StartInfo.Arguments = string.Format("\"{0}\"", path);
 				if (sendSelected)
 					process.StartInfo.Arguments += " sendSelected";
+				Debug.Print(process.StartInfo.Arguments);
 				process.Start();
 			}
         }
@@ -381,7 +415,11 @@ namespace AtemKaraoke.WinForm
                     if (txtSong.Visible) txtSong.SelectAll();
                     result = true;
                     break;
-                case Keys.F5:
+				case Keys.F4:
+					SelectSongOnCursor();
+					result = true;
+					break;
+				case Keys.F5:
 					chkEditMode.Checked = false;
 					result = true;
 					break;
@@ -488,7 +526,7 @@ namespace AtemKaraoke.WinForm
                     string binaryFile = SaveLyrics();
                     SendViaConsole(binaryFile, true); // then the console is going to call Lyrics.SendSelected()
 
-                    txtSong.Text = Lyrics.ToString();
+                    txtSong.Text = _lastNotSelectedText.Insert(_lastSelectedTextPosition, Lyrics.ToString());
                     grdSong.EndEdit();
                     curCell.ReadOnly = true;
                     if (_selectedBeforeEditingCell != null) _selectedBeforeEditingCell.Selected = true;
@@ -553,8 +591,8 @@ namespace AtemKaraoke.WinForm
             }
         }
 
-        #endregion
 
+		#endregion
 
-    }
+	}
 }
