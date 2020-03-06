@@ -2,8 +2,8 @@
 Windows application to lay text/lyrics over Blackmagic ATEM switcher's video. 
 
 ## Quick start
-1. Download [the latest release](https://github.com/EdMalashkin/AtemKaraoke/tree/master/AtemKaraoke.WinForm/bin/Release) 
-to a folder. Your computer must be in the same local network as ATEM switcher is.
+1. Download [AtemKaraoke.zip](https://github.com/EdMalashkin/AtemKaraoke/releases) 
+and unpack it to a folder. Your computer must be in the same local network as ATEM switcher is.
 2. Set these 3 settings both in AtemKaraoke.WinForm.exe.config and AtemKaraoke.Console.exe.config
   - SwitcherAddress
   - SourceFolder
