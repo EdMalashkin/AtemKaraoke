@@ -68,7 +68,14 @@ namespace AtemKaraoke.Core.Tools
 		{
 			if (!Directory.Exists(FolderPath))
 			{
-				Directory.CreateDirectory(FolderPath);
+				try
+				{
+					Directory.CreateDirectory(FolderPath);
+				}
+				catch (Exception ex)
+				{
+					throw new Exception(string.Format("Cannot create a folder {0}. {1}", FolderPath, ex.Message), ex);
+				}
 			}
 			else
 			{
