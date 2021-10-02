@@ -3,8 +3,8 @@ using System.Windows.Forms;
 using AtemKaraoke.Core;
 using System.Diagnostics;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Runtime.InteropServices;
+using AtemKaraoke.Core.Tools;
 
 namespace AtemKaraoke.WinForm
 {
@@ -147,7 +147,6 @@ namespace AtemKaraoke.WinForm
 			chkExport.Checked = true; // keep it true for the next time
 			toolStripStatusLabel.Text = _labelOffAir;
 			statusStrip1.Refresh();
-			grdSong.Focus();
 			txtSong.Visible = false;
 			chkExport.Visible = false;
 			grdSong.Visible = true;
@@ -156,6 +155,7 @@ namespace AtemKaraoke.WinForm
 
 			Cursor = Cursors.Default;
 			grdSong.Enabled = true;
+			grdSong.Focus();
 			//btnReconnect.Visible = true; commented as images are not get generated after reconnecting for some reason
 		}
 
@@ -183,6 +183,7 @@ namespace AtemKaraoke.WinForm
 			grdSong.Visible = false;
 			pnlSong.Visible = false;
 			lstSongs.Visible = true;
+			lstSongs.Focus();
 		}
 
 		private void chkEditMode_CheckedChanged(object sender, EventArgs e)
@@ -192,16 +193,8 @@ namespace AtemKaraoke.WinForm
 
 		private void SendViaConsole(string path, bool sendSelected = false)
 		{
-			if (path.Trim().Length > 0)
-			{
-				var process = new Process();
-				process.StartInfo = new ProcessStartInfo(@"AtemKaraoke.Console.exe");
-				process.StartInfo.Arguments = string.Format("\"{0}\"", path);
-				if (sendSelected)
-					process.StartInfo.Arguments += " sendSelected";
-				Debug.Print(process.StartInfo.Arguments);
-				process.Start();
-			}
+			var r = new AtemKaraokeConsole(path, sendSelected);
+			r.Run();
 		}
 
 		private void Upload()
@@ -605,6 +598,10 @@ namespace AtemKaraoke.WinForm
 			lstSongs.DataSource = new BindingSource(lyr.SongList, null);
 			lstSongs.DisplayMember = "Value";
 			lstSongs.ValueMember = "Key";
+			if (lyr.SongList.Count > 0)
+			{
+				lstSongs.SelectedIndex = 0;
+			}
 		}
 
 		private void lstSongs_SelectedIndexChanged(object sender, EventArgs e)

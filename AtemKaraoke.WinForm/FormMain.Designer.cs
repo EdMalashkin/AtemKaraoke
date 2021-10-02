@@ -219,6 +219,7 @@
 			// 
 			// lstSongs
 			// 
+			this.lstSongs.BackColor = System.Drawing.SystemColors.Control;
 			this.lstSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
 			this.lstSongs.FormattingEnabled = true;
 			this.lstSongs.ItemHeight = 20;
