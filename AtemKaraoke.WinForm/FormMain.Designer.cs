@@ -44,6 +44,7 @@
 			this.btnOnAir = new System.Windows.Forms.Button();
 			this.pnlSong = new System.Windows.Forms.Panel();
 			this.btnCancelPreview = new System.Windows.Forms.Button();
+			this.lstSongs = new System.Windows.Forms.ListBox();
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -55,12 +56,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtSong.BackColor = System.Drawing.SystemColors.Window;
 			this.txtSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.txtSong.Location = new System.Drawing.Point(13, 38);
+			this.txtSong.Location = new System.Drawing.Point(13, 168);
 			this.txtSong.Multiline = true;
 			this.txtSong.Name = "txtSong";
 			this.txtSong.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtSong.Size = new System.Drawing.Size(471, 726);
+			this.txtSong.Size = new System.Drawing.Size(471, 600);
 			this.txtSong.TabIndex = 0;
+			this.txtSong.TextChanged += new System.EventHandler(this.txtSong_TextChanged);
 			this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
 			// 
 			// chkEditMode
@@ -109,6 +111,7 @@
 			this.grdSong.MultiSelect = false;
 			this.grdSong.Name = "grdSong";
 			this.grdSong.RowHeadersVisible = false;
+			this.grdSong.RowHeadersWidth = 51;
 			this.grdSong.RowTemplate.Height = 24;
 			this.grdSong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.grdSong.Size = new System.Drawing.Size(138, 549);
@@ -125,8 +128,10 @@
 			// 
 			this.Column1.DataPropertyName = "Text";
 			this.Column1.HeaderText = "Text";
+			this.Column1.MinimumWidth = 6;
 			this.Column1.Name = "Column1";
 			this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Column1.Width = 125;
 			// 
 			// btnReconnect
 			// 
@@ -173,7 +178,7 @@
 			// 
 			this.toolStripStatusLabel.Name = "toolStripStatusLabel";
 			this.toolStripStatusLabel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-			this.toolStripStatusLabel.Size = new System.Drawing.Size(10, 17);
+			this.toolStripStatusLabel.Size = new System.Drawing.Size(10, 16);
 			// 
 			// btnOnAir
 			// 
@@ -193,7 +198,7 @@
 			// 
 			this.pnlSong.BackColor = System.Drawing.SystemColors.Control;
 			this.pnlSong.ForeColor = System.Drawing.SystemColors.Control;
-			this.pnlSong.Location = new System.Drawing.Point(81, 82);
+			this.pnlSong.Location = new System.Drawing.Point(12, 120);
 			this.pnlSong.Name = "pnlSong";
 			this.pnlSong.Padding = new System.Windows.Forms.Padding(1);
 			this.pnlSong.Size = new System.Drawing.Size(200, 100);
@@ -212,11 +217,23 @@
 			this.btnCancelPreview.Visible = false;
 			this.btnCancelPreview.Click += new System.EventHandler(this.btnOffAir_Click);
 			// 
+			// lstSongs
+			// 
+			this.lstSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lstSongs.FormattingEnabled = true;
+			this.lstSongs.ItemHeight = 20;
+			this.lstSongs.Location = new System.Drawing.Point(12, 38);
+			this.lstSongs.Name = "lstSongs";
+			this.lstSongs.Size = new System.Drawing.Size(472, 124);
+			this.lstSongs.TabIndex = 7;
+			this.lstSongs.SelectedIndexChanged += new System.EventHandler(this.lstSongs_SelectedIndexChanged);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(496, 793);
+			this.Controls.Add(this.lstSongs);
 			this.Controls.Add(this.chkExport);
 			this.Controls.Add(this.btnCancelPreview);
 			this.Controls.Add(this.grdSong);
@@ -255,6 +272,7 @@
 		private System.Windows.Forms.Panel pnlSong;
 		private System.Windows.Forms.Button btnCancelPreview;
 		private System.Windows.Forms.CheckBox chkExport;
+		private System.Windows.Forms.ListBox lstSongs;
 	}
 }
 

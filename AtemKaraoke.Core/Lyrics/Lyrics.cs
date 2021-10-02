@@ -185,7 +185,20 @@ namespace AtemKaraoke.Core
             return result.ToString().Trim();
         }
 
-        public override bool Equals(object obj)
+		public Dictionary<int, string> SongList
+		{
+			get
+            {
+                var result = new Dictionary<int, string>();
+                foreach (var s in Songs)
+                {
+                    result.Add(s.GetFirstCharPosition(), s.Title);
+                }
+                return result;
+            }
+		}
+
+		public override bool Equals(object obj)
         {
             var lyr = obj as Lyrics;
             bool res = (lyr != null
