@@ -62,7 +62,7 @@
 			this.txtSong.Name = "txtSong";
 			this.txtSong.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
 			this.txtSong.Size = new System.Drawing.Size(471, 600);
-			this.txtSong.TabIndex = 0;
+			this.txtSong.TabIndex = 7;
 			this.txtSong.TextChanged += new System.EventHandler(this.txtSong_TextChanged);
 			this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
 			// 
@@ -156,7 +156,7 @@
 			this.chkExport.AutoSize = true;
 			this.chkExport.Checked = true;
 			this.chkExport.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkExport.Location = new System.Drawing.Point(143, 9);
+			this.chkExport.Location = new System.Drawing.Point(152, 9);
 			this.chkExport.Name = "chkExport";
 			this.chkExport.Size = new System.Drawing.Size(70, 21);
 			this.chkExport.TabIndex = 2;
@@ -189,7 +189,7 @@
 			this.btnOnAir.Location = new System.Drawing.Point(386, 5);
 			this.btnOnAir.Name = "btnOnAir";
 			this.btnOnAir.Size = new System.Drawing.Size(98, 27);
-			this.btnOnAir.TabIndex = 4;
+			this.btnOnAir.TabIndex = 5;
 			this.btnOnAir.Text = "Preview";
 			this.btnOnAir.UseVisualStyleBackColor = true;
 			this.btnOnAir.Visible = false;
@@ -212,7 +212,7 @@
 			this.btnCancelPreview.Location = new System.Drawing.Point(264, 5);
 			this.btnCancelPreview.Name = "btnCancelPreview";
 			this.btnCancelPreview.Size = new System.Drawing.Size(116, 27);
-			this.btnCancelPreview.TabIndex = 3;
+			this.btnCancelPreview.TabIndex = 4;
 			this.btnCancelPreview.Text = "Cancel Preview";
 			this.btnCancelPreview.UseVisualStyleBackColor = true;
 			this.btnCancelPreview.Visible = false;
@@ -227,7 +227,7 @@
 			this.lstSongs.Location = new System.Drawing.Point(12, 38);
 			this.lstSongs.Name = "lstSongs";
 			this.lstSongs.Size = new System.Drawing.Size(472, 124);
-			this.lstSongs.TabIndex = 7;
+			this.lstSongs.TabIndex = 6;
 			this.lstSongs.SelectedIndexChanged += new System.EventHandler(this.lstSongs_SelectedIndexChanged);
 			// 
 			// chkAutolist
@@ -235,10 +235,10 @@
 			this.chkAutolist.AutoSize = true;
 			this.chkAutolist.Checked = true;
 			this.chkAutolist.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkAutolist.Location = new System.Drawing.Point(210, 9);
+			this.chkAutolist.Location = new System.Drawing.Point(228, 9);
 			this.chkAutolist.Name = "chkAutolist";
 			this.chkAutolist.Size = new System.Drawing.Size(76, 21);
-			this.chkAutolist.TabIndex = 8;
+			this.chkAutolist.TabIndex = 3;
 			this.chkAutolist.Text = "Autolist";
 			this.chkAutolist.UseVisualStyleBackColor = true;
 			this.chkAutolist.CheckedChanged += new System.EventHandler(this.chkAutolist_CheckedChanged);

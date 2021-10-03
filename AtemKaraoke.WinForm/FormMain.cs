@@ -149,6 +149,7 @@ namespace AtemKaraoke.WinForm
 			statusStrip1.Refresh();
 			txtSong.Visible = false;
 			chkExport.Visible = false;
+			chkAutolist.Visible = false;
 			grdSong.Visible = true;
 			pnlSong.Visible = true;
 			lstSongs.Visible = false;
@@ -180,6 +181,7 @@ namespace AtemKaraoke.WinForm
 			statusStrip1.Refresh();
 			txtSong.Visible = true;
 			chkExport.Visible = true;
+			chkAutolist.Visible = true;
 			grdSong.Visible = false;
 			pnlSong.Visible = false;
 			chkAutolist_CheckedChanged(null, null);
@@ -322,8 +324,16 @@ namespace AtemKaraoke.WinForm
 		private void ResizeSongControls()
 		{
 			lstSongs.Width = txtSong.Width;
-			txtSong.Top = lstSongs.Top + lstSongs.Height + 10;
-			//txtSong.Height = 
+			if (chkAutolist.Checked)
+			{
+				txtSong.Top = lstSongs.Top + 10 + lstSongs.Height;
+				txtSong.Height = this.Height - lstSongs.Height - 110;
+			}
+			else
+			{
+				txtSong.Top = lstSongs.Top;
+				txtSong.Height = this.Height - 100;
+			}
 
 			pnlSong.Left = txtSong.Left;
 			pnlSong.Top = lstSongs.Top;
@@ -354,6 +364,7 @@ namespace AtemKaraoke.WinForm
 				Lyrics.Configuration.curWindowLocation = this.Location; // sometimes it saves negative values
 			}
 			Lyrics.Configuration.curWindowSize = this.Size;
+			Lyrics.Configuration.curAutolist = chkAutolist.Checked;
 			Lyrics.Configuration.Save();
 		}
 
@@ -370,6 +381,7 @@ namespace AtemKaraoke.WinForm
 
 				this.Location = Lyrics.Configuration.curWindowLocation;
 				this.Size = Lyrics.Configuration.curWindowSize;
+				chkAutolist.Checked = Lyrics.Configuration.curAutolist;
 			}
 			catch { } //suppress errors for the first time when there are no settings saved yets
 		}

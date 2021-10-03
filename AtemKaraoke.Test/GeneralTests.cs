@@ -33,7 +33,7 @@ string 4";
             }
             string song = string.Join("\r\n\r\n", verses);
             Lyrics lyrics = new Lyrics(song, switcher);
-            Assert.AreEqual(lyrics.VerseFiles.Count, 20);
+            Assert.AreEqual(lyrics.VerseFiles.Count, 19);
             Assert.AreEqual(lyrics.Songs.Count, 1);
         }
 
