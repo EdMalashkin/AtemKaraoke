@@ -45,6 +45,7 @@
 			this.pnlSong = new System.Windows.Forms.Panel();
 			this.btnCancelPreview = new System.Windows.Forms.Button();
 			this.lstSongs = new System.Windows.Forms.ListBox();
+			this.chkAutolist = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -155,7 +156,7 @@
 			this.chkExport.AutoSize = true;
 			this.chkExport.Checked = true;
 			this.chkExport.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkExport.Location = new System.Drawing.Point(154, 9);
+			this.chkExport.Location = new System.Drawing.Point(143, 9);
 			this.chkExport.Name = "chkExport";
 			this.chkExport.Size = new System.Drawing.Size(70, 21);
 			this.chkExport.TabIndex = 2;
@@ -229,11 +230,25 @@
 			this.lstSongs.TabIndex = 7;
 			this.lstSongs.SelectedIndexChanged += new System.EventHandler(this.lstSongs_SelectedIndexChanged);
 			// 
+			// chkAutolist
+			// 
+			this.chkAutolist.AutoSize = true;
+			this.chkAutolist.Checked = true;
+			this.chkAutolist.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkAutolist.Location = new System.Drawing.Point(210, 9);
+			this.chkAutolist.Name = "chkAutolist";
+			this.chkAutolist.Size = new System.Drawing.Size(76, 21);
+			this.chkAutolist.TabIndex = 8;
+			this.chkAutolist.Text = "Autolist";
+			this.chkAutolist.UseVisualStyleBackColor = true;
+			this.chkAutolist.CheckedChanged += new System.EventHandler(this.chkAutolist_CheckedChanged);
+			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(496, 793);
+			this.Controls.Add(this.chkAutolist);
 			this.Controls.Add(this.lstSongs);
 			this.Controls.Add(this.chkExport);
 			this.Controls.Add(this.btnCancelPreview);
@@ -274,6 +289,7 @@
 		private System.Windows.Forms.Button btnCancelPreview;
 		private System.Windows.Forms.CheckBox chkExport;
 		private System.Windows.Forms.ListBox lstSongs;
+		private System.Windows.Forms.CheckBox chkAutolist;
 	}
 }
 

@@ -182,8 +182,7 @@ namespace AtemKaraoke.WinForm
 			chkExport.Visible = true;
 			grdSong.Visible = false;
 			pnlSong.Visible = false;
-			lstSongs.Visible = true;
-			lstSongs.Focus();
+			chkAutolist_CheckedChanged(null, null);
 		}
 
 		private void chkEditMode_CheckedChanged(object sender, EventArgs e)
@@ -324,6 +323,7 @@ namespace AtemKaraoke.WinForm
 		{
 			lstSongs.Width = txtSong.Width;
 			txtSong.Top = lstSongs.Top + lstSongs.Height + 10;
+			//txtSong.Height = 
 
 			pnlSong.Left = txtSong.Left;
 			pnlSong.Top = lstSongs.Top;
@@ -594,6 +594,12 @@ namespace AtemKaraoke.WinForm
 
 		private void txtSong_TextChanged(object sender, EventArgs e)
 		{
+			BindList();
+		}
+
+		private void BindList()
+		{
+			if (!chkAutolist.Checked) return;
 			var lyr = new Lyrics(txtSong.Text);
 			lstSongs.DataSource = new BindingSource(lyr.SongList, null);
 			lstSongs.DisplayMember = "Value";
@@ -628,6 +634,23 @@ namespace AtemKaraoke.WinForm
 			const int EM_LINESCROLL = 0x00B6;
 			int currentLine = SendMessage(tbx.Handle, EM_GETFIRSTVISIBLELINE, 0, 0);
 			SendMessage(tbx.Handle, EM_LINESCROLL, 0, lineIndex - currentLine);
+		}
+
+		private void chkAutolist_CheckedChanged(object sender, EventArgs e)
+		{
+			if (chkAutolist.Checked)
+			{
+				BindList();
+				lstSongs.Height = 120;
+				lstSongs.Visible = true;
+				lstSongs.Focus();
+			}
+			else
+			{
+				lstSongs.Visible = false;
+				lstSongs.Height = 0;
+			}
+			ResizeSongControls();
 		}
 	}
 }
