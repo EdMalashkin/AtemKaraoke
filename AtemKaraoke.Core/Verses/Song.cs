@@ -63,7 +63,24 @@ namespace AtemKaraoke.Core
 			}
 		}
 
-		private List<VerseFile> _verseFiles;
+        string _title;
+        public string Title
+        {
+            get
+            {
+                if (string.IsNullOrEmpty(_title))
+                {
+                    string[] rows = Regex.Split(Text, Environment.NewLine);
+                    if (rows.Length > 0)
+					{
+                        _title = rows.Where(r => !r.TrimStart().StartsWith(Config.Default.CommentSign)).FirstOrDefault();
+					}
+                }
+                return _title.Replace(Config.Default.RefrainSign, "");
+            }
+        }
+
+        private List<VerseFile> _verseFiles;
 		public List<VerseFile> VerseFiles
 		{
 			get

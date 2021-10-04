@@ -12,7 +12,7 @@ namespace AtemKaraoke.Core {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.4.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "16.10.0.0")]
     public sealed partial class Config : global::System.Configuration.ApplicationSettingsBase {
         
         private static Config defaultInstance = ((Config)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Config())));
@@ -88,7 +88,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("С:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\IBC\\AtemKaraoke\\Songs")]
         public string SourceFolder {
             get {
                 return ((string)(this["SourceFolder"]));
@@ -106,7 +106,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("С:\\Projects\\AtemKaraoke\\AtemKaraoke.Console\\Songs")]
+        [global::System.Configuration.DefaultSettingValueAttribute("C:\\IBC\\AtemKaraoke\\Songs")]
         public string DestinationFolder {
             get {
                 return ((string)(this["DestinationFolder"]));
@@ -263,7 +263,7 @@ namespace AtemKaraoke.Core {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        [global::System.Configuration.DefaultSettingValueAttribute("19")]
         public int MaxAmountOfVerses {
             get {
                 return ((int)(this["MaxAmountOfVerses"]));
@@ -303,6 +303,18 @@ namespace AtemKaraoke.Core {
         public string CommentSign {
             get {
                 return ((string)(this["CommentSign"]));
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool curAutolist {
+            get {
+                return ((bool)(this["curAutolist"]));
+            }
+            set {
+                this["curAutolist"] = value;
             }
         }
     }

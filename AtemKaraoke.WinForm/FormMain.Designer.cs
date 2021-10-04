@@ -44,6 +44,8 @@
 			this.btnOnAir = new System.Windows.Forms.Button();
 			this.pnlSong = new System.Windows.Forms.Panel();
 			this.btnCancelPreview = new System.Windows.Forms.Button();
+			this.lstSongs = new System.Windows.Forms.ListBox();
+			this.chkAutolist = new System.Windows.Forms.CheckBox();
 			((System.ComponentModel.ISupportInitialize)(this.grdSong)).BeginInit();
 			this.statusStrip1.SuspendLayout();
 			this.SuspendLayout();
@@ -55,12 +57,13 @@
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.txtSong.BackColor = System.Drawing.SystemColors.Window;
 			this.txtSong.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-			this.txtSong.Location = new System.Drawing.Point(13, 38);
+			this.txtSong.Location = new System.Drawing.Point(13, 168);
 			this.txtSong.Multiline = true;
 			this.txtSong.Name = "txtSong";
 			this.txtSong.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-			this.txtSong.Size = new System.Drawing.Size(471, 726);
-			this.txtSong.TabIndex = 0;
+			this.txtSong.Size = new System.Drawing.Size(471, 600);
+			this.txtSong.TabIndex = 7;
+			this.txtSong.TextChanged += new System.EventHandler(this.txtSong_TextChanged);
 			this.txtSong.Resize += new System.EventHandler(this.txtSong_Resized);
 			// 
 			// chkEditMode
@@ -109,6 +112,7 @@
 			this.grdSong.MultiSelect = false;
 			this.grdSong.Name = "grdSong";
 			this.grdSong.RowHeadersVisible = false;
+			this.grdSong.RowHeadersWidth = 51;
 			this.grdSong.RowTemplate.Height = 24;
 			this.grdSong.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
 			this.grdSong.Size = new System.Drawing.Size(138, 549);
@@ -125,8 +129,10 @@
 			// 
 			this.Column1.DataPropertyName = "Text";
 			this.Column1.HeaderText = "Text";
+			this.Column1.MinimumWidth = 6;
 			this.Column1.Name = "Column1";
 			this.Column1.SortMode = System.Windows.Forms.DataGridViewColumnSortMode.NotSortable;
+			this.Column1.Width = 125;
 			// 
 			// btnReconnect
 			// 
@@ -150,7 +156,7 @@
 			this.chkExport.AutoSize = true;
 			this.chkExport.Checked = true;
 			this.chkExport.CheckState = System.Windows.Forms.CheckState.Checked;
-			this.chkExport.Location = new System.Drawing.Point(154, 9);
+			this.chkExport.Location = new System.Drawing.Point(152, 9);
 			this.chkExport.Name = "chkExport";
 			this.chkExport.Size = new System.Drawing.Size(70, 21);
 			this.chkExport.TabIndex = 2;
@@ -173,7 +179,7 @@
 			// 
 			this.toolStripStatusLabel.Name = "toolStripStatusLabel";
 			this.toolStripStatusLabel.Padding = new System.Windows.Forms.Padding(10, 0, 0, 0);
-			this.toolStripStatusLabel.Size = new System.Drawing.Size(10, 17);
+			this.toolStripStatusLabel.Size = new System.Drawing.Size(10, 16);
 			// 
 			// btnOnAir
 			// 
@@ -183,7 +189,7 @@
 			this.btnOnAir.Location = new System.Drawing.Point(386, 5);
 			this.btnOnAir.Name = "btnOnAir";
 			this.btnOnAir.Size = new System.Drawing.Size(98, 27);
-			this.btnOnAir.TabIndex = 4;
+			this.btnOnAir.TabIndex = 5;
 			this.btnOnAir.Text = "Preview";
 			this.btnOnAir.UseVisualStyleBackColor = true;
 			this.btnOnAir.Visible = false;
@@ -193,7 +199,7 @@
 			// 
 			this.pnlSong.BackColor = System.Drawing.SystemColors.Control;
 			this.pnlSong.ForeColor = System.Drawing.SystemColors.Control;
-			this.pnlSong.Location = new System.Drawing.Point(81, 82);
+			this.pnlSong.Location = new System.Drawing.Point(12, 120);
 			this.pnlSong.Name = "pnlSong";
 			this.pnlSong.Padding = new System.Windows.Forms.Padding(1);
 			this.pnlSong.Size = new System.Drawing.Size(200, 100);
@@ -206,17 +212,44 @@
 			this.btnCancelPreview.Location = new System.Drawing.Point(264, 5);
 			this.btnCancelPreview.Name = "btnCancelPreview";
 			this.btnCancelPreview.Size = new System.Drawing.Size(116, 27);
-			this.btnCancelPreview.TabIndex = 3;
+			this.btnCancelPreview.TabIndex = 4;
 			this.btnCancelPreview.Text = "Cancel Preview";
 			this.btnCancelPreview.UseVisualStyleBackColor = true;
 			this.btnCancelPreview.Visible = false;
 			this.btnCancelPreview.Click += new System.EventHandler(this.btnOffAir_Click);
+			// 
+			// lstSongs
+			// 
+			this.lstSongs.BackColor = System.Drawing.SystemColors.Control;
+			this.lstSongs.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+			this.lstSongs.FormattingEnabled = true;
+			this.lstSongs.ItemHeight = 20;
+			this.lstSongs.Location = new System.Drawing.Point(12, 38);
+			this.lstSongs.Name = "lstSongs";
+			this.lstSongs.Size = new System.Drawing.Size(472, 124);
+			this.lstSongs.TabIndex = 6;
+			this.lstSongs.SelectedIndexChanged += new System.EventHandler(this.lstSongs_SelectedIndexChanged);
+			// 
+			// chkAutolist
+			// 
+			this.chkAutolist.AutoSize = true;
+			this.chkAutolist.Checked = true;
+			this.chkAutolist.CheckState = System.Windows.Forms.CheckState.Checked;
+			this.chkAutolist.Location = new System.Drawing.Point(228, 9);
+			this.chkAutolist.Name = "chkAutolist";
+			this.chkAutolist.Size = new System.Drawing.Size(76, 21);
+			this.chkAutolist.TabIndex = 3;
+			this.chkAutolist.Text = "Autolist";
+			this.chkAutolist.UseVisualStyleBackColor = true;
+			this.chkAutolist.CheckedChanged += new System.EventHandler(this.chkAutolist_CheckedChanged);
 			// 
 			// FormMain
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(496, 793);
+			this.Controls.Add(this.chkAutolist);
+			this.Controls.Add(this.lstSongs);
 			this.Controls.Add(this.chkExport);
 			this.Controls.Add(this.btnCancelPreview);
 			this.Controls.Add(this.grdSong);
@@ -255,6 +288,8 @@
 		private System.Windows.Forms.Panel pnlSong;
 		private System.Windows.Forms.Button btnCancelPreview;
 		private System.Windows.Forms.CheckBox chkExport;
+		private System.Windows.Forms.ListBox lstSongs;
+		private System.Windows.Forms.CheckBox chkAutolist;
 	}
 }
 
