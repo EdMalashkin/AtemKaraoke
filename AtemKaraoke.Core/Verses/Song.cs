@@ -88,25 +88,43 @@ namespace AtemKaraoke.Core
                 if (_verseFiles == null)
                 {
                     _verseFiles = new List<VerseFile>();
-                    string[] verses = Regex.Split(Text, Config.Default.VerseSplitter);
                     int maxArray = Config.Default.MaxAmountOfVerses;
-                    int versesCount = (verses.Length >= maxArray) ? maxArray : verses.Length;
-                    for (int i = 0; i < versesCount; i++)
-                    {
-                        var v = new VerseFile(new VerseDrawing(new Verse(   this, 
-                                                                            verses[i], 
-                                                                            i+1)
-                                                                            ),
-                                                               _lyrics
-                                             );
-                        _verseFiles.Add(v);
-                    }
+                    int versesCount = (VersesUnlimited.Count >= maxArray) ? maxArray : VersesUnlimited.Count;
+					foreach(var verse in VersesUnlimited)
+					{
+						if (verse.Number <= versesCount)
+						{
+							var verseFile = new VerseFile(new VerseDrawing(verse), _lyrics);
+							_verseFiles.Add(verseFile);
+						}
+					}
                 }
 				return _verseFiles;
 			}
 		}
 
-        private List<VerseFile> VerseFilesSelectable
+		private List<Verse> _verses;
+		public List<Verse> VersesUnlimited
+		{
+			get
+			{
+				if (_verses == null)
+				{
+					_verses = new List<Verse>();
+					string[] verses = Regex.Split(Text, Config.Default.VerseSplitter);
+					for (int i = 0; i < verses.Length; i++)
+					{
+						var v = new Verse(this,
+											verses[i],
+											i + 1);
+						_verses.Add(v);
+					}
+				}
+				return _verses;
+			}
+		}
+
+		private List<VerseFile> VerseFilesSelectable
         {
             get
             {

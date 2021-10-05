@@ -38,7 +38,12 @@ namespace AtemKaraoke.WinForm
 			toolTip.SetToolTip(chkEditMode, "Press F5");
 			toolTip.SetToolTip(btnOnAir, "Press F6");
 			toolTip.SetToolTip(btnCancelPreview, "Press F7");
-			toolStripStatusLabel.Text = "Edit Mode";
+			SetStatus("Edit Mode");
+		}
+
+		private void SetStatus(string message)
+		{
+			toolStripStatusLabel.Text = message;
 			statusStrip1.Refresh();
 		}
 
@@ -73,7 +78,7 @@ namespace AtemKaraoke.WinForm
 
 			var cursorPos = txtSong.SelectionStart;
 			var lyr = new Lyrics(txtSong.Text);
-			txtSong.Text = lyr.ToString();
+			//txtSong.Text = lyr.ToString(); commented because it cuts if more than 19 selected
 			Song selectedSong = null;
 			foreach (var song in lyr.Songs)
 			{
@@ -85,7 +90,29 @@ namespace AtemKaraoke.WinForm
 			if (selectedSong != null)
 			{
 				txtSong.Select(selectedSong.GetFirstCharPosition(), selectedSong.ToString().Length);
+				SetStatusOfSelection(selectedSong);
 			}
+			else
+			{
+				SetStatusOfSelection(null);
+			}
+		}
+
+		private void SetStatusOfSelection(Song selectedSong)
+		{
+			string msg = string.Empty;
+			if (selectedSong != null)
+			{
+				if (selectedSong.VersesUnlimited.Count > selectedSong.VerseFiles.Count)
+				{
+					msg = String.Format("An attempt to select {0} verses - more than allowed ({1})", selectedSong.VersesUnlimited.Count, selectedSong.VerseFiles.Count);
+				}
+				else
+				{
+					msg = String.Format("{0} verses selected", selectedSong.VersesUnlimited.Count);
+				}
+			}
+			SetStatus(msg);
 		}
 
 		private DataGridViewCellStyle RefrainStyle()
@@ -145,8 +172,7 @@ namespace AtemKaraoke.WinForm
 			btnOnAir.Text = _labelPreview;
 			btnOnAir.Visible = true;
 			chkExport.Checked = true; // keep it true for the next time
-			toolStripStatusLabel.Text = _labelOffAir;
-			statusStrip1.Refresh();
+			SetStatus(_labelOffAir);
 			txtSong.Visible = false;
 			chkExport.Visible = false;
 			chkAutolist.Visible = false;
@@ -177,8 +203,7 @@ namespace AtemKaraoke.WinForm
 			{
 				MessageBox.Show(ex.Message, "ATEM Error");
 			}
-			toolStripStatusLabel.Text = "Edit Mode";
-			statusStrip1.Refresh();
+			SetStatus("Edit Mode");
 			txtSong.Visible = true;
 			chkExport.Visible = true;
 			chkAutolist.Visible = true;
@@ -251,8 +276,7 @@ namespace AtemKaraoke.WinForm
 					pnlSong.BackColor = Color.LightGreen;
 					btnOnAir.Text = _labelOnAir; // declare the next action
 					btnCancelPreview.Visible = true;
-					toolStripStatusLabel.Text = _labelPreview;
-					statusStrip1.Refresh();
+					SetStatus(_labelPreview);
 				}
 				else if (btnOnAir.Text == _labelOnAir)
 				{
@@ -260,8 +284,7 @@ namespace AtemKaraoke.WinForm
 					pnlSong.BackColor = Color.Red;
 					btnOnAir.Text = _labelOffAir; // declare the next action
 					btnCancelPreview.Visible = false;
-					toolStripStatusLabel.Text = _labelOnAir + "!";
-					statusStrip1.Refresh();
+					SetStatus(_labelOnAir + "!");
 				}
 				else
 				{
@@ -269,8 +292,7 @@ namespace AtemKaraoke.WinForm
 					pnlSong.BackColor = System.Drawing.SystemColors.Control;
 					btnOnAir.Text = _labelPreview;
 					btnCancelPreview.Visible = false;
-					toolStripStatusLabel.Text = _labelOffAir;
-					statusStrip1.Refresh();
+					SetStatus(_labelOffAir);
 				}
 			}
 			catch (Exception ex)
@@ -406,8 +428,7 @@ namespace AtemKaraoke.WinForm
 			catch (Exception ex)
 			{
 				//MessageBox.Show(ex.Message, "ATEM Error");
-				toolStripStatusLabel.Text = ex.Message;
-				statusStrip1.Refresh();
+				SetStatus(ex.Message);
 			}
 
 		}
@@ -607,6 +628,7 @@ namespace AtemKaraoke.WinForm
 		private void txtSong_TextChanged(object sender, EventArgs e)
 		{
 			BindList();
+			SetStatus("Edit Mode");
 		}
 
 		private void BindList()
