@@ -78,7 +78,7 @@ namespace AtemKaraoke.WinForm
 
 			var cursorPos = txtSong.SelectionStart;
 			var lyr = new Lyrics(txtSong.Text);
-			//txtSong.Text = lyr.ToString(); commented because it cuts if more than 19 selected
+			txtSong.Text = lyr.ToString(); //comment because it cuts if more than 19 selected // returned it back because of wrong selection of some songs with extra spaces, etc
 			Song selectedSong = null;
 			foreach (var song in lyr.Songs)
 			{
