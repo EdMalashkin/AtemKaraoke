@@ -34,7 +34,7 @@
     <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -44,7 +44,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
+    <PlatformTarget>x64</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -145,7 +145,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Karaoke.ico" />
-    <Content Include="Properties\CustomManifest.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -158,9 +157,7 @@
   <PropertyGroup>
     <PostBuildEvent>del "$(TargetFileName).config"
 rename "app.config" "$(TargetFileName).config"
-del "app.config"
-rem "C:\Program Files (x86)\Windows Kits\10\bin\10.0.22621.0\x64\mt.exe" -manifest "$(ProjectDir)\Properties\CustomManifest.xml" -outputresource:"$(TargetPath);#1"
-</PostBuildEvent>
+del "app.config"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
